@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export interface PollOption {
   id: string;
@@ -21,8 +21,9 @@ interface PollCardProps {
 }
 
 const PollCard: React.FC<PollCardProps> = ({ poll, onVote }) => {
+  const [currentTime] = useState(() => Date.now());
   const hasVoted = !!poll.userVote;
-  const timeLeft = new Date(poll.endsAt).getTime() - Date.now();
+  const timeLeft = new Date(poll.endsAt).getTime() - currentTime;
   const hoursLeft = Math.max(0, Math.floor(timeLeft / (1000 * 60 * 60)));
   const isExpired = timeLeft <= 0;
 

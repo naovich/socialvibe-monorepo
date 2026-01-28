@@ -21,8 +21,10 @@ const CommentItem: React.FC<CommentItemProps> = ({
   const maxLevel = 3;
   const isMaxLevel = level >= maxLevel;
 
+  const [currentTime] = useState(() => Date.now());
+
   const formatTimeAgo = (dateString: string) => {
-    const seconds = Math.floor((Date.now() - new Date(dateString).getTime()) / 1000);
+    const seconds = Math.floor((currentTime - new Date(dateString).getTime()) / 1000);
     if (seconds < 60) return `${seconds}s`;
     if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;
     if (seconds < 86400) return `${Math.floor(seconds / 3600)}h`;

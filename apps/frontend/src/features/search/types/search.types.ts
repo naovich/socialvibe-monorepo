@@ -7,7 +7,7 @@ export interface SearchResult {
   subtitle?: string;
   avatar?: string;
   thumbnail?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface SearchState {

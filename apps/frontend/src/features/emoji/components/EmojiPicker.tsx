@@ -14,22 +14,21 @@ const MAX_RECENT = 24;
 const EmojiPicker: React.FC<EmojiPickerProps> = ({ onSelect, onClose, recentEmojis: propRecentEmojis }) => {
   const [activeCategory, setActiveCategory] = useState('smileys');
   const [searchQuery, setSearchQuery] = useState('');
-  const [recentEmojis, setRecentEmojis] = useState<string[]>([]);
-  const pickerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Load recent emojis from localStorage
+  const [recentEmojis, setRecentEmojis] = useState<string[]>(() => {
+    // Load recent emojis from localStorage during initialization
     try {
       const stored = localStorage.getItem(RECENT_EMOJIS_KEY);
       if (stored) {
-        setRecentEmojis(JSON.parse(stored));
+        return JSON.parse(stored);
       } else if (propRecentEmojis) {
-        setRecentEmojis(propRecentEmojis);
+        return propRecentEmojis;
       }
     } catch (err) {
       console.error('Failed to load recent emojis:', err);
     }
-  }, [propRecentEmojis]);
+    return [];
+  });
+  const pickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Click outside to close
