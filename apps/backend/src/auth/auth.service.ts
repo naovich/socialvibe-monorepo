@@ -1,12 +1,9 @@
-import {
-  Injectable,
-  UnauthorizedException,
-  ConflictException,
-} from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { PrismaService } from "../prisma/prisma.service";
-import * as bcrypt from "bcrypt";
-import { RegisterDto, LoginDto } from "./dto";
+import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { PrismaService } from '../prisma/prisma.service';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -15,53 +12,110 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(dto: RegisterDto) {
-    const userExists = await this.prisma.user.findFirst({
-      where: { OR: [{ email: dto.email }, { username: dto.username }] },
-    });
+  async register(registerDto: RegisterDto) {
+    const { email, password, name, username } = registerDto;
 
-    if (userExists) {
-      throw new ConflictException("User already exists");
-    }
-
-    const hashedPassword = await bcrypt.hash(dto.password, 10);
-
-    const user = await this.prisma.user.create({
-      data: {
-        ...dto,
-        password: hashedPassword,
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${dto.username}`,
+    // Check if user already exists
+    const existingUser = await this.prisma.user.findFirst({
+      where: {
+        OR: [
+          { email },
+          { username },
+        ],
       },
     });
 
-    return this.signToken(user.id, user.email);
+    if (existingUser) {
+      throw new ConflictException('User with this email or username already exists');
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create user
+    const user = await this.prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+        name,
+        username,
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        username: true,
+        avatar: true,
+        createdAt: true,
+      },
+    });
+
+    // Generate JWT token
+    const token = this.generateToken(user.id);
+
+    return {
+      user,
+      token,
+    };
   }
 
-  async login(dto: LoginDto) {
+  async login(loginDto: LoginDto) {
+    const { email, password } = loginDto;
+
+    // Find user
     const user = await this.prisma.user.findUnique({
-      where: { email: dto.email },
+      where: { email },
     });
 
     if (!user) {
-      throw new UnauthorizedException("Invalid credentials");
+      throw new UnauthorizedException('Invalid credentials');
     }
 
-    const passwordMatches = await bcrypt.compare(dto.password, user.password);
+    // Verify password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (!passwordMatches) {
-      throw new UnauthorizedException("Invalid credentials");
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials');
     }
 
-    return this.signToken(user.id, user.email);
+    // Generate JWT token
+    const token = this.generateToken(user.id);
+
+    return {
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        username: user.username,
+        avatar: user.avatar,
+        createdAt: user.createdAt,
+      },
+      token,
+    };
   }
 
-  async signToken(userId: string, email: string) {
-    const payload = { sub: userId, email };
-    const token = await this.jwtService.signAsync(payload, {
-      expiresIn: "7d",
-      secret: process.env.JWT_SECRET || "secret",
+  async validateUser(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        username: true,
+        avatar: true,
+        createdAt: true,
+      },
     });
 
-    return { access_token: token };
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    return user;
+  }
+
+  private generateToken(userId: string): string {
+    const payload = { sub: userId };
+    return this.jwtService.sign(payload);
   }
 }
