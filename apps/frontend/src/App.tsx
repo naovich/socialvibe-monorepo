@@ -36,7 +36,10 @@ const App: React.FC = () => {
 
       <div className="max-w-[1920px] mx-auto pt-24 px-4 md:px-8 flex justify-center gap-8">
         {/* Left Sidebar */}
-        {view === 'feed' && <Sidebar />}
+        {view === 'feed' && <Sidebar currentView="home" onNavigate={(newView) => {
+          if (newView === 'profile') setView('profile');
+          // Handle other navigation when implemented
+        }} />}
 
         {/* Main Content */}
         <main
