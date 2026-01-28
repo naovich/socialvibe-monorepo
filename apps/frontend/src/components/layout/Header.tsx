@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Bell, MessageSquare, Menu, LayoutGrid, Plus } from 'lucide-react';
 import { useSocialStore } from '../../store';
-import Search from './Search';
+import SearchBar from '../../features/search/components/SearchBar';
 import NotificationCenter from './NotificationCenter';
 import ThemeToggle from '../ui/ThemeToggle';
 
@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
 
           {/* Search - Hidden on mobile */}
           <div className="hidden md:block flex-1 max-w-md mx-4">
-            <Search />
+            <SearchBar onSelect={(result) => console.log('Selected:', result)} />
           </div>
 
           {/* Right Section */}
