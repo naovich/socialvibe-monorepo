@@ -7,51 +7,69 @@ import {
   Param,
   Delete,
   UseGuards,
-} from "@nestjs/common";
-import { PostsService } from "./posts.service";
-import { CreatePostDto, UpdatePostDto } from "./dto";
-import { JwtGuard } from "../auth/guard";
-import { GetUser } from "../auth/decorator";
+  Request,
+  Query,
+  ParseIntPipe,
+} from '@nestjs/common';
+import { PostsService } from './posts.service';
+import { CreatePostDto, UpdatePostDto } from './dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller("posts")
+@Controller('posts')
 export class PostsController {
-  constructor(private postsService: PostsService) {}
+  constructor(private readonly postsService: PostsService) {}
 
   @Post()
-  @UseGuards(JwtGuard)
-  create(@GetUser("id") userId: string, @Body() dto: CreatePostDto) {
-    return this.postsService.create(userId, dto);
+  @UseGuards(JwtAuthGuard)
+  create(@Request() req, @Body() createPostDto: CreatePostDto) {
+    return this.postsService.create(req.user.id, createPostDto);
   }
 
   @Get()
-  findAll() {
-    return this.postsService.findAll();
-  }
-
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.postsService.findOne(id);
-  }
-
-  @Patch(":id")
-  @UseGuards(JwtGuard)
-  update(
-    @GetUser("id") userId: string,
-    @Param("id") postId: string,
-    @Body() dto: UpdatePostDto,
+  @UseGuards(JwtAuthGuard)
+  findAll(
+    @Request() req,
+    @Query('page', new ParseIntPipe({ optional: true })) page?: number,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit?: number,
   ) {
-    return this.postsService.update(userId, postId, dto);
+    return this.postsService.findAll(page || 1, limit || 20, req.user.id);
   }
 
-  @Delete(":id")
-  @UseGuards(JwtGuard)
-  delete(@GetUser("id") userId: string, @Param("id") postId: string) {
-    return this.postsService.delete(userId, postId);
+  @Get('user/:userId')
+  @UseGuards(JwtAuthGuard)
+  getUserPosts(
+    @Param('userId') userId: string,
+    @Query('page', new ParseIntPipe({ optional: true })) page?: number,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit?: number,
+  ) {
+    return this.postsService.getUserPosts(userId, page || 1, limit || 20);
   }
 
-  @Post(":id/like")
-  @UseGuards(JwtGuard)
-  toggleLike(@GetUser("id") userId: string, @Param("id") postId: string) {
-    return this.postsService.toggleLike(userId, postId);
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  findOne(@Request() req, @Param('id') id: string) {
+    return this.postsService.findOne(id, req.user.id);
+  }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  update(
+    @Request() req,
+    @Param('id') id: string,
+    @Body() updatePostDto: UpdatePostDto,
+  ) {
+    return this.postsService.update(req.user.id, id, updatePostDto);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  remove(@Request() req, @Param('id') id: string) {
+    return this.postsService.delete(req.user.id, id);
+  }
+
+  @Post(':id/like')
+  @UseGuards(JwtAuthGuard)
+  toggleLike(@Request() req, @Param('id') id: string) {
+    return this.postsService.toggleLike(req.user.id, id);
   }
 }
