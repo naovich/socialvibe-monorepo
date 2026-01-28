@@ -3,16 +3,18 @@ import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal } from 'lucide-r
 import { motion } from 'framer-motion';
 import type { Post } from '../types/feed.types';
 import CommentsList from '../../comments/components/CommentsList';
+import ShareModal from '../../share/components/ShareModal';
+import { useBookmark } from '../../bookmark/hooks/useBookmark';
 
 interface PostCardProps {
   post: Post;
   onLike?: () => void;
-  onSave?: () => void;
-  onShare?: () => void;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) => {
+const PostCard: React.FC<PostCardProps> = ({ post, onLike }) => {
   const [showComments, setShowComments] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const { isBookmarked, toggleBookmark } = useBookmark(post.id);
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
@@ -175,7 +177,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
 
           {/* Share */}
           <button
-            onClick={onShare}
+            onClick={() => setShowShareModal(true)}
             className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors"
           >
             <Share2 size={22} />
@@ -185,13 +187,13 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
 
         {/* Save */}
         <button
-          onClick={onSave}
+          onClick={toggleBookmark}
           className="p-2 hover:bg-bg-secondary rounded-full transition-colors"
         >
           <Bookmark
             size={22}
             className={`transition-all ${
-              post.isSaved ? 'fill-primary text-primary' : 'text-text-muted'
+              isBookmarked ? 'fill-primary text-primary' : 'text-text-muted'
             }`}
           />
         </button>
@@ -203,6 +205,13 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
           <CommentsList postId={post.id} />
         </div>
       )}
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        postUrl={`https://socialvibe.app/post/${post.id}`}
+      />
     </motion.article>
   );
 };

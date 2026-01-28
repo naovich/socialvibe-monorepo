@@ -16,8 +16,6 @@ const FeedContainer: React.FC<FeedContainerProps> = ({ onCreatePost }) => {
     error, 
     loadMore,
     likePost,
-    savePost,
-    sharePost,
   } = useFeed();
 
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -91,8 +89,6 @@ const FeedContainer: React.FC<FeedContainerProps> = ({ onCreatePost }) => {
               <PostCard 
                 post={post}
                 onLike={() => likePost(post.id)}
-                onSave={() => savePost(post.id)}
-                onShare={() => sharePost(post.id)}
               />
             </div>
           ))}
