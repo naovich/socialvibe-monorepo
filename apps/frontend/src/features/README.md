@@ -6,6 +6,7 @@ Chaque feature est organisée en modules isolés et réutilisables.
 
 ```
 features/
+├── feed/               # 🏠 Feed (Mur / Page d'accueil)
 ├── messages/           # 💬 Direct Messages
 ├── stories/            # 📸 Stories
 ├── friends/            # 👥 Friends & Requests

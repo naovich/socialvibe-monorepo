@@ -8,28 +8,23 @@ Développer toutes les fonctionnalités front avec **mock data fonctionnel**, st
 ```
 apps/frontend/src/
 ├── components/
-│   ├── feed/           # Home feed (existant)
-│   ├── messages/       # 💬 Direct Messages (nouveau)
-│   ├── stories/        # 📸 Stories (existant, à compléter)
-│   ├── friends/        # 👥 Friends & Requests (nouveau)
-│   ├── groups/         # 👨‍👩‍👧‍👦 Groups (nouveau)
-│   ├── saved/          # 🔖 Saved Posts (nouveau)
-│   ├── profile/        # 👤 Profile (existant)
 │   ├── layout/         # Layout components
-│   └── ui/             # UI components
-├── features/           # Feature-based modules (nouveau)
-│   ├── messages/
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   └── types/
-│   ├── stories/
-│   ├── friends/
-│   ├── groups/
-│   └── saved/
-├── mock/               # Mock data
-├── services/           # API services
-└── store/              # Zustand stores
+│   ├── ui/             # UI components shared
+│   └── profile/        # 👤 Profile (existant, à migrer)
+├── features/           # Feature-based modules (TOUT en features)
+│   ├── feed/           # 🏠 Feed (Mur / Page d'accueil)
+│   ├── messages/       # 💬 Direct Messages
+│   ├── stories/        # 📸 Stories
+│   ├── friends/        # 👥 Friends & Requests
+│   ├── groups/         # 👨‍👩‍👧‍👦 Groups
+│   ├── saved/          # 🔖 Saved Posts
+│   └── notifications/  # 🔔 Notifications
+├── mock/               # Mock data (deprecated, déplacer dans features)
+├── services/           # API services (deprecated, déplacer dans features)
+└── store/              # Zustand stores (ou dans chaque feature)
 ```
+
+**Note:** Chaque feature contient `components/`, `hooks/`, `services/`, `types/`, `mock/`
 
 ---
 
@@ -68,7 +63,77 @@ apps/frontend/src/
 
 ---
 
-## Phase 3 : 💬 Messages (Direct Messages) - FEATURE COMPLÈTE
+## Phase 3 : 🏠 Feed (Mur / Page d'accueil) - FEATURE COMPLÈTE
+
+### Structure Dossiers
+```
+src/features/feed/
+├── components/
+│   ├── FeedContainer.tsx       # Container principal
+│   ├── PostCard.tsx            # Card post (migrer depuis components/feed)
+│   ├── CreatePostButton.tsx    # Bouton rapide
+│   ├── CreatePostModal.tsx     # Modal création (migrer)
+│   ├── FeedFilters.tsx         # All/Friends/Following
+│   ├── InfiniteScroll.tsx      # Scroll infini
+│   └── FeedSkeleton.tsx        # Loading
+├── hooks/
+│   ├── useFeed.ts
+│   └── useInfiniteScroll.ts
+├── services/
+│   └── feedService.ts          # API calls (mock)
+├── types/
+│   └── feed.types.ts
+└── mock/
+    └── mockFeed.ts
+```
+
+### 3.1 UI Feed
+- [ ] Container feed avec infinite scroll
+- [ ] PostCard (migrer depuis components/feed)
+- [ ] Create post button + modal
+- [ ] Filtres (All/Friends/Following)
+- [ ] Stories carousel (header)
+- [ ] Pull to refresh
+- [ ] Loading skeleton
+
+### 3.2 Fonctionnalités Posts
+- [ ] Créer post (texte, image, video, poll)
+- [ ] Like/Unlike post
+- [ ] Commenter post
+- [ ] Partager post
+- [ ] Éditer post (own)
+- [ ] Supprimer post (own)
+- [ ] Sauvegarder post
+- [ ] Signaler post
+
+### 3.3 Fonctionnalités Feed
+- [ ] Infinite scroll (load more)
+- [ ] Refresh feed
+- [ ] Filter posts (All/Friends/Following)
+- [ ] Sort (Recent/Popular)
+- [ ] Real-time updates (notification nouveau post)
+
+### 3.4 Migration
+- [ ] Migrer `PostCard.tsx` vers features/feed
+- [ ] Migrer `CreatePostModal.tsx` vers features/feed
+- [ ] Migrer logic depuis store vers useFeedStore
+
+### 3.5 Mock Data
+- [ ] `mockFeed.ts` - 30+ posts avec variety
+- [ ] Mock authors, likes, comments
+- [ ] Mock media (images, videos)
+
+### 3.6 Store Zustand
+- [ ] `useFeedStore.ts`
+- [ ] Actions: fetchFeed, createPost, likePost, commentPost, deletePost
+- [ ] Pagination state
+- [ ] Filter state
+
+**Estimation:** 5-7h
+
+---
+
+## Phase 4 : 💬 Messages (Direct Messages) - FEATURE COMPLÈTE
 
 ### Structure Dossiers
 ```
@@ -123,7 +188,7 @@ src/features/messages/
 
 ---
 
-## Phase 4 : 📸 Stories - FEATURE COMPLÈTE
+## Phase 5 : 📸 Stories - FEATURE COMPLÈTE
 
 ### Structure Dossiers
 ```
@@ -174,7 +239,7 @@ src/features/stories/
 
 ---
 
-## Phase 5 : 👥 Friends - FEATURE COMPLÈTE
+## Phase 6 : 👥 Friends - FEATURE COMPLÈTE
 
 ### Structure Dossiers
 ```
@@ -225,7 +290,7 @@ src/features/friends/
 
 ---
 
-## Phase 6 : 👨‍👩‍👧‍👦 Groups - FEATURE COMPLÈTE
+## Phase 7 : 👨‍👩‍👧‍👦 Groups - FEATURE COMPLÈTE
 
 ### Structure Dossiers
 ```
@@ -276,7 +341,7 @@ src/features/groups/
 
 ---
 
-## Phase 7 : 🔖 Saved Posts - FEATURE COMPLÈTE
+## Phase 8 : 🔖 Saved Posts - FEATURE COMPLÈTE
 
 ### Structure Dossiers
 ```
@@ -322,7 +387,7 @@ src/features/saved/
 
 ---
 
-## Phase 8 : 🔔 Notifications - FEATURE COMPLÈTE
+## Phase 9 : 🔔 Notifications - FEATURE COMPLÈTE
 
 ### Structure Dossiers
 ```
@@ -368,7 +433,7 @@ src/features/notifications/
 
 ---
 
-## Phase 9 : 🔍 Search Globale - FEATURE COMPLÈTE
+## Phase 10 : 🔍 Search Globale - FEATURE COMPLÈTE
 
 ### 9.1 UI Search
 - [ ] Search bar (header)
@@ -392,7 +457,7 @@ src/features/notifications/
 
 ---
 
-## Phase 10 : Profile Complet 👤
+## Phase 11 : Profile Complet 👤
 
 ### 10.1 Ajouts Profile
 - [ ] Edit profile modal (bio, avatar, cover)
@@ -408,7 +473,7 @@ src/features/notifications/
 
 ---
 
-## Phase 11 : Posts Améliorés ✨
+## Phase 12 : Posts Améliorés ✨
 
 ### 11.1 Features Posts
 - [ ] Upload multi-images (carousel)
@@ -429,7 +494,7 @@ src/features/notifications/
 
 ---
 
-## Phase 12 : Polish & UX ✨
+## Phase 13 : Polish & UX ✨
 
 ### 12.1 Animations
 - [ ] Page transitions
@@ -457,7 +522,7 @@ src/features/notifications/
 
 ---
 
-## Phase 13 : Backend Integration 🔌 (Plus tard)
+## Phase 14 : Backend Integration 🔌 (Plus tard)
 
 ### 13.1 API Client Setup
 - [ ] Axios configuration
@@ -476,7 +541,7 @@ src/features/notifications/
 
 ---
 
-## Phase 14 : Tests & Docs 🧪
+## Phase 15 : Tests & Docs 🧪
 
 ### 14.1 Tests
 - [ ] Unit tests (Vitest)
@@ -498,21 +563,22 @@ src/features/notifications/
 |-------|---------|-------|
 | 1 | Design System | 2-3h |
 | 2 | Navigation | 2-3h |
-| 3 | Messages | 6-8h |
-| 4 | Stories | 5-7h |
-| 5 | Friends | 4-6h |
-| 6 | Groups | 5-7h |
-| 7 | Saved | 3-4h |
-| 8 | Notifications | 3-4h |
-| 9 | Search | 3-4h |
-| 10 | Profile | 3-4h |
-| 11 | Posts améliorés | 4-5h |
-| 12 | Polish & UX | 4-6h |
-| 13 | Backend (later) | 6-8h |
-| 14 | Tests (later) | 6-8h |
+| 3 | **Feed (Mur)** | 5-7h |
+| 4 | Messages | 6-8h |
+| 5 | Stories | 5-7h |
+| 6 | Friends | 4-6h |
+| 7 | Groups | 5-7h |
+| 8 | Saved | 3-4h |
+| 9 | Notifications | 3-4h |
+| 10 | Search | 3-4h |
+| 11 | Profile | 3-4h |
+| 12 | Posts améliorés | 4-5h |
+| 13 | Polish & UX | 4-6h |
+| 14 | Backend (later) | 6-8h |
+| 15 | Tests (later) | 6-8h |
 
-**Total Frontend:** ~50-65h  
-**Avec Backend:** ~56-73h
+**Total Frontend:** ~55-72h  
+**Avec Backend:** ~61-80h
 
 ---
 
@@ -521,26 +587,27 @@ src/features/notifications/
 ### Sprint 1 (Fondations) 🚀
 1. **Phase 1** - Design System (Pantone 355C)
 2. **Phase 2** - Navigation clean
-3. **Phase 3** - Messages (feature #1)
+3. **Phase 3** - Feed (Mur) - Le cœur de l'app
 
-### Sprint 2 (Social Core) 👥
-4. **Phase 4** - Stories
-5. **Phase 5** - Friends
-6. **Phase 8** - Notifications
+### Sprint 2 (Communication) 💬
+4. **Phase 4** - Messages (DM)
+5. **Phase 5** - Stories
+6. **Phase 9** - Notifications
 
-### Sprint 3 (Community) 🎉
-7. **Phase 6** - Groups
-8. **Phase 7** - Saved Posts
-9. **Phase 9** - Search
+### Sprint 3 (Social Core) 👥
+7. **Phase 6** - Friends & Requests
+8. **Phase 7** - Groups
+9. **Phase 10** - Search
 
-### Sprint 4 (Polish) ✨
-10. **Phase 10** - Profile complet
-11. **Phase 11** - Posts améliorés
-12. **Phase 12** - Polish & UX
+### Sprint 4 (Utility & Polish) ✨
+10. **Phase 8** - Saved Posts
+11. **Phase 11** - Profile complet
+12. **Phase 12** - Posts améliorés
+13. **Phase 13** - Polish & UX
 
-### Sprint 5 (Backend) 🔌
-13. **Phase 13** - Backend integration
-14. **Phase 14** - Tests
+### Sprint 5 (Backend & Tests) 🔌
+14. **Phase 14** - Backend integration
+15. **Phase 15** - Tests & Docs
 
 ---
 
