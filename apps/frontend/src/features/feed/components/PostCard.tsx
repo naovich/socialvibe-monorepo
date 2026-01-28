@@ -5,6 +5,7 @@ import type { Post } from '../types/feed.types';
 import CommentsList from '../../comments/components/CommentsList';
 import ShareModal from '../../share/components/ShareModal';
 import { useBookmark } from '../../bookmark/hooks/useBookmark';
+import ClickableText from '../../text-parser/components/ClickableText';
 
 interface PostCardProps {
   post: Post;
@@ -62,9 +63,13 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike }) => {
       </div>
 
       {/* Caption */}
-      <p className="text-text-primary mb-4 whitespace-pre-wrap leading-relaxed">
-        {post.caption}
-      </p>
+      <div className="text-text-primary mb-4 whitespace-pre-wrap leading-relaxed">
+        <ClickableText
+          text={post.caption}
+          onHashtagClick={(hashtag) => console.log('Hashtag clicked:', hashtag)}
+          onMentionClick={(username) => console.log('Mention clicked:', username)}
+        />
+      </div>
 
       {/* Vibe Tag */}
       {post.vibeTag && (
