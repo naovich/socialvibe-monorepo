@@ -1,0 +1,25 @@
+{
+  "name": "socialvibe-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SocialVibe - Modern social network (Monorepo)",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3"
+  },
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  },
+  "packageManager": "npm@10.2.4"
+}

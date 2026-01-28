@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  password      String
+  name          String
+  username      String         @unique
+  avatar        String?
+  coverImage    String?
+  bio           String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+  
+  // friendships
+  friends       Friendship[]   @relation("UserFriends")
+  friendOf      Friendship[]   @relation("UserFriendOf")
+  
+  notifications Notification[] @relation("ReceivedNotifications")
+  sentNotifications Notification[] @relation("SentNotifications")
+}
+
+model Post {
+  id          String     @id @default(uuid())
+  caption     String
+  image       String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  
+  author      User       @relation(fields: [authorId], references: [id])
+  authorId    String
+  
+  comments    Comment[]
+  likes       Like[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  text      String
+  createdAt DateTime @default(now())
+  
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+
+  @@unique([postId, userId])
+}
+
+model Friendship {
+  id        String           @id @default(uuid())
+  status    FriendshipStatus @default(PENDING)
+  createdAt DateTime         @default(now())
+  
+  user      User             @relation("UserFriends", fields: [userId], references: [id])
+  userId    String
+  
+  friend    User             @relation("UserFriendOf", fields: [friendId], references: [id])
+  friendId  String
+
+  @@unique([userId, friendId])
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  BLOCKED
+}
+
+model Notification {
+  id          String           @id @default(uuid())
+  type        NotificationType
+  content     String
+  read        Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  
+  recipient   User             @relation("ReceivedNotifications", fields: [recipientId], references: [id])
+  recipientId String
+  
+  sender      User             @relation("SentNotifications", fields: [senderId], references: [id])
+  senderId    String
+}
+
+enum NotificationType {
+  LIKE
+  COMMENT
+  FRIEND_REQUEST
+}

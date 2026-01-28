@@ -1,0 +1,53 @@
+[
+  {
+    "id": "1",
+    "user": {
+      "id": "u1",
+      "name": "Sarah Jenkins",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80"
+    },
+    "image": "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?auto=format&fit=crop&w=1200&q=80",
+    "caption": "Chasing sunsets in the digital wilderness. #exploration #vibes",
+    "likes": 124,
+    "comments": [
+      {
+        "id": "c1",
+        "user": "Alex",
+        "text": "Stunning shot! 😍"
+      }
+    ],
+    "timestamp": "2026-01-27T10:00:00Z"
+  },
+  {
+    "id": "2",
+    "user": {
+      "id": "u2",
+      "name": "Marcus Chen",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
+    },
+    "image": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
+    "caption": "The mountains are calling, and I must go. #nature #photography",
+    "likes": 89,
+    "comments": [],
+    "timestamp": "2026-01-27T14:30:00Z"
+  },
+  {
+    "id": "3",
+    "user": {
+      "id": "u3",
+      "name": "Elena Rodriguez",
+      "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80"
+    },
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+    "caption": "Architecture meets artificial intelligence. The future is here.",
+    "likes": 256,
+    "comments": [
+      {
+        "id": "c2",
+        "user": "Dave",
+        "text": "Incredible perspective."
+      }
+    ],
+    "timestamp": "2026-01-28T09:15:00Z"
+  }
+]
