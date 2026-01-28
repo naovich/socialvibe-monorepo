@@ -27,7 +27,7 @@ const ClickableText: React.FC<ClickableTextProps> = ({
             <span
               key={index}
               onClick={() => onHashtagClick?.(hashtag)}
-              className="text-orange-primary hover:underline cursor-pointer font-semibold"
+              className="text-primary hover:underline cursor-pointer font-semibold"
             >
               {part}
             </span>
@@ -41,7 +41,7 @@ const ClickableText: React.FC<ClickableTextProps> = ({
             <span
               key={index}
               onClick={() => onMentionClick?.(username)}
-              className="text-orange-primary hover:underline cursor-pointer font-semibold"
+              className="text-primary hover:underline cursor-pointer font-semibold"
             >
               {part}
             </span>

@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
         <div className="max-w-7xl mx-auto h-full flex items-center justify-between gap-4">
           {/* Logo */}
           <div className="flex items-center gap-4 group shrink-0 cursor-pointer">
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-primary to-orange-dark rounded-xl flex items-center justify-center shadow-lg shadow-orange-primary/20 group-hover:rotate-6 transition-transform">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
               <span className="text-2xl font-black text-white italic">S</span>
             </div>
             <span className="hidden md:block text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-text-primary to-text-secondary tracking-tighter">
@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
               {onCreatePost && (
                 <button
                   onClick={onCreatePost}
-                  className="hidden md:flex items-center gap-2 px-4 py-2 bg-orange-primary hover:bg-orange-hover rounded-xl text-white font-semibold transition-all shadow-lg shadow-orange-primary/25"
+                  className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover rounded-xl text-white font-semibold transition-all shadow-lg shadow-primary/25"
                 >
                   <Plus size={20} />
                   <span>Create</span>
@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
                 <img
                   src={currentUser.avatar}
                   alt={currentUser.name}
-                  className="w-9 h-9 rounded-full border-2 border-transparent group-hover:border-orange-primary transition-all"
+                  className="w-9 h-9 rounded-full border-2 border-transparent group-hover:border-primary transition-all"
                 />
                 <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-bg-primary rounded-full"></div>
               </div>
@@ -111,13 +111,13 @@ const HeaderAction: React.FC<{
     onClick={onClick}
     className={`p-2.5 rounded-full transition-all relative group ${
       active
-        ? 'bg-white/10 text-orange-primary'
+        ? 'bg-white/10 text-primary'
         : 'hover:bg-white/5 text-text-secondary hover:text-text-primary'
     }`}
   >
     {icon}
     {badge !== undefined && (
-      <span className="absolute top-1 right-1 w-5 h-5 bg-orange-primary text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-bg-primary">
+      <span className="absolute top-1 right-1 w-5 h-5 bg-primary text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-bg-primary">
         {badge > 99 ? '99+' : badge}
       </span>
     )}

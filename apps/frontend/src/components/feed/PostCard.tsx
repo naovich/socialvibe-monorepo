@@ -55,9 +55,9 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
           <img
             src={post.user.avatar}
             alt={post.user.name}
-            className="w-10 h-10 rounded-full border border-orange-primary/30 group-hover:border-orange-primary transition-colors"
+            className="w-10 h-10 rounded-full border border-primary/30 group-hover:border-primary transition-colors"
           />
-          <div className="absolute inset-0 rounded-full bg-orange-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="absolute inset-0 rounded-full bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
         <div className="flex flex-col">
           <span className="font-bold text-text-primary hover:underline cursor-pointer">
@@ -93,7 +93,7 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
       <div className="flex items-center justify-between px-4 py-3 border-b border-border-secondary">
         <div className="flex items-center gap-1">
           <div className="flex -space-x-1">
-            <div className="w-5 h-5 bg-orange-primary rounded-full flex items-center justify-center border border-bg-card z-10">
+            <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center border border-bg-card z-10">
               <span className="text-xs">❤️</span>
             </div>
             <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center border border-bg-card z-0">
@@ -143,13 +143,13 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
             <input
               type="text"
               placeholder="Write a comment..."
-              className="w-full bg-white/5 border border-border-primary rounded-full px-4 py-2 text-sm text-text-primary placeholder:text-text-muted outline-none focus:border-orange-primary/50 transition-colors"
+              className="w-full bg-white/5 border border-border-primary rounded-full px-4 py-2 text-sm text-text-primary placeholder:text-text-muted outline-none focus:border-primary/50 transition-colors"
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
             />
             <button
               type="submit"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-orange-primary hover:text-orange-hover transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-primary hover:text-primary-hover transition-colors"
               disabled={!commentText.trim()}
             >
               <Send size={16} />

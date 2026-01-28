@@ -117,7 +117,7 @@ const SearchBar: React.FC = () => {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setIsOpen(true)}
             placeholder="Search... (⌘K)"
-            className="w-full bg-bg-secondary border border-border-primary rounded-full pl-10 pr-4 py-2 text-sm text-text-primary placeholder:text-text-muted outline-none focus:border-orange-primary/50 transition-colors"
+            className="w-full bg-bg-secondary border border-border-primary rounded-full pl-10 pr-4 py-2 text-sm text-text-primary placeholder:text-text-muted outline-none focus:border-primary/50 transition-colors"
           />
           {query && (
             <button
@@ -158,7 +158,7 @@ const SearchBar: React.FC = () => {
                         onClick={() => setActiveTab(tab)}
                         className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                           activeTab === tab
-                            ? 'bg-orange-primary text-white'
+                            ? 'bg-primary text-white'
                             : 'text-text-muted hover:bg-white/5'
                         }`}
                       >
@@ -183,7 +183,7 @@ const SearchBar: React.FC = () => {
                             key={tag}
                             className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors"
                           >
-                            <Hash size={16} className="text-orange-primary" />
+                            <Hash size={16} className="text-primary" />
                             <span className="text-sm text-text-primary">{tag}</span>
                           </button>
                         ))}
@@ -216,8 +216,8 @@ const SearchBar: React.FC = () => {
 
                           {result.type === 'hashtag' && (
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-orange-primary/10 rounded-full flex items-center justify-center">
-                                <Hash size={20} className="text-orange-primary" />
+                              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                                <Hash size={20} className="text-primary" />
                               </div>
                               <div>
                                 <p className="font-semibold text-text-primary text-sm">

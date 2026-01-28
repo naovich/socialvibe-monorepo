@@ -31,7 +31,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-primary selection:bg-orange-primary/30">
+    <div className="min-h-screen bg-bg-primary text-text-primary selection:bg-primary/30">
       <Header onCreatePost={() => setIsCreatePostOpen(true)} />
 
       <div className="max-w-[1920px] mx-auto pt-24 px-4 md:px-8 flex justify-center gap-8">
@@ -73,7 +73,7 @@ const App: React.FC = () => {
                     <p className="text-text-muted">No posts yet. Be the first to share!</p>
                     <button
                       onClick={() => setIsCreatePostOpen(true)}
-                      className="mt-4 px-6 py-3 bg-orange-primary hover:bg-orange-hover rounded-xl text-white font-semibold transition-all shadow-lg shadow-orange-primary/25"
+                      className="mt-4 px-6 py-3 bg-primary hover:bg-primary-hover rounded-xl text-white font-semibold transition-all shadow-lg shadow-primary/25"
                     >
                       Create Your First Post
                     </button>
@@ -86,7 +86,7 @@ const App: React.FC = () => {
               {/* Loading More Indicator */}
               {posts.length > 0 && (
                 <div className="py-20 text-center">
-                  <div className="w-12 h-12 border-4 border-orange-primary/20 border-t-orange-primary rounded-full animate-spin mx-auto mb-4"></div>
+                  <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
                   <p className="text-text-muted font-medium">Loading more vibes...</p>
                 </div>
               )}
@@ -106,7 +106,7 @@ const App: React.FC = () => {
           onClick={() => setView('feed')}
           className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
             view === 'feed'
-              ? 'bg-orange-primary text-white'
+              ? 'bg-primary text-white'
               : 'text-text-muted hover:text-text-primary'
           }`}
         >
@@ -116,7 +116,7 @@ const App: React.FC = () => {
           onClick={() => setView('profile')}
           className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
             view === 'profile'
-              ? 'bg-orange-primary text-white'
+              ? 'bg-primary text-white'
               : 'text-text-muted hover:text-text-primary'
           }`}
         >

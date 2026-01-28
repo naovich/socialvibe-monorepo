@@ -85,7 +85,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, onFollow, isOwnProfile 
     >
       {/* Cover Image */}
       {user.coverImage && (
-        <div className="h-48 bg-gradient-to-br from-orange-primary to-orange-dark relative overflow-hidden">
+        <div className="h-48 bg-gradient-to-br from-primary to-primary-dark relative overflow-hidden">
           <img
             src={user.coverImage}
             alt="Cover"
@@ -122,7 +122,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, onFollow, isOwnProfile 
                   className={`px-6 py-2 rounded-xl font-semibold transition-all ${
                     user.isFollowing
                       ? 'bg-white/5 hover:bg-white/10 text-text-primary'
-                      : 'bg-orange-primary hover:bg-orange-hover text-white shadow-lg shadow-orange-primary/25'
+                      : 'bg-primary hover:bg-primary-hover text-white shadow-lg shadow-primary/25'
                   }`}
                 >
                   {user.isFollowing ? 'Following' : 'Follow'}
@@ -164,7 +164,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, onFollow, isOwnProfile 
                 href={user.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-orange-primary hover:underline"
+                className="text-primary hover:underline"
               >
                 {user.website}
               </a>
@@ -182,7 +182,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, onFollow, isOwnProfile 
         {user.badges && user.badges.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <Award size={18} className="text-orange-primary" />
+              <Award size={18} className="text-primary" />
               <h3 className="font-semibold text-text-primary">Achievements</h3>
             </div>
             <div className="flex flex-wrap gap-4">

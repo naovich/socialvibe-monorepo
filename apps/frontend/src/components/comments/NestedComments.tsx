@@ -182,7 +182,7 @@ const NestedComments: React.FC<NestedCommentsProps> = ({
                           value={replyText}
                           onChange={(e) => setReplyText(e.target.value)}
                           placeholder={`Reply to @${comment.user.username}...`}
-                          className="flex-1 bg-bg-tertiary border border-border-primary rounded-full px-4 py-2 text-sm text-text-primary placeholder:text-text-muted outline-none focus:border-orange-primary/50 transition-colors"
+                          className="flex-1 bg-bg-tertiary border border-border-primary rounded-full px-4 py-2 text-sm text-text-primary placeholder:text-text-muted outline-none focus:border-primary/50 transition-colors"
                           autoFocus
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') {
@@ -196,7 +196,7 @@ const NestedComments: React.FC<NestedCommentsProps> = ({
                         <button
                           onClick={() => handleReply(comment.id)}
                           disabled={!replyText.trim()}
-                          className="px-4 py-2 bg-orange-primary hover:bg-orange-hover disabled:bg-white/5 disabled:text-text-disabled rounded-full text-sm font-semibold text-white transition-colors"
+                          className="px-4 py-2 bg-primary hover:bg-primary-hover disabled:bg-white/5 disabled:text-text-disabled rounded-full text-sm font-semibold text-white transition-colors"
                         >
                           Reply
                         </button>

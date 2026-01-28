@@ -89,7 +89,7 @@ const Badge: React.FC<BadgeProps> = ({
             {description || 'No description'}
           </p>
           {!unlocked && (
-            <p className="text-xs text-orange-primary mt-2 font-semibold">
+            <p className="text-xs text-primary mt-2 font-semibold">
               Not yet unlocked
             </p>
           )}

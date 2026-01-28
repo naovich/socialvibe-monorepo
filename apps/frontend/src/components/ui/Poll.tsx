@@ -103,7 +103,7 @@ const Poll: React.FC<PollProps> = ({
                   transition={{ duration: 0.8, ease: 'easeOut' }}
                   className={`absolute inset-y-0 left-0 ${
                     isUserVote
-                      ? 'bg-orange-primary/20'
+                      ? 'bg-primary/20'
                       : 'bg-white/5'
                   }`}
                 />
@@ -113,11 +113,11 @@ const Poll: React.FC<PollProps> = ({
               <div
                 className={`relative flex items-center justify-between p-4 border-2 rounded-xl transition-all ${
                   isSelected && !hasVoted
-                    ? 'border-orange-primary bg-orange-primary/10'
+                    ? 'border-primary bg-primary/10'
                     : 'border-border-primary'
                 } ${
                   isUserVote
-                    ? 'border-orange-primary'
+                    ? 'border-primary'
                     : ''
                 }`}
               >
@@ -127,7 +127,7 @@ const Poll: React.FC<PollProps> = ({
                     <div
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
                         isSelected
-                          ? 'border-orange-primary bg-orange-primary'
+                          ? 'border-primary bg-primary'
                           : 'border-border-primary'
                       }`}
                     >
@@ -144,7 +144,7 @@ const Poll: React.FC<PollProps> = ({
                 {(hasVoted || isExpired) && (
                   <div className="flex items-center gap-2">
                     {isUserVote && (
-                      <Check size={16} className="text-orange-primary" />
+                      <Check size={16} className="text-primary" />
                     )}
                     <span className="font-bold text-text-primary">
                       {percentage}%
@@ -171,7 +171,7 @@ const Poll: React.FC<PollProps> = ({
       {allowMultiple && !hasVoted && !isExpired && selectedOptions.size > 0 && (
         <button
           onClick={handleSubmit}
-          className="w-full mt-4 py-2 bg-orange-primary hover:bg-orange-hover rounded-xl text-white font-semibold transition-colors"
+          className="w-full mt-4 py-2 bg-primary hover:bg-primary-hover rounded-xl text-white font-semibold transition-colors"
         >
           Submit Vote
         </button>

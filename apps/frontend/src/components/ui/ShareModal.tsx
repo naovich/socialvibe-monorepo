@@ -119,7 +119,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                       className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                         copied
                           ? 'bg-green-500 text-white'
-                          : 'bg-orange-primary hover:bg-orange-hover text-white'
+                          : 'bg-primary hover:bg-primary-hover text-white'
                       }`}
                     >
                       {copied ? 'Copied!' : 'Copy'}
