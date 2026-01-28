@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Heart, MessageCircle, Send, Share2, Bookmark, MoreHorizontal } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import type { Post } from '../types/feed.types';
+import CommentsList from '../../comments/components/CommentsList';
 
 interface PostCardProps {
   post: Post;
@@ -12,7 +13,6 @@ interface PostCardProps {
 
 const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) => {
   const [showComments, setShowComments] = useState(false);
-  const [commentText, setCommentText] = useState('');
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
@@ -200,21 +200,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
       {/* Comments Section */}
       {showComments && (
         <div className="mt-4 pt-4 border-t border-border-primary">
-          <div className="flex gap-3">
-            <input
-              type="text"
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Write a comment..."
-              className="flex-1 bg-bg-secondary border border-border-primary rounded-full px-4 py-2 text-sm text-text-primary placeholder:text-text-muted outline-none focus:border-primary transition-colors"
-            />
-            <button
-              disabled={!commentText.trim()}
-              className="p-2 bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed rounded-full text-white transition-colors"
-            >
-              <Send size={18} />
-            </button>
-          </div>
+          <CommentsList postId={post.id} />
         </div>
       )}
     </motion.article>
