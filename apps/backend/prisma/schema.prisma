@@ -32,12 +32,13 @@ model User {
   notifications     Notification[] @relation("ReceivedNotifications")
   sentNotifications Notification[] @relation("SentNotifications")
 
-  refreshTokens   RefreshToken[]
-  stories         Story[]
-  conversations   Conversation[] @relation("ConversationParticipants")
-  sentMessages    Message[]      @relation("SentMessages")
-  createdGroups   Group[]        @relation("CreatedGroups")
-  groups          Group[]        @relation("GroupMembers")
+  refreshTokens        RefreshToken[]
+  passwordResetTokens  PasswordResetToken[]
+  stories              Story[]
+  conversations        Conversation[] @relation("ConversationParticipants")
+  sentMessages         Message[]      @relation("SentMessages")
+  createdGroups        Group[]        @relation("CreatedGroups")
+  groups               Group[]        @relation("GroupMembers")
 }
 
 model Post {
@@ -137,6 +138,19 @@ model RefreshToken {
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([token])
+  @@index([userId])
 }
 
 model Story {

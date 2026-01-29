@@ -2,10 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PostsService } from './posts.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
+import { getTestModuleMetadata, createMockPrismaService, MockEventsGateway } from '../../test/helpers/test.module';
+import { EventsGateway } from '../events/events.gateway';
 
 describe('PostsService', () => {
   let service: PostsService;
   let prismaService: PrismaService;
+  let eventsGateway: EventsGateway;
 
   const mockPost = {
     id: '1',
@@ -26,29 +29,23 @@ describe('PostsService', () => {
   };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        PostsService,
-        {
-          provide: PrismaService,
-          useValue: {
-            post: {
-              create: jest.fn(),
-              findMany: jest.fn(),
-              findUnique: jest.fn(),
-              update: jest.fn(),
-              delete: jest.fn(),
-              count: jest.fn(),
-            },
-            like: {
-              findUnique: jest.fn(),
-              create: jest.fn(),
-              delete: jest.fn(),
-            },
+    const mockPrisma = createMockPrismaService();
+    
+    const module: TestingModule = await Test.createTestingModule(
+      getTestModuleMetadata({
+        providers: [
+          PostsService,
+          {
+            provide: PrismaService,
+            useValue: mockPrisma,
           },
-        },
-      ],
-    }).compile();
+          {
+            provide: EventsGateway,
+            useClass: MockEventsGateway,
+          },
+        ],
+      })
+    ).compile();
 
     service = module.get<PostsService>(PostsService);
     prismaService = module.get<PrismaService>(PrismaService);

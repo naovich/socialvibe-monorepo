@@ -78,6 +78,11 @@ const Login: React.FC = () => {
                 placeholder="••••••••"
                 required
               />
+              <div className="mt-2 text-right">
+                <Link to="/forgot-password" className="text-sm text-orange-500 hover:text-orange-400">
+                  Forgot password?
+                </Link>
+              </div>
             </div>
 
             <button

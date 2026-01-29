@@ -6,11 +6,13 @@ import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UsersModule } from '../users/users.module';
 import { PrismaModule } from '../prisma/prisma.module';
+import { EmailModule } from '../email/email.module';
 
 @Module({
   imports: [
     UsersModule,
     PrismaModule,
+    EmailModule,
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'your-secret-key-change-in-production',
