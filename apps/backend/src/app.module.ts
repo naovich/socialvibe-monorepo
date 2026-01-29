@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { UsersModule } from "./users/users.module";
@@ -13,6 +13,8 @@ import { StoriesModule } from "./stories/stories.module";
 import { SearchModule } from "./search/search.module";
 import { MessagesModule } from "./messages/messages.module";
 import { GroupsModule } from "./groups/groups.module";
+import { LoggerModule } from "./logger/logger.module";
+import { LoggerMiddleware } from "./logger/logger.middleware";
 import { ConfigModule } from "@nestjs/config";
 import { ThrottlerModule, ThrottlerGuard } from "@nestjs/throttler";
 import { APP_GUARD } from "@nestjs/core";
@@ -24,6 +26,7 @@ import { APP_GUARD } from "@nestjs/core";
       ttl: 60000, // 1 minute
       limit: 100, // 100 requests per minute
     }]),
+    LoggerModule,
     PrismaModule,
     AuthModule,
     UsersModule,
@@ -46,4 +49,10 @@ import { APP_GUARD } from "@nestjs/core";
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes('*');
+  }
+}

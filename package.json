@@ -25,5 +25,8 @@
     "node": ">=18",
     "npm": ">=9"
   },
-  "packageManager": "npm@10.2.4"
+  "packageManager": "npm@10.2.4",
+  "dependencies": {
+    "@prisma/client": "^7.3.0"
+  }
 }
