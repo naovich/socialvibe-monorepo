@@ -32,8 +32,10 @@ model User {
   notifications     Notification[] @relation("ReceivedNotifications")
   sentNotifications Notification[] @relation("SentNotifications")
 
-  refreshTokens RefreshToken[]
-  stories       Story[]
+  refreshTokens   RefreshToken[]
+  stories         Story[]
+  conversations   Conversation[] @relation("ConversationParticipants")
+  sentMessages    Message[]      @relation("SentMessages")
 }
 
 model Post {
@@ -142,4 +144,32 @@ model Story {
 
   @@index([authorId])
   @@index([expiresAt])
+}
+
+model Conversation {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  participants User[]    @relation("ConversationParticipants")
+  messages     Message[]
+
+  @@index([updatedAt])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  text      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String
+
+  sender   User   @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId String
+
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([createdAt])
 }

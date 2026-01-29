@@ -270,6 +270,34 @@ export const searchAPI = {
   },
 };
 
+// ========== MESSAGES ==========
+export const messagesAPI = {
+  getConversations: async () => {
+    const response = await api.get('/messages/conversations');
+    return response.data;
+  },
+
+  getOrCreateConversation: async (recipientId: string) => {
+    const response = await api.get(`/messages/conversation/${recipientId}`);
+    return response.data;
+  },
+
+  getMessages: async (conversationId: string) => {
+    const response = await api.get(`/messages/${conversationId}`);
+    return response.data;
+  },
+
+  sendMessage: async (conversationId: string, text: string) => {
+    const response = await api.post(`/messages/${conversationId}`, { text });
+    return response.data;
+  },
+
+  deleteMessage: async (messageId: string) => {
+    const response = await api.delete(`/messages/message/${messageId}`);
+    return response.data;
+  },
+};
+
 // ========== UPLOAD ==========
 export const uploadAPI = {
   uploadImage: async (file: File) => {

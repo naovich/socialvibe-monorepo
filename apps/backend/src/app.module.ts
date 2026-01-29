@@ -11,6 +11,7 @@ import { EventsModule } from "./events/events.module";
 import { FriendshipsModule } from "./friendships/friendships.module";
 import { StoriesModule } from "./stories/stories.module";
 import { SearchModule } from "./search/search.module";
+import { MessagesModule } from "./messages/messages.module";
 import { ConfigModule } from "@nestjs/config";
 
 @Module({
@@ -26,6 +27,7 @@ import { ConfigModule } from "@nestjs/config";
     FriendshipsModule,
     StoriesModule,
     SearchModule,
+    MessagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
