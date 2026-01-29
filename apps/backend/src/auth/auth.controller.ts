@@ -70,8 +70,20 @@ export class AuthController {
   }
 
   @Post('send-verification')
+  @ApiOperation({ summary: 'Send email verification link' })
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, description: 'Verification email sent' })
   @UseGuards(JwtAuthGuard)
   async sendVerification(@Request() req) {
     return this.authService.sendVerificationEmail(req.user.id);
+  }
+
+  @Post('verify-email')
+  @ApiOperation({ summary: 'Verify email with token' })
+  @ApiBody({ schema: { properties: { token: { type: 'string' } } } })
+  @ApiResponse({ status: 200, description: 'Email verified successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid or expired token' })
+  async verifyEmail(@Body('token') token: string) {
+    return this.authService.verifyEmail(token);
   }
 }

@@ -1,15 +1,35 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { PostsController } from "./posts.controller";
+import { PostsService } from "./posts.service";
+import { getTestModuleMetadata } from "../../test/helpers/test.module";
 
 describe("PostsController", () => {
   let controller: PostsController;
+  let service: PostsService;
+
+  const mockPostsService = {
+    create: jest.fn(),
+    findAll: jest.fn(),
+    findOne: jest.fn(),
+    update: jest.fn(),
+    remove: jest.fn(),
+  };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [PostsController],
-    }).compile();
+    const module: TestingModule = await Test.createTestingModule(
+      getTestModuleMetadata({
+        controllers: [PostsController],
+        providers: [
+          {
+            provide: PostsService,
+            useValue: mockPostsService,
+          },
+        ],
+      })
+    ).compile();
 
     controller = module.get<PostsController>(PostsController);
+    service = module.get<PostsService>(PostsService);
   });
 
   it("should be defined", () => {

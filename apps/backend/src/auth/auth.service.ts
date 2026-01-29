@@ -262,10 +262,69 @@ export class AuthService {
 
     // Generate verification token
     const verificationToken = crypto.randomBytes(32).toString('hex');
+    const hashedToken = await bcrypt.hash(verificationToken, 10);
+
+    // Save token (expires in 24 hours)
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 24);
+
+    await this.prisma.emailVerificationToken.create({
+      data: {
+        token: hashedToken,
+        userId: user.id,
+        expiresAt,
+      },
+    });
 
     // Send email
     await this.emailService.sendEmailVerification(user.email, user.name, verificationToken);
 
     return { message: 'Verification email sent' };
+  }
+
+  async verifyEmail(token: string) {
+    // Find all non-expired tokens
+    const tokens = await this.prisma.emailVerificationToken.findMany({
+      where: {
+        expiresAt: {
+          gte: new Date(),
+        },
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    // Find matching token
+    let validToken: typeof tokens[0] | null = null;
+    for (const t of tokens) {
+      const isValid = await bcrypt.compare(token, t.token);
+      if (isValid) {
+        validToken = t;
+        break;
+      }
+    }
+
+    if (!validToken) {
+      throw new BadRequestException('Invalid or expired verification token');
+    }
+
+    // Mark user as verified (if you have an emailVerified field)
+    // await this.prisma.user.update({
+    //   where: { id: validToken.userId },
+    //   data: { emailVerified: true },
+    // });
+
+    // Delete used token
+    await this.prisma.emailVerificationToken.delete({
+      where: { id: validToken.id },
+    });
+
+    // Delete all other verification tokens for this user
+    await this.prisma.emailVerificationToken.deleteMany({
+      where: { userId: validToken.userId },
+    });
+
+    return { message: 'Email verified successfully' };
   }
 }

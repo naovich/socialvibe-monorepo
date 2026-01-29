@@ -32,9 +32,10 @@ model User {
   notifications     Notification[] @relation("ReceivedNotifications")
   sentNotifications Notification[] @relation("SentNotifications")
 
-  refreshTokens        RefreshToken[]
-  passwordResetTokens  PasswordResetToken[]
-  stories              Story[]
+  refreshTokens            RefreshToken[]
+  passwordResetTokens      PasswordResetToken[]
+  emailVerificationTokens  EmailVerificationToken[]
+  stories                  Story[]
   conversations        Conversation[] @relation("ConversationParticipants")
   sentMessages         Message[]      @relation("SentMessages")
   createdGroups        Group[]        @relation("CreatedGroups")
@@ -141,6 +142,19 @@ model RefreshToken {
 }
 
 model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([token])
+  @@index([userId])
+}
+
+model EmailVerificationToken {
   id        String   @id @default(uuid())
   token     String   @unique
   expiresAt DateTime
