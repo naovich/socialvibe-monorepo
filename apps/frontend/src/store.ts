@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import type { Post, User, Story, Notification } from './types';
 import { postsAPI, likesAPI, commentsAPI } from './services/api';
 import { mockUsers, mockPosts, mockStories, mockNotifications } from './mock';
+import { socketService } from './services/socket';
 
 interface SocialStore {
   currentUser: User;
@@ -12,6 +13,7 @@ interface SocialStore {
   isLoading: boolean;
   error: string | null;
   theme: 'dark' | 'light';
+  onlineUsers: string[];
 
   // Actions
   fetchPosts: () => Promise<void>;
@@ -20,6 +22,8 @@ interface SocialStore {
   addPost: (post: Omit<Post, 'id' | 'likes' | 'comments' | 'isLiked' | 'createdAt'>) => Promise<void>;
   markNotificationAsRead: (id: string) => void;
   setTheme: (theme: 'dark' | 'light') => void;
+  connectWebSocket: () => void;
+  disconnectWebSocket: () => void;
 }
 
 export const useSocialStore = create<SocialStore>()(
@@ -32,6 +36,7 @@ export const useSocialStore = create<SocialStore>()(
       isLoading: false,
       error: null,
       theme: 'dark',
+      onlineUsers: [],
 
       fetchPosts: async () => {
         set({ isLoading: true });
@@ -119,6 +124,86 @@ export const useSocialStore = create<SocialStore>()(
         })),
 
       setTheme: (theme) => set({ theme }),
+
+      connectWebSocket: () => {
+        const token = localStorage.getItem('access_token');
+        if (!token) return;
+
+        socketService.connect(token);
+
+        // Listen for new posts
+        socketService.on('post:new', (post: Post) => {
+          set((state) => ({
+            posts: [post, ...state.posts],
+          }));
+        });
+
+        // Listen for likes
+        socketService.on('post:liked', (data: { postId: string; user: any }) => {
+          set((state) => ({
+            notifications: [
+              {
+                id: Date.now().toString(),
+                type: 'like' as const,
+                user: {
+                  name: data.user.name,
+                  avatar: data.user.avatar,
+                  username: data.user.username,
+                },
+                content: 'liked your post',
+                createdAt: new Date().toISOString(),
+                read: false,
+                postId: data.postId,
+              },
+              ...state.notifications,
+            ],
+          }));
+        });
+
+        // Listen for comments
+        socketService.on('comment:new', (data: any) => {
+          set((state) => ({
+            notifications: [
+              {
+                id: Date.now().toString(),
+                type: 'comment' as const,
+                user: {
+                  name: data.user.name,
+                  avatar: data.user.avatar,
+                  username: data.user.username,
+                },
+                content: 'commented on your post',
+                createdAt: new Date().toISOString(),
+                read: false,
+                postId: data.postId,
+              },
+              ...state.notifications,
+            ],
+          }));
+        });
+
+        // Listen for online users
+        socketService.on('users:online', (users: string[]) => {
+          set({ onlineUsers: users });
+        });
+
+        socketService.on('user:online', (data: { userId: string }) => {
+          set((state) => ({
+            onlineUsers: [...new Set([...state.onlineUsers, data.userId])],
+          }));
+        });
+
+        socketService.on('user:offline', (data: { userId: string }) => {
+          set((state) => ({
+            onlineUsers: state.onlineUsers.filter((id) => id !== data.userId),
+          }));
+        });
+      },
+
+      disconnectWebSocket: () => {
+        socketService.disconnect();
+        set({ onlineUsers: [] });
+      },
     }),
     {
       name: 'social-vibe-storage',

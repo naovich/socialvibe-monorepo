@@ -1,13 +1,17 @@
 import { Injectable, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePostDto, UpdatePostDto } from './dto';
+import { EventsGateway } from '../events/events.gateway';
 
 @Injectable()
 export class PostsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private eventsGateway: EventsGateway,
+  ) {}
 
   async create(userId: string, createPostDto: CreatePostDto) {
-    return this.prisma.post.create({
+    const post = await this.prisma.post.create({
       data: {
         ...createPostDto,
         authorId: userId,
@@ -21,8 +25,19 @@ export class PostsService {
             avatar: true,
           },
         },
+        _count: {
+          select: { likes: true, comments: true },
+        },
       },
     });
+
+    // Notify all users about new post
+    this.eventsGateway.notifyNewPost({
+      ...post,
+      isLiked: false,
+    });
+
+    return post;
   }
 
   async findAll(page: number = 1, limit: number = 20, userId?: string) {
@@ -192,6 +207,15 @@ export class PostsService {
     // Check if post exists
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+          },
+        },
+      },
     });
 
     if (!post) {
@@ -219,6 +243,20 @@ export class PostsService {
           userId,
         },
       });
+
+      // Notify post author about like (if not self-like)
+      if (post.authorId !== userId) {
+        const liker = await this.prisma.user.findUnique({
+          where: { id: userId },
+          select: { name: true, username: true, avatar: true },
+        });
+
+        this.eventsGateway.notifyPostLike(post.authorId, {
+          postId,
+          user: liker,
+        });
+      }
+
       return { liked: true };
     }
   }

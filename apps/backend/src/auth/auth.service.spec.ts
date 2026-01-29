@@ -17,7 +17,10 @@ describe('AuthService', () => {
     username: 'testuser',
     password: '$2b$10$hashedpassword',
     avatar: null,
+    coverImage: null,
+    bio: null,
     createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   beforeEach(async () => {

@@ -7,6 +7,7 @@ import { CommentsModule } from "./comments/comments.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { AuthModule } from "./auth/auth.module";
 import { UploadModule } from "./upload/upload.module";
+import { EventsModule } from "./events/events.module";
 import { ConfigModule } from "@nestjs/config";
 
 @Module({
@@ -18,6 +19,7 @@ import { ConfigModule } from "@nestjs/config";
     PostsModule,
     CommentsModule,
     UploadModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
