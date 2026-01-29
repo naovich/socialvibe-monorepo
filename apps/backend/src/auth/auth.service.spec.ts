@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { getTestModuleMetadata, createMockPrismaService } from '../../test/helpers/test.module';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -24,32 +25,25 @@ describe('AuthService', () => {
   };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AuthService,
-        {
-          provide: PrismaService,
-          useValue: {
-            user: {
-              findFirst: jest.fn(),
-              findUnique: jest.fn(),
-              create: jest.fn(),
-            },
-            refreshToken: {
-              create: jest.fn(),
-              findUnique: jest.fn(),
-              delete: jest.fn(),
+    const mockPrisma = createMockPrismaService();
+    
+    const module: TestingModule = await Test.createTestingModule(
+      getTestModuleMetadata({
+        providers: [
+          AuthService,
+          {
+            provide: PrismaService,
+            useValue: mockPrisma,
+          },
+          {
+            provide: JwtService,
+            useValue: {
+              sign: jest.fn().mockReturnValue('mock-jwt-token'),
             },
           },
-        },
-        {
-          provide: JwtService,
-          useValue: {
-            sign: jest.fn().mockReturnValue('mock-jwt-token'),
-          },
-        },
-      ],
-    }).compile();
+        ],
+      })
+    ).compile();
 
     service = module.get<AuthService>(AuthService);
     prismaService = module.get<PrismaService>(PrismaService);
