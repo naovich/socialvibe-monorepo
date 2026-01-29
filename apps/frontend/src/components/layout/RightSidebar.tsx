@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Video, Search, MoreHorizontal, Gift } from 'lucide-react';
 import { friendshipsAPI } from '../../services/api';
 import { useSocialStore } from '../../store';
@@ -11,15 +12,29 @@ interface Friend {
   bio?: string;
 }
 
-const ContactItem: React.FC<{ name: string; avatar: string; online?: boolean }> = ({ name, avatar, online = false }) => (
-  <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 cursor-pointer transition-all group">
-    <div className="relative">
-      <img src={avatar} alt={name} className="w-9 h-9 rounded-full border border-white/10" />
-      {online && <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-[#050505] rounded-full"></div>}
+interface ContactItemProps {
+  id: string;
+  name: string;
+  avatar: string;
+  online?: boolean;
+}
+
+const ContactItem: React.FC<ContactItemProps> = ({ id, name, avatar, online = false }) => {
+  const navigate = useNavigate();
+  
+  return (
+    <div 
+      onClick={() => navigate(`/user/${id}`)}
+      className="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 cursor-pointer transition-all group"
+    >
+      <div className="relative">
+        <img src={avatar} alt={name} className="w-9 h-9 rounded-full border border-white/10" />
+        {online && <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-[#050505] rounded-full"></div>}
+      </div>
+      <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">{name}</span>
     </div>
-    <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">{name}</span>
-  </div>
-);
+  );
+};
 
 const RightSidebar: React.FC = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
@@ -97,7 +112,8 @@ const RightSidebar: React.FC = () => {
           ) : (
             friends.map((friend) => (
               <ContactItem 
-                key={friend.id} 
+                key={friend.id}
+                id={friend.id}
                 name={friend.name} 
                 avatar={friend.avatar}
                 online={onlineUsers.includes(friend.id)}

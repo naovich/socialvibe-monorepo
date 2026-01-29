@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, X, Hash, User, Clock } from 'lucide-react';
 import { searchService } from '../services/searchService';
 import type { SearchResult } from '../types/search.types';
@@ -12,6 +13,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onSelect, 
   placeholder = 'Search users, hashtags...' 
 }) => {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
@@ -61,6 +63,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
     setQuery('');
     setResults([]);
     setIsFocused(false);
+    
+    // Navigate to user profile if it's a user result
+    if (result.type === 'user') {
+      navigate(`/user/${result.id}`);
+    }
+    
     onSelect?.(result);
   };
 
