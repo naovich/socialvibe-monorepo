@@ -36,6 +36,8 @@ model User {
   stories         Story[]
   conversations   Conversation[] @relation("ConversationParticipants")
   sentMessages    Message[]      @relation("SentMessages")
+  createdGroups   Group[]        @relation("CreatedGroups")
+  groups          Group[]        @relation("GroupMembers")
 }
 
 model Post {
@@ -48,8 +50,13 @@ model Post {
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
 
+  group   Group?  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId String?
+
   comments Comment[]
   likes    Like[]
+
+  @@index([groupId])
 }
 
 model Comment {
@@ -171,5 +178,25 @@ model Message {
 
   @@index([conversationId])
   @@index([senderId])
+  @@index([createdAt])
+}
+
+model Group {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  avatar      String?
+  coverImage  String?
+  isPrivate   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  creator   User   @relation("CreatedGroups", fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId String
+
+  members User[] @relation("GroupMembers")
+  posts   Post[]
+
+  @@index([creatorId])
   @@index([createdAt])
 }

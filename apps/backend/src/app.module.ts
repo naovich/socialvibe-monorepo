@@ -12,6 +12,7 @@ import { FriendshipsModule } from "./friendships/friendships.module";
 import { StoriesModule } from "./stories/stories.module";
 import { SearchModule } from "./search/search.module";
 import { MessagesModule } from "./messages/messages.module";
+import { GroupsModule } from "./groups/groups.module";
 import { ConfigModule } from "@nestjs/config";
 
 @Module({
@@ -28,6 +29,7 @@ import { ConfigModule } from "@nestjs/config";
     StoriesModule,
     SearchModule,
     MessagesModule,
+    GroupsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
