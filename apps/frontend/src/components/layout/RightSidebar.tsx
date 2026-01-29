@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Video, Search, MoreHorizontal, Gift } from 'lucide-react';
+import { friendshipsAPI } from '../../services/api';
+import { useSocialStore } from '../../store';
 
-const ContactItem: React.FC<{ name: string; avatar: string; online?: boolean }> = ({ name, avatar, online = true }) => (
+interface Friend {
+  id: string;
+  name: string;
+  username: string;
+  avatar: string;
+  bio?: string;
+}
+
+const ContactItem: React.FC<{ name: string; avatar: string; online?: boolean }> = ({ name, avatar, online = false }) => (
   <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 cursor-pointer transition-all group">
     <div className="relative">
       <img src={avatar} alt={name} className="w-9 h-9 rounded-full border border-white/10" />
@@ -12,14 +22,24 @@ const ContactItem: React.FC<{ name: string; avatar: string; online?: boolean }> 
 );
 
 const RightSidebar: React.FC = () => {
-  const contacts = [
-    { name: 'Sarah Wilson', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah' },
-    { name: 'Alex Rivera', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex' },
-    { name: 'Elena Gilbert', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Elena' },
-    { name: 'Damon Salvatore', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Damon' },
-    { name: 'Stefan Salvatore', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Stefan' },
-    { name: 'Bonnie Bennett', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Bonnie' },
-  ];
+  const [friends, setFriends] = useState<Friend[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { onlineUsers } = useSocialStore();
+
+  useEffect(() => {
+    const loadFriends = async () => {
+      try {
+        const data = await friendshipsAPI.getFriends();
+        setFriends(data);
+      } catch (error) {
+        console.error('Failed to load friends:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFriends();
+  }, []);
 
   return (
     <aside className="hidden xl:flex flex-col gap-4 w-80 fixed right-0 top-16 h-[calc(100vh-64px)] p-4 overflow-y-auto scrollbar-hide bg-[#050505] border-l border-white/5">
@@ -70,9 +90,20 @@ const RightSidebar: React.FC = () => {
         </div>
         
         <div className="flex flex-col gap-1">
-          {contacts.map((contact, i) => (
-            <ContactItem key={i} {...contact} />
-          ))}
+          {loading ? (
+            <div className="text-center py-4 text-gray-500 text-sm">Loading friends...</div>
+          ) : friends.length === 0 ? (
+            <div className="text-center py-4 text-gray-500 text-sm">No friends yet</div>
+          ) : (
+            friends.map((friend) => (
+              <ContactItem 
+                key={friend.id} 
+                name={friend.name} 
+                avatar={friend.avatar}
+                online={onlineUsers.includes(friend.id)}
+              />
+            ))
+          )}
         </div>
       </div>
 

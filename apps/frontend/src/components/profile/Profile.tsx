@@ -3,11 +3,13 @@ import { Camera, Edit3, MoreHorizontal } from 'lucide-react';
 import { useSocialStore } from '../../store';
 import PostCard from '../feed/PostCard';
 import PhotosGrid from '../../features/profile/components/PhotosGrid';
+import PostModal from '../feed/PostModal';
 import type { Post } from '../../types';
 
 const Profile: React.FC = () => {
   const { currentUser, fetchUserPosts } = useSocialStore();
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -125,7 +127,11 @@ const Profile: React.FC = () => {
               <h2 className="text-xl font-black text-white">Photos</h2>
               <button className="text-sm font-bold text-orange-500 hover:underline">See All</button>
             </div>
-            <PhotosGrid userId={currentUser.id} limit={9} />
+            <PhotosGrid 
+              userId={currentUser.id} 
+              limit={9} 
+              onPhotoClick={(post) => setSelectedPost(post)}
+            />
           </div>
         </div>
 
@@ -138,6 +144,15 @@ const Profile: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Photo Modal */}
+      {selectedPost && (
+        <PostModal 
+          post={selectedPost} 
+          isOpen={!!selectedPost}
+          onClose={() => setSelectedPost(null)}
+        />
+      )}
     </div>
   );
 };

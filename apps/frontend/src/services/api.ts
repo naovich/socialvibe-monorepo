@@ -201,6 +201,39 @@ export const likesAPI = {
   },
 };
 
+// ========== FRIENDSHIPS ==========
+export const friendshipsAPI = {
+  getFriends: async () => {
+    const response = await api.get('/friendships/friends');
+    return response.data;
+  },
+
+  getPendingRequests: async () => {
+    const response = await api.get('/friendships/pending');
+    return response.data;
+  },
+
+  sendRequest: async (friendId: string) => {
+    const response = await api.post(`/friendships/request/${friendId}`);
+    return response.data;
+  },
+
+  acceptRequest: async (friendshipId: string) => {
+    const response = await api.post(`/friendships/accept/${friendshipId}`);
+    return response.data;
+  },
+
+  rejectRequest: async (friendshipId: string) => {
+    const response = await api.delete(`/friendships/reject/${friendshipId}`);
+    return response.data;
+  },
+
+  removeFriend: async (friendId: string) => {
+    const response = await api.delete(`/friendships/remove/${friendId}`);
+    return response.data;
+  },
+};
+
 // ========== UPLOAD ==========
 export const uploadAPI = {
   uploadImage: async (file: File) => {

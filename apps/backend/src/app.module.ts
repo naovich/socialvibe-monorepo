@@ -8,6 +8,8 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { AuthModule } from "./auth/auth.module";
 import { UploadModule } from "./upload/upload.module";
 import { EventsModule } from "./events/events.module";
+import { FriendshipsModule } from "./friendships/friendships.module";
+import { StoriesModule } from "./stories/stories.module";
 import { ConfigModule } from "@nestjs/config";
 
 @Module({
@@ -20,6 +22,8 @@ import { ConfigModule } from "@nestjs/config";
     CommentsModule,
     UploadModule,
     EventsModule,
+    FriendshipsModule,
+    StoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
