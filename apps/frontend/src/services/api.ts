@@ -136,6 +136,11 @@ export const usersAPI = {
     const response = await api.get('/users/me');
     return response.data;
   },
+
+  updateMe: async (data: { name?: string; bio?: string; avatar?: string; coverImage?: string }) => {
+    const response = await api.patch('/users/me', data);
+    return response.data;
+  },
 };
 
 // ========== POSTS ==========
@@ -230,6 +235,29 @@ export const friendshipsAPI = {
 
   removeFriend: async (friendId: string) => {
     const response = await api.delete(`/friendships/remove/${friendId}`);
+    return response.data;
+  },
+};
+
+// ========== STORIES ==========
+export const storiesAPI = {
+  getActive: async () => {
+    const response = await api.get('/stories');
+    return response.data;
+  },
+
+  getUserStories: async (userId: string) => {
+    const response = await api.get(`/stories/user/${userId}`);
+    return response.data;
+  },
+
+  create: async (data: { image?: string; video?: string }) => {
+    const response = await api.post('/stories', data);
+    return response.data;
+  },
+
+  delete: async (storyId: string) => {
+    const response = await api.delete(`/stories/${storyId}`);
     return response.data;
   },
 };

@@ -5,7 +5,7 @@ import App from '../App';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const { currentUser, fetchCurrentUser, fetchPosts, connectWebSocket } = useSocialStore();
+  const { currentUser, fetchCurrentUser, fetchPosts, fetchStories, connectWebSocket } = useSocialStore();
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
@@ -23,8 +23,11 @@ const Home: React.FC = () => {
           await fetchCurrentUser();
         }
         
-        // Load posts
-        await fetchPosts();
+        // Load posts and stories
+        await Promise.all([
+          fetchPosts(),
+          fetchStories(),
+        ]);
         
         // Connect WebSocket
         connectWebSocket();
@@ -38,7 +41,7 @@ const Home: React.FC = () => {
     };
 
     initializeApp();
-  }, [currentUser, fetchCurrentUser, fetchPosts, connectWebSocket, navigate]);
+  }, [currentUser, fetchCurrentUser, fetchPosts, fetchStories, connectWebSocket, navigate]);
 
   if (loading) {
     return (

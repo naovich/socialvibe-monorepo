@@ -4,12 +4,14 @@ import { useSocialStore } from '../../store';
 import PostCard from '../feed/PostCard';
 import PhotosGrid from '../../features/profile/components/PhotosGrid';
 import PostModal from '../feed/PostModal';
+import EditProfileModal from './EditProfileModal';
 import type { Post } from '../../types';
 
 const Profile: React.FC = () => {
   const { currentUser, fetchUserPosts } = useSocialStore();
   const [userPosts, setUserPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -66,7 +68,10 @@ const Profile: React.FC = () => {
             </div>
 
             <div className="flex gap-2">
-              <button className="flex items-center gap-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-orange-600/20">
+              <button 
+                onClick={() => setIsEditModalOpen(true)}
+                className="flex items-center gap-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-orange-600/20"
+              >
                 <Edit3 size={18} />
                 Edit Profile
               </button>
@@ -153,6 +158,12 @@ const Profile: React.FC = () => {
           onClose={() => setSelectedPost(null)}
         />
       )}
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+      />
     </div>
   );
 };

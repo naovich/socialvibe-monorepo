@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Post, User, Story, Notification } from './types';
-import { postsAPI, likesAPI, commentsAPI, usersAPI } from './services/api';
+import { postsAPI, likesAPI, commentsAPI, usersAPI, storiesAPI } from './services/api';
 import { socketService } from './services/socket';
 
 interface SocialStore {
@@ -19,6 +19,7 @@ interface SocialStore {
   setCurrentUser: (user: User) => void;
   fetchPosts: () => Promise<void>;
   fetchUserPosts: (userId: string) => Promise<Post[]>;
+  fetchStories: () => Promise<void>;
   toggleLike: (postId: string) => Promise<void>;
   addComment: (postId: string, text: string) => Promise<void>;
   addPost: (post: Omit<Post, 'id' | 'likes' | 'comments' | 'isLiked' | 'createdAt'>) => Promise<void>;
@@ -116,6 +117,27 @@ export const useSocialStore = create<SocialStore>()(
         } catch (error) {
           const message = error instanceof Error ? error.message : 'An error occurred';
           set({ error: message, isLoading: false });
+        }
+      },
+
+      fetchStories: async () => {
+        try {
+          const data = await storiesAPI.getActive();
+          // Map backend response to frontend Story type
+          const mappedStories = data.flatMap((group: any) => 
+            group.stories.map((story: any) => ({
+              id: story.id,
+              user: {
+                name: group.user.name,
+                avatar: group.user.avatar,
+              },
+              image: story.image,
+              viewed: false, // TODO: Track viewed stories
+            }))
+          );
+          set({ stories: mappedStories });
+        } catch (error) {
+          console.error('Failed to fetch stories:', error);
         }
       },
 
