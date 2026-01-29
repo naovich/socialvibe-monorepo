@@ -18,6 +18,11 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
+  @Post('refresh')
+  async refresh(@Body('refresh_token') refreshToken: string) {
+    return this.authService.refresh(refreshToken);
+  }
+
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async getProfile(@Request() req) {

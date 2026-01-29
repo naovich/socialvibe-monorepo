@@ -36,13 +36,22 @@ export const useSocialStore = create<SocialStore>()(
       fetchPosts: async () => {
         set({ isLoading: true });
         try {
-          const posts = await postsAPI.getAll().catch(() => {
-            return mockPosts.posts;
-          });
-          set({ posts, isLoading: false });
+          const posts = await postsAPI.getAll();
+          // Map backend response to frontend types (ensure isLiked exists)
+          const mappedPosts = posts.map((post: any) => ({
+            id: post.id,
+            author: post.author,
+            caption: post.caption,
+            image: post.image,
+            likes: post._count?.likes || 0,
+            comments: post.comments || [],
+            isLiked: post.isLiked || false,
+            createdAt: post.createdAt,
+          }));
+          set({ posts: mappedPosts, isLoading: false });
         } catch (error) {
           const message = error instanceof Error ? error.message : 'An error occurred';
-          set({ error: message, isLoading: false });
+          set({ error: message, isLoading: false, posts: mockPosts.posts });
         }
       },
 

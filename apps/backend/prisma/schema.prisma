@@ -31,6 +31,8 @@ model User {
 
   notifications     Notification[] @relation("ReceivedNotifications")
   sentNotifications Notification[] @relation("SentNotifications")
+
+  refreshTokens RefreshToken[]
 }
 
 model Post {
@@ -115,4 +117,14 @@ enum NotificationType {
   LIKE
   COMMENT
   FRIEND_REQUEST
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }

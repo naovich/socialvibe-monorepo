@@ -50,12 +50,13 @@ export class AuthService {
       },
     });
 
-    // Generate JWT token
-    const token = this.generateToken(user.id);
+    // Generate tokens
+    const tokens = await this.generateTokens(user.id);
 
     return {
       user,
-      token,
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
     };
   }
 
@@ -78,8 +79,8 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Generate JWT token
-    const token = this.generateToken(user.id);
+    // Generate tokens
+    const tokens = await this.generateTokens(user.id);
 
     return {
       user: {
@@ -90,7 +91,8 @@ export class AuthService {
         avatar: user.avatar,
         createdAt: user.createdAt,
       },
-      token,
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
     };
   }
 
@@ -114,8 +116,53 @@ export class AuthService {
     return user;
   }
 
-  private generateToken(userId: string): string {
+  async refresh(refreshToken: string) {
+    // Verify refresh token exists in DB
+    const storedToken = await this.prisma.refreshToken.findUnique({
+      where: { token: refreshToken },
+      include: { user: true },
+    });
+
+    if (!storedToken) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    // Check if token is expired
+    if (new Date() > storedToken.expiresAt) {
+      await this.prisma.refreshToken.delete({ where: { id: storedToken.id } });
+      throw new UnauthorizedException('Refresh token expired');
+    }
+
+    // Generate new tokens
+    const tokens = await this.generateTokens(storedToken.userId);
+
+    // Delete old refresh token
+    await this.prisma.refreshToken.delete({ where: { id: storedToken.id } });
+
+    return tokens;
+  }
+
+  private async generateTokens(userId: string) {
     const payload = { sub: userId };
-    return this.jwtService.sign(payload);
+
+    // Generate access token (15 minutes)
+    const access_token = this.jwtService.sign(payload, { expiresIn: '15m' });
+
+    // Generate refresh token (7 days)
+    const refresh_token = this.jwtService.sign(payload, { expiresIn: '7d' });
+
+    // Store refresh token in DB
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
+
+    await this.prisma.refreshToken.create({
+      data: {
+        token: refresh_token,
+        userId,
+        expiresAt,
+      },
+    });
+
+    return { access_token, refresh_token };
   }
 }
