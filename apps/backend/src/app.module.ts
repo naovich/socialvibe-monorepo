@@ -10,6 +10,7 @@ import { UploadModule } from "./upload/upload.module";
 import { EventsModule } from "./events/events.module";
 import { FriendshipsModule } from "./friendships/friendships.module";
 import { StoriesModule } from "./stories/stories.module";
+import { SearchModule } from "./search/search.module";
 import { ConfigModule } from "@nestjs/config";
 
 @Module({
@@ -24,6 +25,7 @@ import { ConfigModule } from "@nestjs/config";
     EventsModule,
     FriendshipsModule,
     StoriesModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService],

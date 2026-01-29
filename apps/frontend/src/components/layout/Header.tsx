@@ -139,7 +139,10 @@ const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
                       <User size={18} className="text-text-secondary" />
                       <span className="text-sm font-medium text-text-primary">View Profile</span>
                     </button>
-                    <button className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-white/5 transition-all text-left">
+                    <button 
+                      onClick={() => navigate('/settings')}
+                      className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-white/5 transition-all text-left"
+                    >
                       <Settings size={18} className="text-text-secondary" />
                       <span className="text-sm font-medium text-text-primary">Settings</span>
                     </button>

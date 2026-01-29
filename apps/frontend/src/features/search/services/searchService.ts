@@ -1,41 +1,19 @@
 import type { SearchResult } from '../types/search.types';
+import { searchAPI } from '../../../services/api';
 
 const RECENT_SEARCHES_KEY = 'socialvibe_recent_searches';
 const MAX_RECENT = 5;
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Mock data
-const mockUsers = [
-  { id: '1', name: 'Sarah Wilson', username: 'sarah_w', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah' },
-  { id: '2', name: 'Alex Thompson', username: 'alex_t', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex' },
-  { id: '3', name: 'Emma Johnson', username: 'emma_j', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emma' },
-  { id: '4', name: 'Michael Chen', username: 'michael_c', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Michael' },
-];
-
-const mockHashtags = [
-  { tag: 'travel', count: 1234 },
-  { tag: 'photography', count: 987 },
-  { tag: 'coding', count: 756 },
-  { tag: 'fitness', count: 543 },
-];
-
 class SearchService {
   async search(query: string): Promise<SearchResult[]> {
-    await delay(300);
+    if (!query.trim() || query.length < 2) return [];
 
-    if (!query.trim()) return [];
+    try {
+      const { users, posts } = await searchAPI.search(query);
+      const results: SearchResult[] = [];
 
-    const lowerQuery = query.toLowerCase();
-    const results: SearchResult[] = [];
-
-    // Search users
-    mockUsers
-      .filter(u => 
-        u.name.toLowerCase().includes(lowerQuery) || 
-        u.username.toLowerCase().includes(lowerQuery)
-      )
-      .forEach(user => {
+      // Add users
+      users.forEach((user: any) => {
         results.push({
           id: user.id,
           type: 'user',
@@ -45,19 +23,21 @@ class SearchService {
         });
       });
 
-    // Search hashtags
-    mockHashtags
-      .filter(h => h.tag.toLowerCase().includes(lowerQuery))
-      .forEach(hashtag => {
+      // Add posts count as hashtag result
+      if (posts.length > 0) {
         results.push({
-          id: hashtag.tag,
+          id: `posts-${query}`,
           type: 'hashtag',
-          title: `#${hashtag.tag}`,
-          subtitle: `${hashtag.count} posts`,
+          title: `#${query}`,
+          subtitle: `${posts.length} post${posts.length > 1 ? 's' : ''}`,
         });
-      });
+      }
 
-    return results.slice(0, 10);
+      return results.slice(0, 10);
+    } catch (error) {
+      console.error('Search failed:', error);
+      return [];
+    }
   }
 
   getRecentSearches(): string[] {

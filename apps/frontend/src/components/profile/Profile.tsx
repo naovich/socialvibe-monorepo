@@ -153,7 +153,6 @@ const Profile: React.FC = () => {
       {/* Photo Modal */}
       {selectedPost && (
         <PostModal 
-          post={selectedPost} 
           isOpen={!!selectedPost}
           onClose={() => setSelectedPost(null)}
         />

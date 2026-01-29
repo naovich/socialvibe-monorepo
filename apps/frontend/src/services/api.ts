@@ -262,6 +262,14 @@ export const storiesAPI = {
   },
 };
 
+// ========== SEARCH ==========
+export const searchAPI = {
+  search: async (query: string) => {
+    const response = await api.get(`/search?q=${encodeURIComponent(query)}`);
+    return response.data;
+  },
+};
+
 // ========== UPLOAD ==========
 export const uploadAPI = {
   uploadImage: async (file: File) => {
