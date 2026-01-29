@@ -14,10 +14,16 @@ import { SearchModule } from "./search/search.module";
 import { MessagesModule } from "./messages/messages.module";
 import { GroupsModule } from "./groups/groups.module";
 import { ConfigModule } from "@nestjs/config";
+import { ThrottlerModule, ThrottlerGuard } from "@nestjs/throttler";
+import { APP_GUARD } from "@nestjs/core";
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ThrottlerModule.forRoot([{
+      ttl: 60000, // 1 minute
+      limit: 100, // 100 requests per minute
+    }]),
     PrismaModule,
     AuthModule,
     UsersModule,
@@ -32,6 +38,12 @@ import { ConfigModule } from "@nestjs/config";
     GroupsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

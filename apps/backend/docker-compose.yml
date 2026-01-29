@@ -1,12 +1,14 @@
+version: '3.8'
+
 services:
-  db:
+  postgres:
     image: postgres:15-alpine
-    container_name: socialvibe-db
+    container_name: socialvibe-postgres
     restart: always
     environment:
+      POSTGRES_DB: socialvibe
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: socialvibe
     ports:
       - "5432:5432"
     volumes:

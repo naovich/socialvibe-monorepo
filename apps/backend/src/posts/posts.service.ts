@@ -88,11 +88,13 @@ export class PostsService {
     ]);
 
     // Add isLiked field
-    const postsWithLiked = posts.map((post) => ({
-      ...post,
-      isLiked: Array.isArray(post.likes) ? post.likes.length > 0 : false,
-      likes: undefined, // Remove likes array, only keep count
-    }));
+    const postsWithLiked = posts.map((post) => {
+      const { likes, ...postWithoutLikes } = post;
+      return {
+        ...postWithoutLikes,
+        isLiked: Array.isArray(likes) ? likes.length > 0 : false,
+      };
+    });
 
     return {
       posts: postsWithLiked,
