@@ -82,6 +82,16 @@ const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
               <HeaderAction icon={<MessageSquare size={22} />} label="Messages" />
 
               {/* Notifications */}
+              {/* Messages */}
+              <div className="relative">
+                <HeaderAction
+                  icon={<MessageSquare size={22} />}
+                  onClick={() => navigate('/messages')}
+                  label="Messages"
+                />
+              </div>
+
+              {/* Notifications */}
               <div className="relative">
                 <HeaderAction
                   icon={<Bell size={22} />}

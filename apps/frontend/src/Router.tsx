@@ -5,6 +5,8 @@ import Register from './pages/Register';
 import Home from './pages/Home';
 import Settings from './pages/Settings';
 import UserProfile from './pages/UserProfile';
+import Messages from './pages/Messages';
+import Chat from './pages/Chat';
 
 const Router: React.FC = () => {
   return (
@@ -15,6 +17,8 @@ const Router: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/user/:userId" element={<UserProfile />} />
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/chat/:conversationId" element={<Chat />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

@@ -58,6 +58,9 @@ class SocketService {
     // Friends
     this.socket.on('friend:request', (data) => this.emit('friend:request', data));
     this.socket.on('friend:accepted', (data) => this.emit('friend:accepted', data));
+
+    // Messages
+    this.socket.on('message:new', (data) => this.emit('message:new', data));
   }
 
   on(event: string, callback: Function) {
