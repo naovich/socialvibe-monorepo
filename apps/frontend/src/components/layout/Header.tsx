@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Bell, MessageSquare, Menu, LayoutGrid, Plus } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Bell, MessageSquare, Menu, LayoutGrid, Plus, LogOut, User, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useSocialStore } from '../../store';
 import SearchBar from '../../features/search/components/SearchBar';
 import NotificationCenter from './NotificationCenter';
@@ -10,9 +11,33 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
-  const { currentUser, notifications } = useSocialStore();
+  const navigate = useNavigate();
+  const { currentUser, notifications, logout } = useSocialStore();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const unreadCount = notifications.filter((n) => !n.read).length;
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  if (!currentUser) {
+    return null;
+  }
 
   return (
     <>
@@ -74,18 +99,63 @@ const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
             <div className="h-8 w-[1px] bg-border-primary mx-1 md:mx-2 hidden sm:block" />
 
             {/* User Profile */}
-            <div className="flex items-center gap-3 pl-1 md:pl-2 p-1 rounded-full hover:bg-white/5 cursor-pointer transition-all group">
-              <div className="relative">
-                <img
-                  src={currentUser.avatar}
-                  alt={currentUser.name}
-                  className="w-9 h-9 rounded-full border-2 border-transparent group-hover:border-primary transition-all"
-                />
-                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-bg-primary rounded-full"></div>
+            <div className="relative" ref={userMenuRef}>
+              <div
+                className="flex items-center gap-3 pl-1 md:pl-2 p-1 rounded-full hover:bg-white/5 cursor-pointer transition-all group"
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              >
+                <div className="relative">
+                  <img
+                    src={currentUser.avatar}
+                    alt={currentUser.name}
+                    className="w-9 h-9 rounded-full border-2 border-transparent group-hover:border-primary transition-all"
+                  />
+                  <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-bg-primary rounded-full"></div>
+                </div>
+                <span className="hidden lg:block font-semibold text-sm text-text-secondary group-hover:text-text-primary transition-colors mr-2">
+                  {currentUser.name.split(' ')[0]}
+                </span>
               </div>
-              <span className="hidden lg:block font-semibold text-sm text-text-secondary group-hover:text-text-primary transition-colors mr-2">
-                {currentUser.name.split(' ')[0]}
-              </span>
+
+              {/* User Menu Dropdown */}
+              {isUserMenuOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-bg-secondary border border-border-primary rounded-2xl shadow-2xl overflow-hidden z-[200]">
+                  <div className="p-4 border-b border-border-primary">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={currentUser.avatar}
+                        alt={currentUser.name}
+                        className="w-12 h-12 rounded-full"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-text-primary truncate">{currentUser.name}</p>
+                        <p className="text-sm text-text-secondary truncate">@{currentUser.username}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="py-2">
+                    <button className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-white/5 transition-all text-left">
+                      <User size={18} className="text-text-secondary" />
+                      <span className="text-sm font-medium text-text-primary">View Profile</span>
+                    </button>
+                    <button className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-white/5 transition-all text-left">
+                      <Settings size={18} className="text-text-secondary" />
+                      <span className="text-sm font-medium text-text-primary">Settings</span>
+                    </button>
+                  </div>
+
+                  <div className="border-t border-border-primary py-2">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-red-500/10 transition-all text-left group"
+                    >
+                      <LogOut size={18} className="text-text-secondary group-hover:text-red-500" />
+                      <span className="text-sm font-medium text-text-primary group-hover:text-red-500">Logout</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

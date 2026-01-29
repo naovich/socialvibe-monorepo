@@ -10,6 +10,7 @@ interface PostModalProps {
 
 const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   const { currentUser, addPost } = useSocialStore();
+  if (!currentUser) return null;
   const [content, setContent] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showMoodPicker, setShowMoodPicker] = useState(false);

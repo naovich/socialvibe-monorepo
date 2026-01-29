@@ -164,6 +164,11 @@ export const postsAPI = {
   delete: async (id: string) => {
     await api.delete(`/posts/${id}`);
   },
+
+  getUserPosts: async (userId: string, page = 1, limit = 20) => {
+    const response = await api.get(`/posts/user/${userId}?page=${page}&limit=${limit}`);
+    return response.data.posts || response.data;
+  },
 };
 
 // ========== COMMENTS ==========

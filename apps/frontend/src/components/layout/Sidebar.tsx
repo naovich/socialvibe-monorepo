@@ -33,6 +33,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ currentView = 'home', onNavigate }) => {
   const { currentUser } = useSocialStore();
+  if (!currentUser) return null;
 
   const handleNavigation = (view: string) => {
     if (onNavigate) {

@@ -1,12 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Post, User, Story, Notification } from './types';
-import { postsAPI, likesAPI, commentsAPI } from './services/api';
-import { mockUsers, mockPosts, mockStories, mockNotifications } from './mock';
+import { postsAPI, likesAPI, commentsAPI, usersAPI } from './services/api';
 import { socketService } from './services/socket';
 
 interface SocialStore {
-  currentUser: User;
+  currentUser: User | null;
   posts: Post[];
   stories: Story[];
   notifications: Notification[];
@@ -16,7 +15,10 @@ interface SocialStore {
   onlineUsers: string[];
 
   // Actions
+  fetchCurrentUser: () => Promise<void>;
+  setCurrentUser: (user: User) => void;
   fetchPosts: () => Promise<void>;
+  fetchUserPosts: (userId: string) => Promise<Post[]>;
   toggleLike: (postId: string) => Promise<void>;
   addComment: (postId: string, text: string) => Promise<void>;
   addPost: (post: Omit<Post, 'id' | 'likes' | 'comments' | 'isLiked' | 'createdAt'>) => Promise<void>;
@@ -24,28 +26,85 @@ interface SocialStore {
   setTheme: (theme: 'dark' | 'light') => void;
   connectWebSocket: () => void;
   disconnectWebSocket: () => void;
+  logout: () => void;
 }
 
 export const useSocialStore = create<SocialStore>()(
   persist(
     (set, get) => ({
-      currentUser: mockUsers.me,
-      posts: mockPosts.posts,
-      stories: mockStories.stories,
-      notifications: mockNotifications.notifications,
+      currentUser: null,
+      posts: [],
+      stories: [],
+      notifications: [],
       isLoading: false,
       error: null,
       theme: 'dark',
       onlineUsers: [],
 
+      fetchCurrentUser: async () => {
+        try {
+          const user = await usersAPI.getCurrent();
+          set({ 
+            currentUser: {
+              id: user.id,
+              name: user.name,
+              username: user.username,
+              avatar: user.avatar,
+              coverImage: user.coverImage,
+              bio: user.bio,
+              friendsCount: user._count?.friends || 0,
+              postsCount: user._count?.posts || 0,
+            }
+          });
+        } catch (error) {
+          console.error('Failed to fetch current user:', error);
+        }
+      },
+
+      setCurrentUser: (user: User) => {
+        set({ currentUser: user });
+      },
+
+      fetchUserPosts: async (userId: string) => {
+        try {
+          const posts = await postsAPI.getUserPosts(userId);
+          const mappedPosts = posts.map((post: any) => ({
+            id: post.id,
+            userId: post.authorId,
+            user: {
+              id: post.author.id,
+              name: post.author.name,
+              username: post.author.username,
+              avatar: post.author.avatar,
+            },
+            caption: post.caption,
+            image: post.image,
+            likes: post._count?.likes || 0,
+            comments: post.comments || [],
+            isLiked: post.isLiked || false,
+            createdAt: post.createdAt,
+          }));
+          return mappedPosts;
+        } catch (error) {
+          console.error('Failed to fetch user posts:', error);
+          return [];
+        }
+      },
+
       fetchPosts: async () => {
         set({ isLoading: true });
         try {
           const posts = await postsAPI.getAll();
-          // Map backend response to frontend types (ensure isLiked exists)
+          // Map backend response to frontend types
           const mappedPosts = posts.map((post: any) => ({
             id: post.id,
-            author: post.author,
+            userId: post.authorId,
+            user: {
+              id: post.author.id,
+              name: post.author.name,
+              username: post.author.username,
+              avatar: post.author.avatar,
+            },
             caption: post.caption,
             image: post.image,
             likes: post._count?.likes || 0,
@@ -56,7 +115,7 @@ export const useSocialStore = create<SocialStore>()(
           set({ posts: mappedPosts, isLoading: false });
         } catch (error) {
           const message = error instanceof Error ? error.message : 'An error occurred';
-          set({ error: message, isLoading: false, posts: mockPosts.posts });
+          set({ error: message, isLoading: false });
         }
       },
 
@@ -95,24 +154,27 @@ export const useSocialStore = create<SocialStore>()(
       addPost: async (postData) => {
         try {
           const newPost = await postsAPI.create(postData);
+          const mappedPost = {
+            id: newPost.id,
+            userId: newPost.authorId,
+            user: {
+              id: newPost.author.id,
+              name: newPost.author.name,
+              username: newPost.author.username,
+              avatar: newPost.author.avatar,
+            },
+            caption: newPost.caption,
+            image: newPost.image,
+            likes: newPost._count?.likes || 0,
+            comments: [],
+            isLiked: false,
+            createdAt: newPost.createdAt,
+          };
           set((state) => ({
-            posts: [newPost, ...state.posts],
+            posts: [mappedPost, ...state.posts],
           }));
-        } catch {
-          // Fallback for demo
-          set((state) => ({
-            posts: [
-              {
-                ...postData,
-                id: Date.now().toString(),
-                likes: 0,
-                comments: [],
-                isLiked: false,
-                createdAt: new Date().toISOString(),
-              },
-              ...state.posts,
-            ],
-          }));
+        } catch (error) {
+          console.error('Failed to create post:', error);
         }
       },
 
@@ -203,6 +265,18 @@ export const useSocialStore = create<SocialStore>()(
       disconnectWebSocket: () => {
         socketService.disconnect();
         set({ onlineUsers: [] });
+      },
+
+      logout: () => {
+        socketService.disconnect();
+        localStorage.clear();
+        set({
+          currentUser: null,
+          posts: [],
+          stories: [],
+          notifications: [],
+          onlineUsers: [],
+        });
       },
     }),
     {

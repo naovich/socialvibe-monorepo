@@ -11,6 +11,7 @@ interface CreatePostModalProps {
 
 const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) => {
   const { currentUser } = useSocialStore();
+  if (!currentUser) return null;
   const { createPost } = useFeed();
   const [caption, setCaption] = useState('');
   const [location, setLocation] = useState('');

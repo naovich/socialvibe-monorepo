@@ -5,6 +5,7 @@ import { useSocialStore } from '../../store';
 
 const Stories: React.FC = () => {
   const { stories, currentUser } = useSocialStore();
+  if (!currentUser) return null;
 
   return (
     <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-6">

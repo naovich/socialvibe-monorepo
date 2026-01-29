@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Camera, Edit3, MoreHorizontal } from 'lucide-react';
 import { useSocialStore } from '../../store';
 import PostCard from '../feed/PostCard';
+import PhotosGrid from '../../features/profile/components/PhotosGrid';
+import type { Post } from '../../types';
 
 const Profile: React.FC = () => {
-  const { currentUser, posts } = useSocialStore();
-  const userPosts = posts.filter(p => p.userId === currentUser.id);
+  const { currentUser, fetchUserPosts } = useSocialStore();
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      if (currentUser) {
+        const posts = await fetchUserPosts(currentUser.id);
+        setUserPosts(posts);
+      }
+    };
+    loadPosts();
+  }, [currentUser, fetchUserPosts]);
+
+  if (!currentUser) {
+    return <div className="text-center py-8 text-white">Loading...</div>;
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -39,7 +55,7 @@ const Profile: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between w-full gap-6">
             <div className="text-center md:text-left">
               <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">{currentUser.name}</h1>
-              <p className="text-gray-400 font-medium mt-1">1.2K Friends • 42 Posts</p>
+              <p className="text-gray-400 font-medium mt-1">{currentUser.friendsCount} Friends • {currentUser.postsCount} Posts</p>
               <div className="flex -space-x-2 mt-3 justify-center md:justify-start">
                 {[1,2,3,4,5].map(i => (
                   <img key={i} src={`https://api.dicebear.com/7.x/avataaars/svg?seed=Friend${i}`} className="w-8 h-8 rounded-full border-2 border-[#1a1a1a]" />
@@ -80,9 +96,11 @@ const Profile: React.FC = () => {
         <div className="md:col-span-2 flex flex-col gap-6">
           <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-6 shadow-xl">
             <h2 className="text-xl font-black text-white mb-4">Intro</h2>
-            <p className="text-gray-300 text-sm leading-relaxed text-center mb-6 px-4 italic">
-              "Building the future of social networking, one line of code at a time. 🚀"
-            </p>
+            {currentUser.bio && (
+              <p className="text-gray-300 text-sm leading-relaxed text-center mb-6 px-4 italic">
+                "{currentUser.bio}"
+              </p>
+            )}
             <button className="w-full py-2 bg-white/5 hover:bg-white/10 rounded-xl text-sm font-bold text-gray-300 transition-all mb-6">
               Edit Bio
             </button>
@@ -107,11 +125,7 @@ const Profile: React.FC = () => {
               <h2 className="text-xl font-black text-white">Photos</h2>
               <button className="text-sm font-bold text-orange-500 hover:underline">See All</button>
             </div>
-            <div className="grid grid-cols-3 gap-2 rounded-2xl overflow-hidden">
-              {[1,2,3,4,5,6,7,8,9].map(i => (
-                <img key={i} src={`https://images.unsplash.com/photo-${1500000000000 + i * 100000}?w=200`} className="aspect-square object-cover hover:opacity-80 cursor-pointer transition-opacity" />
-              ))}
-            </div>
+            <PhotosGrid userId={currentUser.id} limit={9} />
           </div>
         </div>
 
