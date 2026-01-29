@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bell, MessageSquare, Menu, LayoutGrid, Plus, LogOut, User, Settings } from 'lucide-react';
+import { Bell, MessageSquare, Users, Menu, LayoutGrid, Plus, LogOut, User, Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useSocialStore } from '../../store';
 import SearchBar from '../../features/search/components/SearchBar';
@@ -82,6 +82,15 @@ const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
               <HeaderAction icon={<MessageSquare size={22} />} label="Messages" />
 
               {/* Notifications */}
+              {/* Groups */}
+              <div className="relative">
+                <HeaderAction
+                  icon={<Users size={22} />}
+                  onClick={() => navigate('/groups')}
+                  label="Groups"
+                />
+              </div>
+
               {/* Messages */}
               <div className="relative">
                 <HeaderAction

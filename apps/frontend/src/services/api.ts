@@ -298,6 +298,54 @@ export const messagesAPI = {
   },
 };
 
+// ========== GROUPS ==========
+export const groupsAPI = {
+  getAll: async () => {
+    const response = await api.get('/groups');
+    return response.data;
+  },
+
+  getById: async (id: string) => {
+    const response = await api.get(`/groups/${id}`);
+    return response.data;
+  },
+
+  getMembers: async (id: string) => {
+    const response = await api.get(`/groups/${id}/members`);
+    return response.data;
+  },
+
+  getPosts: async (id: string) => {
+    const response = await api.get(`/groups/${id}/posts`);
+    return response.data;
+  },
+
+  create: async (data: { name: string; description?: string; avatar?: string; coverImage?: string; isPrivate?: boolean }) => {
+    const response = await api.post('/groups', data);
+    return response.data;
+  },
+
+  join: async (id: string) => {
+    const response = await api.post(`/groups/${id}/join`);
+    return response.data;
+  },
+
+  leave: async (id: string) => {
+    const response = await api.post(`/groups/${id}/leave`);
+    return response.data;
+  },
+
+  update: async (id: string, data: any) => {
+    const response = await api.put(`/groups/${id}`, data);
+    return response.data;
+  },
+
+  delete: async (id: string) => {
+    const response = await api.delete(`/groups/${id}`);
+    return response.data;
+  },
+};
+
 // ========== UPLOAD ==========
 export const uploadAPI = {
   uploadImage: async (file: File) => {

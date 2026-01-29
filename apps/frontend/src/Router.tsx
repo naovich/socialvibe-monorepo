@@ -7,6 +7,8 @@ import Settings from './pages/Settings';
 import UserProfile from './pages/UserProfile';
 import Messages from './pages/Messages';
 import Chat from './pages/Chat';
+import Groups from './pages/Groups';
+import Group from './pages/Group';
 
 const Router: React.FC = () => {
   return (
@@ -19,6 +21,8 @@ const Router: React.FC = () => {
         <Route path="/user/:userId" element={<UserProfile />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/chat/:conversationId" element={<Chat />} />
+        <Route path="/groups" element={<Groups />} />
+        <Route path="/group/:groupId" element={<Group />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
