@@ -5,6 +5,7 @@ import PostCard from '../feed/PostCard';
 import PhotosGrid from '../../features/profile/components/PhotosGrid';
 import PostModal from '../feed/PostModal';
 import EditProfileModal from './EditProfileModal';
+import ImageViewer from '../ui/ImageViewer';
 import type { Post } from '../../types';
 
 const Profile: React.FC = () => {
@@ -12,6 +13,7 @@ const Profile: React.FC = () => {
   const [userPosts, setUserPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [viewingImage, setViewingImage] = useState<string | null>(null);
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -34,10 +36,11 @@ const Profile: React.FC = () => {
         <div className="h-64 md:h-80 relative group">
           <img 
             src={currentUser.coverImage || 'https://images.unsplash.com/photo-1557683316-973673baf926?w=1200'} 
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+            onClick={() => setViewingImage(currentUser.coverImage || 'https://images.unsplash.com/photo-1557683316-973673baf926?w=1200')}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 cursor-pointer" 
           />
           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-          <button className="absolute bottom-4 right-4 flex items-center gap-2 px-4 py-2 bg-black/60 hover:bg-black/80 backdrop-blur-md rounded-xl text-sm font-bold text-white transition-all border border-white/10 shadow-xl">
+          <button className="absolute bottom-4 right-4 flex items-center gap-2 px-4 py-2 bg-black/60 hover:bg-black/80 backdrop-blur-md rounded-xl text-sm font-bold text-white transition-all border border-white/10 shadow-xl z-10">
             <Camera size={18} />
             <span className="hidden md:inline">Edit Cover Photo</span>
           </button>
@@ -48,10 +51,11 @@ const Profile: React.FC = () => {
             <div className="p-1.5 bg-[#1a1a1a] rounded-full">
               <img 
                 src={currentUser.avatar} 
-                className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-[#1a1a1a] object-cover bg-[#050505]" 
+                onClick={() => setViewingImage(currentUser.avatar)}
+                className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-[#1a1a1a] object-cover bg-[#050505] cursor-pointer hover:opacity-90 transition-opacity" 
               />
             </div>
-            <button className="absolute bottom-4 right-4 p-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full text-white transition-all border border-white/10">
+            <button className="absolute bottom-4 right-4 p-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full text-white transition-all border border-white/10 z-10">
               <Camera size={20} />
             </button>
           </div>
@@ -162,6 +166,13 @@ const Profile: React.FC = () => {
       <EditProfileModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
+      />
+
+      {/* Image Viewer (Cover/Avatar) */}
+      <ImageViewer
+        isOpen={!!viewingImage}
+        imageUrl={viewingImage || ''}
+        onClose={() => setViewingImage(null)}
       />
     </div>
   );

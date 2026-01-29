@@ -6,6 +6,7 @@ import { usersAPI, friendshipsAPI } from '../services/api';
 import PostCard from '../components/feed/PostCard';
 import PhotosGrid from '../features/profile/components/PhotosGrid';
 import PostModal from '../components/feed/PostModal';
+import ImageViewer from '../components/ui/ImageViewer';
 import type { Post } from '../types';
 
 interface UserData {
@@ -29,6 +30,7 @@ const UserProfile: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isFriend, setIsFriend] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
+  const [viewingImage, setViewingImage] = useState<string | null>(null);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -124,10 +126,11 @@ const UserProfile: React.FC = () => {
           <div className="h-64 md:h-80 relative group">
             <img
               src={user.coverImage || 'https://images.unsplash.com/photo-1557683316-973673baf926?w=1200'}
-              className="w-full h-full object-cover"
+              onClick={() => setViewingImage(user.coverImage || 'https://images.unsplash.com/photo-1557683316-973673baf926?w=1200')}
+              className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
               alt="Cover"
             />
-            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute inset-0 bg-black/20 hover:bg-black/30 transition-colors" />
           </div>
 
           <div className="px-8 pb-8 flex flex-col items-center md:items-start">
@@ -135,7 +138,8 @@ const UserProfile: React.FC = () => {
               <div className="p-1.5 bg-[#1a1a1a] rounded-full">
                 <img
                   src={user.avatar}
-                  className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-[#1a1a1a] object-cover bg-[#050505]"
+                  onClick={() => setViewingImage(user.avatar)}
+                  className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-[#1a1a1a] object-cover bg-[#050505] cursor-pointer hover:opacity-90 transition-opacity"
                   alt={user.name}
                 />
               </div>
@@ -228,6 +232,13 @@ const UserProfile: React.FC = () => {
         {selectedPost && (
           <PostModal isOpen={!!selectedPost} onClose={() => setSelectedPost(null)} />
         )}
+
+        {/* Image Viewer (Cover/Avatar) */}
+        <ImageViewer
+          isOpen={!!viewingImage}
+          imageUrl={viewingImage || ''}
+          onClose={() => setViewingImage(null)}
+        />
       </div>
     </div>
   );
