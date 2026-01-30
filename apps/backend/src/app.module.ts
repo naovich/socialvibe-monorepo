@@ -24,7 +24,7 @@ import { APP_GUARD } from "@nestjs/core";
     ConfigModule.forRoot({ isGlobal: true }),
     ThrottlerModule.forRoot([{
       ttl: 60000, // 1 minute
-      limit: 100, // 100 requests per minute
+      limit: 1000, // 1000 requests per minute (increased for E2E tests)
     }]),
     LoggerModule,
     PrismaModule,
