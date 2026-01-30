@@ -42,8 +42,16 @@ export class TestHelpers {
     // Submit button
     await this.page.click('button[type="submit"]');
     
-    // Wait for redirect to home (be more flexible)
-    await this.page.waitForURL(/\/(home|feed|$|\/)/, { timeout: 15000 });
+    // Wait for redirect to home (accept /, /home, or /feed)
+    await this.page.waitForURL((url) => {
+      const path = new URL(url).pathname;
+      return path === '/' || path === '/home' || path === '/feed';
+    }, { timeout: 15000 });
+    
+    // Wait for localStorage to be populated (auth.ts sets it after API response)
+    await this.page.waitForFunction(() => {
+      return localStorage.getItem('access_token') !== null;
+    }, { timeout: 5000 });
     
     // Verify JWT tokens stored (backend returns access_token)
     const authToken = await this.page.evaluate(() => localStorage.getItem('access_token'));
@@ -63,8 +71,16 @@ export class TestHelpers {
     await this.page.fill('input[name="password"]', password);
     await this.page.click('button[type="submit"]');
     
-    // Wait for redirect (increased timeout for API calls)
-    await this.page.waitForURL(/\/(home|feed|$|\/)/, { timeout: 15000 });
+    // Wait for redirect (accept /, /home, or /feed)
+    await this.page.waitForURL((url) => {
+      const path = new URL(url).pathname;
+      return path === '/' || path === '/home' || path === '/feed';
+    }, { timeout: 15000 });
+    
+    // Wait for localStorage to be populated (auth.ts sets it after API response)
+    await this.page.waitForFunction(() => {
+      return localStorage.getItem('access_token') !== null;
+    }, { timeout: 5000 });
     
     // Verify tokens (backend returns access_token)
     const authToken = await this.page.evaluate(() => localStorage.getItem('access_token'));
@@ -82,8 +98,8 @@ export class TestHelpers {
     // Wait for redirect to login
     await this.page.waitForURL(/\/login/);
     
-    // Verify tokens cleared
-    const authToken = await this.page.evaluate(() => localStorage.getItem('auth_token'));
+    // Verify tokens cleared (use correct key: access_token)
+    const authToken = await this.page.evaluate(() => localStorage.getItem('access_token'));
     expect(authToken).toBeNull();
   }
 
