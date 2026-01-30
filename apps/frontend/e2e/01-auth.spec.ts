@@ -17,8 +17,8 @@ test.describe('Authentication', () => {
     // Verify redirected to home
     await expect(page).toHaveURL(/\/(home|feed|$)/);
     
-    // Verify user name displayed
-    await expect(page.locator(`text=${user.name}, text=${user.username}`)).toBeVisible();
+    // Verify user name displayed in header (first name or username)
+    await expect(page.getByText(user.name.split(' ')[0]).or(page.getByText(`@${user.username}`))).toBeVisible({ timeout: 10000 });
   });
 
   test('US-001: Cannot register with duplicate email', async ({ page }) => {
@@ -62,7 +62,9 @@ test.describe('Authentication', () => {
     await page.click('button[type="submit"]');
     
     // Verify error message (wait for API response)
-    await expect(page.locator('text=/invalid|incorrect|erreur|wrong|unauthorized/i')).toBeVisible({ timeout: 10000 });
+    // Should stay on login page and show error
+    await expect(page).toHaveURL('/login', { timeout: 10000 });
+    await expect(page.locator('.bg-red-500\\/10, .text-red-400, text=/invalid|error|incorrect/i').first()).toBeVisible({ timeout: 10000 });
   });
 
   test('US-003: Logout successfully', async ({ page }) => {

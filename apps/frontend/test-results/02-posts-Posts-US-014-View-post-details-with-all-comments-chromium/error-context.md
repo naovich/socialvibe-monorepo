@@ -32,14 +32,14 @@
             - generic: Notifications
           - button "Toggle theme" [ref=e44]:
             - img [ref=e45]
-        - generic [ref=e49] [cursor=pointer]:
-          - img "Test User 1769805409638" [ref=e51]
+        - generic "User menu" [ref=e49] [cursor=pointer]:
+          - img "Test User 1769805641357" [ref=e51]
           - generic [ref=e53]: Test
   - generic [ref=e54]:
     - complementary [ref=e55]:
-      - button "Test User 1769805409638 Test User 1769805409638" [ref=e56] [cursor=pointer]:
-        - img "Test User 1769805409638" [ref=e58]
-        - generic [ref=e60]: Test User 1769805409638
+      - button "Test User 1769805641357 Test User 1769805641357" [ref=e56] [cursor=pointer]:
+        - img "Test User 1769805641357" [ref=e58]
+        - generic [ref=e60]: Test User 1769805641357
       - button "Home" [ref=e61] [cursor=pointer]:
         - img [ref=e63]
         - generic [ref=e66]: Home
@@ -273,4 +273,45 @@
   - generic [ref=e403]:
     - button "Feed" [ref=e404]
     - button "Profile" [ref=e405]
+  - generic [ref=e408]:
+    - generic [ref=e409]:
+      - heading "Create Post" [level=2] [ref=e410]
+      - button [ref=e411]:
+        - img [ref=e412]
+    - generic [ref=e415]:
+      - generic [ref=e416]:
+        - img "Test User 1769805641357" [ref=e417]
+        - generic [ref=e418]:
+          - heading "Test User 1769805641357" [level=3] [ref=e419]
+          - paragraph [ref=e420]: Public
+      - textbox "What's on your mind?" [active] [ref=e421]
+      - generic [ref=e422]:
+        - paragraph [ref=e423]: How are you feeling?
+        - generic [ref=e424]:
+          - button "😊" [ref=e425]
+          - button "😂" [ref=e426]
+          - button "❤️" [ref=e427]
+          - button "🎉" [ref=e428]
+          - button "😢" [ref=e429]
+          - button "😮" [ref=e430]
+          - button "🤔" [ref=e431]
+          - button "💪" [ref=e432]
+          - button "🔥" [ref=e433]
+          - button "✨" [ref=e434]
+          - button "☕" [ref=e435]
+          - button "🚀" [ref=e436]
+      - generic [ref=e438]:
+        - img [ref=e439]
+        - textbox "Add location..." [ref=e442]
+    - generic [ref=e443]:
+      - generic [ref=e444]:
+        - paragraph [ref=e445]: Add to your post
+        - generic [ref=e446]:
+          - button [ref=e447]:
+            - img [ref=e448]
+          - button [ref=e452]:
+            - img [ref=e453]
+          - button [ref=e456]:
+            - img [ref=e457]
+      - button "Post" [disabled] [ref=e460]
 ```

@@ -94,8 +94,10 @@ export class TestHelpers {
    */
   async logout() {
     // Click profile menu or logout button
-    await this.page.click('[data-testid="user-menu"], [aria-label="User menu"]');
-    await this.page.click('text=Logout, text=Déconnexion');
+    await this.page.click('[data-testid="user-menu"]');
+    // Wait for menu to open
+    await this.page.waitForTimeout(300);
+    await this.page.getByText('Logout').click();
     
     // Wait for redirect to login
     await this.page.waitForURL(/\/login/);
