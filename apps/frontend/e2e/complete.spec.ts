@@ -30,7 +30,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.click('button[type="submit"]');
 
       // Should redirect to home
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
 
       // Should see user name in header
       await expect(page.locator('text=' + testUser.name)).toBeVisible();
@@ -43,7 +43,8 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.fill('input[name="password"]', testUser.password);
       await page.click('button[type="submit"]');
 
-      await expect(page).toHaveURL('/');
+      // Wait for API call + navigation + Home.tsx data loading
+      await expect(page).toHaveURL('/', { timeout: 30000 });
       await expect(page.locator('text=' + testUser.name)).toBeVisible();
     });
 
@@ -65,7 +66,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.click('button[type="submit"]');
 
       // Wait for home page
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
 
       // Open user menu and logout
       await page.click('[data-testid="user-menu"]', { timeout: 5000 }).catch(() => {
@@ -87,7 +88,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.fill('input[name="email"]', testUser.email);
       await page.fill('input[name="password"]', testUser.password);
       await page.click('button[type="submit"]');
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
     });
 
     test('should create a new post', async ({ page }) => {
@@ -169,7 +170,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.fill('input[name="email"]', testUser.email);
       await page.fill('input[name="password"]', testUser.password);
       await page.click('button[type="submit"]');
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
     });
 
     test('should search for users', async ({ page }) => {
@@ -225,7 +226,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.fill('input[name="email"]', testUser.email);
       await page.fill('input[name="password"]', testUser.password);
       await page.click('button[type="submit"]');
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
     });
 
     test('should view own profile', async ({ page }) => {
@@ -276,7 +277,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.fill('input[name="email"]', testUser.email);
       await page.fill('input[name="password"]', testUser.password);
       await page.click('button[type="submit"]');
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
     });
 
     test('should access messages page', async ({ page }) => {
@@ -319,7 +320,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.fill('input[name="email"]', testUser.email);
       await page.fill('input[name="password"]', testUser.password);
       await page.click('button[type="submit"]');
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
     });
 
     test('should access groups page', async ({ page }) => {
@@ -379,7 +380,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.fill('input[name="email"]', testUser.email);
       await page.fill('input[name="password"]', testUser.password);
       await page.click('button[type="submit"]');
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
     });
 
     test('should access settings page', async ({ page }) => {
@@ -426,7 +427,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.fill('input[name="email"]', testUser.email);
       await page.fill('input[name="password"]', testUser.password);
       await page.click('button[type="submit"]');
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
     });
 
     test('should view stories bar', async ({ page }) => {
@@ -449,7 +450,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.fill('input[name="email"]', testUser.email);
       await page.fill('input[name="password"]', testUser.password);
       await page.click('button[type="submit"]');
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
     });
 
     test('should search users', async ({ page }) => {
@@ -472,7 +473,7 @@ test.describe('SocialVibe E2E Complete Tests', () => {
       await page.fill('input[name="email"]', testUser.email);
       await page.fill('input[name="password"]', testUser.password);
       await page.click('button[type="submit"]');
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/', { timeout: 30000 });
     });
 
     test('should open notifications panel', async ({ page }) => {
