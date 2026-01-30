@@ -66,25 +66,23 @@ export class GroupsService {
 
     // Add isMember field if userId provided
     if (userId) {
-      const groupsWithMembership = await Promise.all(
-        groups.map(async (group) => {
-          const isMember = await this.prisma.group.findFirst({
-            where: {
-              id: group.id,
-              members: { some: { id: userId } },
-            },
-          });
+      // PERFORMANCE FIX: Get all user's memberships in 1 query instead of N queries
+      const userMemberships = await this.prisma.group.findMany({
+        where: {
+          id: { in: groups.map(g => g.id) },
+          members: { some: { id: userId } },
+        },
+        select: { id: true },
+      });
 
-          return {
-            ...group,
-            isMember: !!isMember,
-            membersCount: group._count.members,
-            postsCount: group._count.posts,
-          };
-        })
-      );
+      const membershipSet = new Set(userMemberships.map(g => g.id));
 
-      return groupsWithMembership;
+      return groups.map((group) => ({
+        ...group,
+        isMember: membershipSet.has(group.id),
+        membersCount: group._count.members,
+        postsCount: group._count.posts,
+      }));
     }
 
     return groups.map((g) => ({

@@ -80,9 +80,21 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
-  // Emit new post to all users
-  notifyNewPost(post: any) {
-    this.server.emit('post:new', post);
+  // Emit new post to followers only (performance optimization)
+  notifyNewPost(post: any, followerIds: string[] = []) {
+    if (followerIds.length === 0) {
+      // Fallback: broadcast to all if no followers specified
+      this.server.emit('post:new', post);
+      return;
+    }
+
+    // Send only to connected followers
+    followerIds.forEach((followerId) => {
+      const socketId = this.connectedUsers.get(followerId);
+      if (socketId) {
+        this.server.to(socketId).emit('post:new', post);
+      }
+    });
   }
 
   // Emit post like to author

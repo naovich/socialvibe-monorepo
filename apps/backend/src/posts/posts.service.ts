@@ -31,11 +31,26 @@ export class PostsService {
       },
     });
 
-    // Notify all users about new post
-    this.eventsGateway.notifyNewPost({
-      ...post,
-      isLiked: false,
+    // Notify followers about new post (performance: only followers, not all users)
+    const followers = await this.prisma.friendship.findMany({
+      where: {
+        friendId: userId,
+        status: 'ACCEPTED',
+      },
+      select: {
+        userId: true,
+      },
     });
+
+    const followerIds = followers.map(f => f.userId);
+    
+    this.eventsGateway.notifyNewPost(
+      {
+        ...post,
+        isLiked: false,
+      },
+      followerIds
+    );
 
     return post;
   }
