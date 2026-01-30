@@ -156,6 +156,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike }) => {
           {/* Like */}
           <button
             onClick={onLike}
+            aria-label={post.isLiked ? "Unlike post" : "Like post"}
+            aria-pressed={post.isLiked}
             className="flex items-center gap-2 hover:text-primary transition-colors group"
           >
             <Heart
@@ -174,6 +176,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike }) => {
           {/* Comment */}
           <button
             onClick={() => setShowComments(!showComments)}
+            aria-label="Comment on post"
             className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors"
           >
             <MessageCircle size={22} />

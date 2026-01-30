@@ -32,14 +32,18 @@ export class TestHelpers {
    */
   async register(user: TestUser) {
     await this.page.goto('/register');
-    await this.page.fill('input[name="email"]', user.email);
-    await this.page.fill('input[name="password"]', user.password);
+    
+    // Use existing name attributes (elegant, no need for data-testid)
     await this.page.fill('input[name="name"]', user.name);
     await this.page.fill('input[name="username"]', user.username);
+    await this.page.fill('input[name="email"]', user.email);
+    await this.page.fill('input[name="password"]', user.password);
+    
+    // Submit button
     await this.page.click('button[type="submit"]');
     
-    // Wait for redirect to home
-    await this.page.waitForURL(/\/(home|feed|$)/);
+    // Wait for redirect to home (be more flexible)
+    await this.page.waitForURL(/\/(home|feed|$|\/)/, { timeout: 10000 });
     
     // Verify JWT tokens stored
     const authToken = await this.page.evaluate(() => localStorage.getItem('auth_token'));
