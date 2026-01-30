@@ -3,7 +3,11 @@ import { test, expect } from '@playwright/test';
 test.describe('Authentication', () => {
   test('should show login page', async ({ page }) => {
     await page.goto('/login');
-    await expect(page.locator('h1')).toContainText(/login|sign in/i);
+    // Login page shows "SocialVibe" title
+    await expect(page.locator('h1')).toContainText(/SocialVibe/i);
+    // And has email/password inputs
+    await expect(page.locator('input[name="email"]')).toBeVisible();
+    await expect(page.locator('input[name="password"]')).toBeVisible();
   });
 
   test('should navigate to register from login', async ({ page }) => {

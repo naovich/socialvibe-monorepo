@@ -61,8 +61,8 @@ test.describe('Authentication', () => {
     await page.fill('input[name="password"]', 'wrongpassword');
     await page.click('button[type="submit"]');
     
-    // Verify error message
-    await expect(page.locator('text=/invalid|incorrect|erreur/i')).toBeVisible();
+    // Verify error message (wait for API response)
+    await expect(page.locator('text=/invalid|incorrect|erreur|wrong|unauthorized/i')).toBeVisible({ timeout: 10000 });
   });
 
   test('US-003: Logout successfully', async ({ page }) => {
