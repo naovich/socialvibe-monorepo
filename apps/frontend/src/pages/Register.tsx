@@ -30,16 +30,13 @@ const Register: React.FC = () => {
     try {
       await authAPI.register(formData);
       
-      // Load user data
-      await fetchCurrentUser();
-      
-      // Load initial posts
-      await fetchPosts();
-      
-      // Connect WebSocket
-      connectWebSocket();
-      
+      // Navigate immediately after successful register
       navigate('/');
+      
+      // Load user data (in background, errors won't block navigation)
+      fetchCurrentUser().catch(console.error);
+      fetchPosts().catch(console.error);
+      connectWebSocket();
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {

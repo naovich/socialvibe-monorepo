@@ -19,16 +19,13 @@ const Login: React.FC = () => {
     try {
       await authAPI.login(email, password);
       
-      // Load user data
-      await fetchCurrentUser();
-      
-      // Load initial posts
-      await fetchPosts();
-      
-      // Connect WebSocket
-      connectWebSocket();
-      
+      // Navigate immediately after successful login
       navigate('/');
+      
+      // Load user data (in background, errors won't block navigation)
+      fetchCurrentUser().catch(console.error);
+      fetchPosts().catch(console.error);
+      connectWebSocket();
     } catch (err: any) {
       setError(err.response?.data?.message || 'Invalid email or password');
     } finally {

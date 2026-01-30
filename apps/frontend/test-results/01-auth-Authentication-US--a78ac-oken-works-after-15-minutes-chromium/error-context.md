@@ -1,0 +1,27 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - heading "Join SocialVibe" [level=1] [ref=e6]
+    - paragraph [ref=e7]: Create your account and start connecting
+  - generic [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]: Full Name
+        - textbox "John Doe" [ref=e12]: Test User 1769787227374
+      - generic [ref=e13]:
+        - generic [ref=e14]: Username
+        - textbox "johndoe" [ref=e15]: refresh1769787227374
+      - generic [ref=e16]:
+        - generic [ref=e17]: Email
+        - textbox "john@example.com" [ref=e18]: refresh1769787227374@example.com
+      - generic [ref=e19]:
+        - generic [ref=e20]: Password
+        - textbox "••••••••" [ref=e21]: Test123!
+      - button "Creating account..." [disabled] [ref=e22]
+    - paragraph [ref=e24]:
+      - text: Already have an account?
+      - link "Sign In" [ref=e25] [cursor=pointer]:
+        - /url: /login
+```
