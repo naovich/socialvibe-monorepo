@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from '../services/api';
-import { useSocialStore } from '../store';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { fetchCurrentUser, fetchPosts, connectWebSocket } = useSocialStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -19,13 +17,9 @@ const Login: React.FC = () => {
     try {
       await authAPI.login(email, password);
       
-      // Navigate immediately after successful login
+      // Navigate to home - it will load data itself
+      // DON'T fetch here: interceptor can clear localStorage if requests fail
       navigate('/');
-      
-      // Load user data (in background, errors won't block navigation)
-      fetchCurrentUser().catch(console.error);
-      fetchPosts().catch(console.error);
-      connectWebSocket();
     } catch (err: any) {
       setError(err.response?.data?.message || 'Invalid email or password');
     } finally {

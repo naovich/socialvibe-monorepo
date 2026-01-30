@@ -20,6 +20,14 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Get('me')
+  @ApiOperation({ summary: 'Get current user profile' })
+  @ApiResponse({ status: 200, description: 'Returns current user profile' })
+  @UseGuards(JwtAuthGuard)
+  getCurrentUser(@Request() req) {
+    return this.usersService.findOne(req.user.id);
+  }
+
   @Get('search')
   @ApiOperation({ summary: 'Search users by query' })
   @ApiQuery({ name: 'q', required: true, type: String })

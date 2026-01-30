@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from '../services/api';
-import { useSocialStore } from '../store';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
-  const { fetchCurrentUser, fetchPosts, connectWebSocket } = useSocialStore();
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -30,13 +28,9 @@ const Register: React.FC = () => {
     try {
       await authAPI.register(formData);
       
-      // Navigate immediately after successful register
+      // Navigate to home - it will load data itself
+      // DON'T fetch here: interceptor can clear localStorage if requests fail
       navigate('/');
-      
-      // Load user data (in background, errors won't block navigation)
-      fetchCurrentUser().catch(console.error);
-      fetchPosts().catch(console.error);
-      connectWebSocket();
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {
