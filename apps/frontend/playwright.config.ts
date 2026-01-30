@@ -8,9 +8,11 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 4, // Reduced from 16 to avoid overwhelming backend
   reporter: 'html',
   globalSetup: './e2e/global-setup.ts',
+  timeout: 60000, // 60s per test (includes beforeEach which can take 30s for register)
   use: {
     baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
+    actionTimeout: 15000, // 15s for individual actions
   },
 
   projects: [
