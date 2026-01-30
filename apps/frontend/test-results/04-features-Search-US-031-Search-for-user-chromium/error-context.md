@@ -1,0 +1,284 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6] [cursor=pointer]:
+        - generic [ref=e8]: S
+        - generic [ref=e9]: SOCIALVIBE
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - img
+          - textbox "Search users, hashtags..." [active] [ref=e13]: searchee1769801358954
+          - button [ref=e14]:
+            - img [ref=e15]
+        - button "Test User 1769801358954 @searchee1769801358954" [ref=e20]:
+          - img [ref=e22]
+          - generic [ref=e25]:
+            - paragraph [ref=e26]: Test User 1769801358954
+            - paragraph [ref=e27]: "@searchee1769801358954"
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - button "Create" [ref=e30]:
+            - img [ref=e31]
+            - generic [ref=e32]: Create
+          - button "Menu" [ref=e33]:
+            - img [ref=e34]
+            - generic: Menu
+          - button "Messages" [ref=e39]:
+            - img [ref=e40]
+            - generic: Messages
+          - button "Groups" [ref=e43]:
+            - img [ref=e44]
+            - generic: Groups
+          - button "Messages" [ref=e50]:
+            - img [ref=e51]
+            - generic: Messages
+          - button "Notifications" [ref=e54]:
+            - img [ref=e55]
+            - generic: Notifications
+          - button "Toggle theme" [ref=e58]:
+            - img [ref=e59]
+        - generic [ref=e63] [cursor=pointer]:
+          - img "Test User 1769801358954" [ref=e65]
+          - generic [ref=e67]: Test
+  - generic [ref=e68]:
+    - complementary [ref=e69]:
+      - button "Test User 1769801358954 Test User 1769801358954" [ref=e70] [cursor=pointer]:
+        - img "Test User 1769801358954" [ref=e72]
+        - generic [ref=e74]: Test User 1769801358954
+      - button "Home" [ref=e75] [cursor=pointer]:
+        - img [ref=e77]
+        - generic [ref=e80]: Home
+      - button "Messages" [ref=e81] [cursor=pointer]:
+        - img [ref=e83]
+        - generic [ref=e85]: Messages
+      - button "Friends" [ref=e86] [cursor=pointer]:
+        - img [ref=e88]
+        - generic [ref=e93]: Friends
+      - button "Groups" [ref=e94] [cursor=pointer]:
+        - img [ref=e96]
+        - generic [ref=e103]: Groups
+      - button "Saved" [ref=e104] [cursor=pointer]:
+        - img [ref=e106]
+        - generic [ref=e108]: Saved
+      - generic [ref=e109]:
+        - paragraph [ref=e110]: Privacy · Terms · Advertising
+        - paragraph [ref=e111]: SocialVibe © 2026
+    - main [ref=e112]:
+      - generic [ref=e113]:
+        - button "Add Story" [ref=e114]:
+          - generic [ref=e115]:
+            - img [ref=e117]
+            - img [ref=e119]
+          - generic [ref=e120]: Add Story
+        - button "Sarah Wilson Sarah Wilson" [ref=e121]:
+          - img "Sarah Wilson" [ref=e123]
+          - generic [ref=e124]: Sarah Wilson
+        - button "Alex Thompson Alex Thompson" [ref=e125]:
+          - img "Alex Thompson" [ref=e127]
+          - generic [ref=e128]: Alex Thompson
+      - generic [ref=e129]:
+        - button "Your avatar What's on your mind, Test?" [ref=e130]:
+          - img "Your avatar" [ref=e131]
+          - generic [ref=e132]: What's on your mind, Test?
+        - article [ref=e134]:
+          - generic [ref=e135]:
+            - generic [ref=e136]:
+              - img "Sarah Wilson" [ref=e137]
+              - generic [ref=e138]:
+                - heading "Sarah Wilson" [level=3] [ref=e139]
+                - generic [ref=e140]:
+                  - generic [ref=e141]: 2h ago
+                  - generic [ref=e142]: ·
+                  - generic [ref=e143]: Paris, France
+            - button [ref=e144]:
+              - img [ref=e145]
+          - generic [ref=e150]:
+            - text: Beautiful sunset today! 🌅
+            - button "#photography" [ref=e151]
+            - button "#nature" [ref=e152]
+          - generic [ref=e154]: 😊
+          - img "Post" [ref=e156]
+          - generic [ref=e157]:
+            - generic [ref=e158]:
+              - button "Like post" [ref=e159]:
+                - img [ref=e160]
+                - generic [ref=e162]: "142"
+              - button "Comment on post" [ref=e163]:
+                - img [ref=e164]
+                - generic [ref=e166]: "0"
+              - button "12" [ref=e167]:
+                - img [ref=e168]
+                - generic [ref=e174]: "12"
+            - button [ref=e175]:
+              - img [ref=e176]
+        - article [ref=e179]:
+          - generic [ref=e180]:
+            - generic [ref=e181]:
+              - img "Alex Thompson" [ref=e182]
+              - generic [ref=e183]:
+                - heading "Alex Thompson" [level=3] [ref=e184]
+                - generic [ref=e186]: 4h ago
+            - button [ref=e187]:
+              - img [ref=e188]
+          - generic [ref=e192]: What's your favorite coding language? 💻
+          - generic [ref=e194]: 🤓
+          - generic [ref=e195]:
+            - heading "Favorite programming language?" [level=4] [ref=e196]
+            - generic [ref=e197]:
+              - button "JavaScript 26%" [ref=e198]:
+                - generic [ref=e200]:
+                  - generic [ref=e201]: JavaScript
+                  - generic [ref=e202]: 26%
+              - button "Python 22%" [ref=e203]:
+                - generic [ref=e205]:
+                  - generic [ref=e206]: Python
+                  - generic [ref=e207]: 22%
+              - button "TypeScript 39%" [ref=e208]:
+                - generic [ref=e210]:
+                  - generic [ref=e211]: TypeScript
+                  - generic [ref=e212]: 39%
+              - button "Go 13%" [ref=e213]:
+                - generic [ref=e215]:
+                  - generic [ref=e216]: Go
+                  - generic [ref=e217]: 13%
+            - paragraph [ref=e218]: 172 votes
+          - generic [ref=e219]:
+            - generic [ref=e220]:
+              - button "Unlike post" [pressed] [ref=e221]:
+                - img [ref=e222]
+                - generic [ref=e224]: "89"
+              - button "Comment on post" [ref=e225]:
+                - img [ref=e226]
+                - generic [ref=e228]: "0"
+              - button "5" [ref=e229]:
+                - img [ref=e230]
+                - generic [ref=e236]: "5"
+            - button [ref=e237]:
+              - img [ref=e238]
+        - article [ref=e241]:
+          - generic [ref=e242]:
+            - generic [ref=e243]:
+              - img "Emma Johnson" [ref=e244]
+              - generic [ref=e245]:
+                - heading "Emma Johnson" [level=3] [ref=e246]
+                - generic [ref=e247]:
+                  - generic [ref=e248]: 6h ago
+                  - generic [ref=e249]: ·
+                  - generic [ref=e250]: New York, USA
+            - button [ref=e251]:
+              - img [ref=e252]
+          - generic [ref=e256]: Just finished my first marathon! 🏃‍♀️ Never give up on your dreams! 💪
+          - generic [ref=e258]: 💪
+          - generic [ref=e260]:
+            - img "Post 1" [ref=e262]
+            - img "Post 2" [ref=e264]
+          - generic [ref=e265]:
+            - generic [ref=e266]:
+              - button "Like post" [ref=e267]:
+                - img [ref=e268]
+                - generic [ref=e270]: "324"
+              - button "Comment on post" [ref=e271]:
+                - img [ref=e272]
+                - generic [ref=e274]: "0"
+              - button "28" [ref=e275]:
+                - img [ref=e276]
+                - generic [ref=e282]: "28"
+            - button [ref=e283]:
+              - img [ref=e284]
+        - article [ref=e287]:
+          - generic [ref=e288]:
+            - generic [ref=e289]:
+              - img "Michael Chen" [ref=e290]
+              - generic [ref=e291]:
+                - heading "Michael Chen" [level=3] [ref=e292]
+                - generic [ref=e294]: 8h ago
+            - button [ref=e295]:
+              - img [ref=e296]
+          - generic [ref=e300]: Coffee ☕ + Code 💻 = Perfect morning
+          - generic [ref=e302]: ☕
+          - img "Post" [ref=e304]
+          - generic [ref=e305]:
+            - generic [ref=e306]:
+              - button "Like post" [ref=e307]:
+                - img [ref=e308]
+                - generic [ref=e310]: "56"
+              - button "Comment on post" [ref=e311]:
+                - img [ref=e312]
+                - generic [ref=e314]: "0"
+              - button "3" [ref=e315]:
+                - img [ref=e316]
+                - generic [ref=e322]: "3"
+            - button [ref=e323]:
+              - img [ref=e324]
+        - article [ref=e327]:
+          - generic [ref=e328]:
+            - generic [ref=e329]:
+              - img "Lisa Anderson" [ref=e330]
+              - generic [ref=e331]:
+                - heading "Lisa Anderson" [level=3] [ref=e332]
+                - generic [ref=e333]:
+                  - generic [ref=e334]: 12h ago
+                  - generic [ref=e335]: ·
+                  - generic [ref=e336]: San Francisco, USA
+            - button [ref=e337]:
+              - img [ref=e338]
+          - generic [ref=e343]:
+            - text: New project launch! 🚀 Check out what we've been working on
+            - button "#startup" [ref=e344]
+            - button "#tech" [ref=e345]
+          - generic [ref=e347]: 🚀
+          - img "Post" [ref=e349]
+          - generic [ref=e350]:
+            - generic [ref=e351]:
+              - button "Unlike post" [pressed] [ref=e352]:
+                - img [ref=e353]
+                - generic [ref=e355]: "215"
+              - button "Comment on post" [ref=e356]:
+                - img [ref=e357]
+                - generic [ref=e359]: "0"
+              - button "42" [ref=e360]:
+                - img [ref=e361]
+                - generic [ref=e367]: "42"
+            - button [ref=e368]:
+              - img [ref=e369]
+    - complementary [ref=e371]:
+      - generic [ref=e372]:
+        - heading "Sponsored" [level=3] [ref=e373]
+        - generic [ref=e374] [cursor=pointer]:
+          - img [ref=e375]
+          - generic [ref=e376]:
+            - generic [ref=e377]: Premium Watches
+            - generic [ref=e378]: luxury-watches.com
+      - separator [ref=e379]
+      - generic [ref=e380]:
+        - heading "Birthdays" [level=3] [ref=e381]
+        - generic [ref=e382] [cursor=pointer]:
+          - img [ref=e384]
+          - paragraph [ref=e388]: Alex Rivera and 2 others have birthdays today.
+      - separator [ref=e389]
+      - generic [ref=e390]:
+        - generic [ref=e391]:
+          - heading "Contacts" [level=3] [ref=e392]
+          - generic [ref=e393]:
+            - button [ref=e394]:
+              - img [ref=e395]
+            - button [ref=e398]:
+              - img [ref=e399]
+            - button [ref=e402]:
+              - img [ref=e403]
+        - generic [ref=e408]: No friends yet
+      - generic [ref=e409]:
+        - heading "Group Conversations" [level=3] [ref=e410]
+        - generic [ref=e411] [cursor=pointer]:
+          - generic [ref=e412]: DS
+          - generic [ref=e413]: Design System
+        - generic [ref=e414] [cursor=pointer]:
+          - generic [ref=e415]: RN
+          - generic [ref=e416]: React Native
+  - generic [ref=e417]:
+    - button "Feed" [ref=e418]
+    - button "Profile" [ref=e419]
+```

@@ -23,15 +23,14 @@ const Home: React.FC = () => {
           await fetchCurrentUser();
         }
         
-        // Load posts and stories
-        await Promise.all([
-          fetchPosts(),
-          fetchStories(),
-        ]);
+        // Load posts and stories in parallel (non-blocking)
+        fetchPosts().catch(err => console.error('Failed to load posts:', err));
+        fetchStories().catch(err => console.error('Failed to load stories:', err));
         
         // Connect WebSocket
         connectWebSocket();
         
+        // Don't wait for posts/stories - show UI immediately after user is loaded
         setLoading(false);
       } catch (error) {
         console.error('Failed to initialize app:', error);
@@ -41,7 +40,8 @@ const Home: React.FC = () => {
     };
 
     initializeApp();
-  }, [currentUser, fetchCurrentUser, fetchPosts, fetchStories, connectWebSocket, navigate]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Run ONCE on mount - functions are stable from zustand
 
   if (loading) {
     return (
