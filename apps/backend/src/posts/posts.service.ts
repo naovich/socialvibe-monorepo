@@ -42,7 +42,7 @@ export class PostsService {
       },
     });
 
-    const followerIds = followers.map(f => f.userId);
+    const followerIds = (followers ?? []).map(f => f.userId);
     
     this.eventsGateway.notifyNewPost(
       {

@@ -5,6 +5,9 @@ import { JwtService } from '@nestjs/jwt';
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { getTestModuleMetadata, createMockPrismaService } from '../../test/helpers/test.module';
+import { EmailService } from '../email/email.service';
+
+jest.mock('bcrypt');
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -39,6 +42,13 @@ describe('AuthService', () => {
             provide: JwtService,
             useValue: {
               sign: jest.fn().mockReturnValue('mock-jwt-token'),
+            },
+          },
+          {
+            provide: EmailService,
+            useValue: {
+              sendVerificationEmail: jest.fn(),
+              sendPasswordResetEmail: jest.fn(),
             },
           },
         ],
@@ -101,7 +111,7 @@ describe('AuthService', () => {
       };
 
       jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockImplementation(() => Promise.resolve(true));
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       jest.spyOn(prismaService.refreshToken, 'create').mockResolvedValue({
         id: '1',
         token: 'refresh-token',
@@ -124,7 +134,7 @@ describe('AuthService', () => {
       };
 
       jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockImplementation(() => Promise.resolve(false));
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       await expect(service.login(loginDto)).rejects.toThrow(
         UnauthorizedException,

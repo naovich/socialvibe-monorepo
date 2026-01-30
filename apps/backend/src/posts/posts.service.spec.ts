@@ -59,6 +59,7 @@ describe('PostsService', () => {
       };
 
       jest.spyOn(prismaService.post, 'create').mockResolvedValue(mockPost);
+      jest.spyOn(prismaService.friendship, 'findMany').mockResolvedValue([]);
 
       const result = await service.create('user1', createPostDto);
 
@@ -76,6 +77,9 @@ describe('PostsService', () => {
               username: true,
               avatar: true,
             },
+          },
+          _count: {
+            select: { likes: true, comments: true },
           },
         },
       });

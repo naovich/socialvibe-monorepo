@@ -1,4 +1,8 @@
 import { chromium, FullConfig } from '@playwright/test';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
 
 async function globalSetup(config: FullConfig) {
   console.log('🔧 E2E Global Setup - Checking backend...');
@@ -22,7 +26,7 @@ async function globalSetup(config: FullConfig) {
       
       if (response && (response.status() < 500 || response.status() === 404)) {
         console.log('✅ Backend is ready!');
-        return;
+        break;
       }
     } catch (error) {
       // Ignore errors, will retry
@@ -44,6 +48,24 @@ async function globalSetup(config: FullConfig) {
     }
     
     await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+
+  // Reset database before E2E tests
+  console.log('🧹 Resetting test database...');
+  try {
+    const backendPath = '../backend';
+    
+    // Delete all data but keep schema (faster than full reset)
+    await execAsync(`cd ${backendPath} && npx prisma migrate reset --force --skip-seed`, {
+      env: { ...process.env, DATABASE_URL: process.env.DATABASE_URL }
+    });
+    
+    // Run seed to populate test data
+    await execAsync(`cd ${backendPath} && npm run seed`);
+    
+    console.log('✅ Database ready with fresh seed data!');
+  } catch (error) {
+    console.error('⚠️ Database reset failed (continuing anyway):', error.message);
   }
 }
 
