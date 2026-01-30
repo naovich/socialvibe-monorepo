@@ -121,6 +121,7 @@ export class PostsService {
           },
         },
         comments: {
+          take: 20, // Limit to 20 comments for performance
           include: {
             author: {
               select: {

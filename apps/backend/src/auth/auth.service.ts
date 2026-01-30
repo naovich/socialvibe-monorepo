@@ -309,11 +309,11 @@ export class AuthService {
       throw new BadRequestException('Invalid or expired verification token');
     }
 
-    // Mark user as verified (if you have an emailVerified field)
-    // await this.prisma.user.update({
-    //   where: { id: validToken.userId },
-    //   data: { emailVerified: true },
-    // });
+    // Mark user as verified
+    await this.prisma.user.update({
+      where: { id: validToken.userId },
+      data: { emailVerified: true },
+    });
 
     // Delete used token
     await this.prisma.emailVerificationToken.delete({

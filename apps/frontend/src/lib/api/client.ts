@@ -23,16 +23,43 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response interceptor - handle errors globally
+// Response interceptor - handle errors + auto refresh token
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Unauthorized - clear token and redirect to login
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('auth_user');
-      window.location.href = '/login';
+  async (error) => {
+    const originalRequest = error.config;
+    
+    // If 401 and not already retrying, try to refresh token
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      
+      try {
+        const refreshToken = localStorage.getItem('refresh_token');
+        if (!refreshToken) {
+          throw new Error('No refresh token available');
+        }
+        
+        // Request new tokens using refresh token
+        const { data } = await axios.post(`${API_URL}/auth/refresh`, {
+          refreshToken
+        });
+        
+        // Update tokens in localStorage
+        localStorage.setItem('auth_token', data.access_token);
+        localStorage.setItem('refresh_token', data.refresh_token);
+        
+        // Retry original request with new token
+        originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
+        return apiClient(originalRequest);
+        
+      } catch (refreshError) {
+        // Refresh failed - logout user
+        localStorage.clear();
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      }
     }
+    
     return Promise.reject(error);
   }
 );

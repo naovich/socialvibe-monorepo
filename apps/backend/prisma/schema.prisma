@@ -10,16 +10,17 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  email      String   @unique
-  password   String
-  name       String
-  username   String   @unique
-  avatar     String?
-  coverImage String?
-  bio        String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id            String   @id @default(uuid())
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  password      String
+  name          String
+  username      String   @unique
+  avatar        String?
+  coverImage    String?
+  bio           String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   posts    Post[]
   comments Comment[]
@@ -76,19 +77,25 @@ model Comment {
   parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
   parentId String?
   replies  Comment[] @relation("CommentReplies")
+  
+  @@index([postId])
+  @@index([authorId])
+  @@index([createdAt])
 }
 
 model Like {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
 
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   @@unique([postId, userId])
+  @@index([postId])
+  @@index([userId])
 }
 
 model Friendship {
@@ -123,6 +130,10 @@ model Notification {
 
   sender   User   @relation("SentNotifications", fields: [senderId], references: [id])
   senderId String
+  
+  @@index([recipientId])
+  @@index([read])
+  @@index([createdAt])
 }
 
 enum NotificationType {

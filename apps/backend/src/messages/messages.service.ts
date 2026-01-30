@@ -120,7 +120,9 @@ export class MessagesService {
     });
   }
 
-  async getMessages(conversationId: string, userId: string) {
+  async getMessages(conversationId: string, userId: string, page: number = 1, limit: number = 50) {
+    const skip = (page - 1) * limit;
+    
     // Verify user is part of conversation
     const conversation = await this.prisma.conversation.findFirst({
       where: {
@@ -131,6 +133,8 @@ export class MessagesService {
       },
       include: {
         messages: {
+          skip,
+          take: limit,
           include: {
             sender: {
               select: {
@@ -141,7 +145,7 @@ export class MessagesService {
               },
             },
           },
-          orderBy: { createdAt: 'asc' },
+          orderBy: { createdAt: 'desc' },
         },
         participants: {
           select: {

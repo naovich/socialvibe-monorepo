@@ -11,7 +11,7 @@ export class UsersService {
       where: { id },
       select: {
         id: true,
-        email: true,
+        // email: true, // SECURITY: Email not exposed publicly
         name: true,
         username: true,
         avatar: true,
@@ -39,7 +39,7 @@ export class UsersService {
       where: { username },
       select: {
         id: true,
-        email: true,
+        // email: true, // SECURITY: Email not exposed publicly
         name: true,
         username: true,
         avatar: true,

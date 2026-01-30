@@ -5,6 +5,7 @@ import {
   Delete,
   Body,
   Param,
+  Query,
   UseGuards,
   Request,
 } from '@nestjs/common';
@@ -27,8 +28,18 @@ export class MessagesController {
   }
 
   @Get(':conversationId')
-  getMessages(@Request() req, @Param('conversationId') conversationId: string) {
-    return this.messagesService.getMessages(conversationId, req.user.id);
+  getMessages(
+    @Request() req,
+    @Param('conversationId') conversationId: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.messagesService.getMessages(
+      conversationId,
+      req.user.id,
+      page ? parseInt(page) : 1,
+      limit ? parseInt(limit) : 50,
+    );
   }
 
   @Post(':conversationId')
