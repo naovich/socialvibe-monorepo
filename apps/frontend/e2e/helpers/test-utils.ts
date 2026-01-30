@@ -45,8 +45,8 @@ export class TestHelpers {
     // Wait for redirect to home (be more flexible)
     await this.page.waitForURL(/\/(home|feed|$|\/)/, { timeout: 15000 });
     
-    // Verify JWT tokens stored
-    const authToken = await this.page.evaluate(() => localStorage.getItem('auth_token'));
+    // Verify JWT tokens stored (backend returns access_token)
+    const authToken = await this.page.evaluate(() => localStorage.getItem('access_token'));
     const refreshToken = await this.page.evaluate(() => localStorage.getItem('refresh_token'));
     expect(authToken).toBeTruthy();
     expect(refreshToken).toBeTruthy();
@@ -66,8 +66,8 @@ export class TestHelpers {
     // Wait for redirect (increased timeout for API calls)
     await this.page.waitForURL(/\/(home|feed|$|\/)/, { timeout: 15000 });
     
-    // Verify tokens
-    const authToken = await this.page.evaluate(() => localStorage.getItem('auth_token'));
+    // Verify tokens (backend returns access_token)
+    const authToken = await this.page.evaluate(() => localStorage.getItem('access_token'));
     expect(authToken).toBeTruthy();
   }
 
@@ -203,6 +203,8 @@ export class TestHelpers {
    * Clear all localStorage
    */
   async clearStorage() {
+    // Navigate to a page first to have access to localStorage
+    await this.page.goto('/login');
     await this.page.evaluate(() => localStorage.clear());
   }
 }
