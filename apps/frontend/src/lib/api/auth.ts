@@ -28,7 +28,7 @@ export const authApi = {
   async register(data: RegisterData): Promise<AuthResponse> {
     const response = await apiClient.post('/auth/register', data);
     // Save tokens and user to localStorage (backend returns access_token + refresh_token)
-    localStorage.setItem('auth_token', response.data.access_token);
+    localStorage.setItem('access_token', response.data.access_token);
     localStorage.setItem('refresh_token', response.data.refresh_token);
     localStorage.setItem('auth_user', JSON.stringify(response.data.user));
     return response.data;
@@ -37,7 +37,7 @@ export const authApi = {
   async login(data: LoginData): Promise<AuthResponse> {
     const response = await apiClient.post('/auth/login', data);
     // Save tokens and user to localStorage (backend returns access_token + refresh_token)
-    localStorage.setItem('auth_token', response.data.access_token);
+    localStorage.setItem('access_token', response.data.access_token);
     localStorage.setItem('refresh_token', response.data.refresh_token);
     localStorage.setItem('auth_user', JSON.stringify(response.data.user));
     return response.data;
@@ -50,7 +50,7 @@ export const authApi = {
   },
 
   logout() {
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('auth_user');
     window.location.href = '/login';
@@ -62,6 +62,6 @@ export const authApi = {
   },
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('auth_token');
+    return !!localStorage.getItem('access_token');
   },
 };

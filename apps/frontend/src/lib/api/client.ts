@@ -12,7 +12,7 @@ export const apiClient = axios.create({
 // Request interceptor - add JWT token
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem('access_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -45,7 +45,7 @@ apiClient.interceptors.response.use(
         });
         
         // Update tokens in localStorage
-        localStorage.setItem('auth_token', data.access_token);
+        localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('refresh_token', data.refresh_token);
         
         // Retry original request with new token

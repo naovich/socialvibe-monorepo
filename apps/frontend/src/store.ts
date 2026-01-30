@@ -210,7 +210,7 @@ export const useSocialStore = create<SocialStore>()(
       setTheme: (theme) => set({ theme }),
 
       connectWebSocket: () => {
-        const token = localStorage.getItem('auth_token');
+        const token = localStorage.getItem('access_token');
         if (!token) return;
 
         socketService.connect(token);
