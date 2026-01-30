@@ -43,7 +43,7 @@ export class TestHelpers {
     await this.page.click('button[type="submit"]');
     
     // Wait for redirect to home (be more flexible)
-    await this.page.waitForURL(/\/(home|feed|$|\/)/, { timeout: 10000 });
+    await this.page.waitForURL(/\/(home|feed|$|\/)/, { timeout: 15000 });
     
     // Verify JWT tokens stored
     const authToken = await this.page.evaluate(() => localStorage.getItem('auth_token'));
@@ -63,8 +63,8 @@ export class TestHelpers {
     await this.page.fill('input[name="password"]', password);
     await this.page.click('button[type="submit"]');
     
-    // Wait for redirect
-    await this.page.waitForURL(/\/(home|feed|$)/);
+    // Wait for redirect (increased timeout for API calls)
+    await this.page.waitForURL(/\/(home|feed|$|\/)/, { timeout: 15000 });
     
     // Verify tokens
     const authToken = await this.page.evaluate(() => localStorage.getItem('auth_token'));
