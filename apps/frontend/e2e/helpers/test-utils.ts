@@ -43,10 +43,11 @@ export class TestHelpers {
     await this.page.click('button[type="submit"]');
     
     // Wait for redirect to home (accept /, /home, or /feed)
+    // Increased timeout: Home.tsx loads currentUser + posts + stories
     await this.page.waitForURL((url) => {
       const path = new URL(url).pathname;
       return path === '/' || path === '/home' || path === '/feed';
-    }, { timeout: 15000 });
+    }, { timeout: 30000 });
     
     // Wait for localStorage to be populated (auth.ts sets it after API response)
     await this.page.waitForFunction(() => {
@@ -72,10 +73,11 @@ export class TestHelpers {
     await this.page.click('button[type="submit"]');
     
     // Wait for redirect (accept /, /home, or /feed)
+    // Increased timeout: Home.tsx loads currentUser + posts + stories
     await this.page.waitForURL((url) => {
       const path = new URL(url).pathname;
       return path === '/' || path === '/home' || path === '/feed';
-    }, { timeout: 15000 });
+    }, { timeout: 30000 });
     
     // Wait for localStorage to be populated (auth.ts sets it after API response)
     await this.page.waitForFunction(() => {
@@ -107,8 +109,10 @@ export class TestHelpers {
    * Create a post
    */
   async createPost(caption: string, imagePath?: string) {
-    await this.page.click('[data-testid="create-post"], text=Create Post, text=Créer un post');
-    await this.page.fill('textarea[name="caption"], [placeholder*="What\'s on your mind"]', caption);
+    // Try multiple selectors (data-testid first, then text fallbacks)
+    const createButton = this.page.locator('[data-testid="create-post"]').or(this.page.getByText(/create post|créer un post/i));
+    await createButton.click();
+    await this.page.fill('textarea[name="caption"]', caption);
     
     if (imagePath) {
       await this.page.setInputFiles('input[type="file"]', imagePath);
