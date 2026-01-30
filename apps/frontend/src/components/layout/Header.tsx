@@ -70,6 +70,7 @@ const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
               {/* Create Post Button */}
               {onCreatePost && (
                 <button
+                  data-testid="create-post"
                   onClick={onCreatePost}
                   className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover rounded-xl text-white font-semibold transition-all shadow-lg shadow-primary/25"
                 >
@@ -120,6 +121,8 @@ const Header: React.FC<HeaderProps> = ({ onCreatePost }) => {
             {/* User Profile */}
             <div className="relative" ref={userMenuRef}>
               <div
+                data-testid="user-menu"
+                aria-label="User menu"
                 className="flex items-center gap-3 pl-1 md:pl-2 p-1 rounded-full hover:bg-white/5 cursor-pointer transition-all group"
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
               >
