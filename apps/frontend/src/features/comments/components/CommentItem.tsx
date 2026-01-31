@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Heart, MessageCircle, Trash2 } from 'lucide-react';
+import SafeHTML from '../../../components/SafeHTML';
 import type { Comment } from '../types/comment.types';
 
 interface CommentItemProps {
@@ -52,7 +53,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
           </div>
 
           {/* Comment text */}
-          <p className="text-text-primary text-sm mb-2">{comment.content}</p>
+          <SafeHTML content={comment.content} className="text-text-primary text-sm mb-2" />
 
           {/* Actions */}
           <div className="flex items-center gap-4">

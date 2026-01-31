@@ -7,6 +7,7 @@ import PostCard from '../components/feed/PostCard';
 import PhotosGrid from '../features/profile/components/PhotosGrid';
 import PostModal from '../components/feed/PostModal';
 import ImageViewer from '../components/ui/ImageViewer';
+import SafeHTML from '../components/SafeHTML';
 import type { Post } from '../types';
 
 interface UserData {
@@ -200,9 +201,9 @@ const UserProfile: React.FC = () => {
             <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-6 shadow-xl">
               <h2 className="text-xl font-black text-white mb-4">Intro</h2>
               {user.bio && (
-                <p className="text-gray-300 text-sm leading-relaxed text-center mb-6 px-4 italic">
-                  "{user.bio}"
-                </p>
+                <div className="text-center mb-6 px-4 italic">
+                  "<SafeHTML content={user.bio} className="text-gray-300 text-sm leading-relaxed inline" as="span" />"
+                </div>
               )}
             </div>
 

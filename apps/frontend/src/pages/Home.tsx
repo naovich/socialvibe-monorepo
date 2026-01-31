@@ -9,39 +9,41 @@ const Home: React.FC = () => {
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
-    const initializeApp = async () => {
-      const token = localStorage.getItem('access_token');
-      
-      if (!token) {
-        navigate('/login');
-        return;
-      }
+    const token = localStorage.getItem('access_token');
+    
+    if (!token) {
+      navigate('/login');
+      return;
+    }
 
+    // Load user if not already loaded
+    const loadUser = async () => {
       try {
-        // Load user if not already loaded
         if (!currentUser) {
           await fetchCurrentUser();
         }
-        
-        // Load posts and stories in parallel (non-blocking)
-        fetchPosts().catch(err => console.error('Failed to load posts:', err));
-        fetchStories().catch(err => console.error('Failed to load stories:', err));
-        
-        // Connect WebSocket
-        connectWebSocket();
-        
-        // Don't wait for posts/stories - show UI immediately after user is loaded
         setLoading(false);
       } catch (error) {
-        console.error('Failed to initialize app:', error);
+        console.error('Failed to load user:', error);
         localStorage.clear();
         navigate('/login');
       }
     };
 
-    initializeApp();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run ONCE on mount - functions are stable from zustand
+    loadUser();
+    
+    // Load posts and stories in parallel (non-blocking)
+    fetchPosts().catch(err => console.error('Failed to load posts:', err));
+    fetchStories().catch(err => console.error('Failed to load stories:', err));
+    
+    // Connect WebSocket
+    connectWebSocket();
+    
+    // Cleanup on unmount
+    return () => {
+      // WebSocket cleanup handled in disconnectWebSocket
+    };
+  }, [navigate, currentUser, fetchCurrentUser, fetchPosts, fetchStories, connectWebSocket]);
 
   if (loading) {
     return (

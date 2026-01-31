@@ -7,6 +7,7 @@ import type { Post } from '../../types';
 import ReactionPicker from '../ui/ReactionPicker';
 import ImageCarousel from '../ui/ImageCarousel';
 import VibeTag from '../ui/VibeTag';
+import SafeHTML from '../SafeHTML';
 
 const PostCard: React.FC<{ post: Post }> = ({ post }) => {
   const navigate = useNavigate();
@@ -82,7 +83,7 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 
       {/* Content */}
       <div className="px-4 pb-3">
-        <p className="text-text-primary text-sm leading-relaxed">{post.caption}</p>
+        <SafeHTML content={post.caption} className="text-text-primary text-sm leading-relaxed" />
 
         {/* Vibe Tags */}
         {post.vibeTags && post.vibeTags.length > 0 && (

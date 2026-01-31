@@ -1,4 +1,5 @@
 import React from 'react';
+import DOMPurify from 'dompurify';
 
 interface ClickableTextProps {
   text: string;
@@ -13,6 +14,12 @@ const ClickableText: React.FC<ClickableTextProps> = ({
   onMentionClick,
   className = '',
 }) => {
+  // Sanitize input to prevent XSS attacks
+  const sanitizedText = DOMPurify.sanitize(text, {
+    ALLOWED_TAGS: [],
+    ALLOWED_ATTR: [],
+  });
+
   // Regex pattern for hashtags and mentions
   const combinedRegex = /(#[a-zA-Z0-9_]+|@[a-zA-Z0-9_]+)/g;
 
@@ -76,7 +83,7 @@ const ClickableText: React.FC<ClickableTextProps> = ({
 
   return (
     <span className={className}>
-      {parseText(text)}
+      {parseText(sanitizedText)}
     </span>
   );
 };

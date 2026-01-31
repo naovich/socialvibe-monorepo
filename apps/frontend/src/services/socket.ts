@@ -38,6 +38,17 @@ class SocketService {
 
   disconnect() {
     if (this.socket) {
+      // Remove all socket.io event listeners to prevent memory leaks
+      this.socket.off('user:online');
+      this.socket.off('user:offline');
+      this.socket.off('users:online');
+      this.socket.off('post:new');
+      this.socket.off('post:liked');
+      this.socket.off('comment:new');
+      this.socket.off('friend:request');
+      this.socket.off('friend:accepted');
+      this.socket.off('message:new');
+      
       this.socket.disconnect();
       this.socket = null;
     }
