@@ -1,6 +1,10 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { UpdateUserDto } from './dto/update-user.dto';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Injectable()
 export class UsersService {
@@ -28,7 +32,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     return user;
@@ -56,7 +60,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     return user;
@@ -70,7 +74,7 @@ export class UsersService {
       });
 
       if (existingUser && existingUser.id !== userId) {
-        throw new ConflictException('Username already taken');
+        throw new ConflictException("Username already taken");
       }
     }
 
@@ -96,8 +100,8 @@ export class UsersService {
     const users = await this.prisma.user.findMany({
       where: {
         OR: [
-          { name: { contains: query, mode: 'insensitive' } },
-          { username: { contains: query, mode: 'insensitive' } },
+          { name: { contains: query, mode: "insensitive" } },
+          { username: { contains: query, mode: "insensitive" } },
         ],
       },
       take: limit,
@@ -114,7 +118,7 @@ export class UsersService {
 
   async toggleFollow(userId: string, targetUserId: string) {
     if (userId === targetUserId) {
-      throw new ConflictException('Cannot follow yourself');
+      throw new ConflictException("Cannot follow yourself");
     }
 
     // Check if target user exists
@@ -123,7 +127,7 @@ export class UsersService {
     });
 
     if (!targetUser) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     // Check if already following
@@ -148,7 +152,7 @@ export class UsersService {
         data: {
           userId,
           friendId: targetUserId,
-          status: 'ACCEPTED', // Auto-accept for now (can be PENDING for requests)
+          status: "ACCEPTED", // Auto-accept for now (can be PENDING for requests)
         },
       });
       return { following: true };
@@ -159,7 +163,7 @@ export class UsersService {
     const friendships = await this.prisma.friendship.findMany({
       where: {
         friendId: userId,
-        status: 'ACCEPTED',
+        status: "ACCEPTED",
       },
       include: {
         user: {
@@ -180,7 +184,7 @@ export class UsersService {
     const friendships = await this.prisma.friendship.findMany({
       where: {
         userId,
-        status: 'ACCEPTED',
+        status: "ACCEPTED",
       },
       include: {
         friend: {

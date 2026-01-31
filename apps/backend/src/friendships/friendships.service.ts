@@ -1,5 +1,9 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class FriendshipsService {
@@ -7,7 +11,7 @@ export class FriendshipsService {
 
   async sendRequest(userId: string, friendId: string) {
     if (userId === friendId) {
-      throw new BadRequestException('Cannot send friend request to yourself');
+      throw new BadRequestException("Cannot send friend request to yourself");
     }
 
     // Check if request already exists
@@ -21,14 +25,14 @@ export class FriendshipsService {
     });
 
     if (existing) {
-      throw new BadRequestException('Friend request already exists');
+      throw new BadRequestException("Friend request already exists");
     }
 
     return this.prisma.friendship.create({
       data: {
         userId,
         friendId,
-        status: 'PENDING',
+        status: "PENDING",
       },
       include: {
         friend: {
@@ -49,16 +53,16 @@ export class FriendshipsService {
     });
 
     if (!friendship) {
-      throw new NotFoundException('Friend request not found');
+      throw new NotFoundException("Friend request not found");
     }
 
     if (friendship.friendId !== userId) {
-      throw new BadRequestException('You can only accept requests sent to you');
+      throw new BadRequestException("You can only accept requests sent to you");
     }
 
     return this.prisma.friendship.update({
       where: { id: friendshipId },
-      data: { status: 'ACCEPTED' },
+      data: { status: "ACCEPTED" },
       include: {
         user: {
           select: {
@@ -78,18 +82,18 @@ export class FriendshipsService {
     });
 
     if (!friendship) {
-      throw new NotFoundException('Friend request not found');
+      throw new NotFoundException("Friend request not found");
     }
 
     if (friendship.friendId !== userId) {
-      throw new BadRequestException('You can only reject requests sent to you');
+      throw new BadRequestException("You can only reject requests sent to you");
     }
 
     await this.prisma.friendship.delete({
       where: { id: friendshipId },
     });
 
-    return { message: 'Friend request rejected' };
+    return { message: "Friend request rejected" };
   }
 
   async removeFriend(userId: string, friendId: string) {
@@ -99,27 +103,27 @@ export class FriendshipsService {
           { userId, friendId },
           { userId: friendId, friendId: userId },
         ],
-        status: 'ACCEPTED',
+        status: "ACCEPTED",
       },
     });
 
     if (!friendship) {
-      throw new NotFoundException('Friendship not found');
+      throw new NotFoundException("Friendship not found");
     }
 
     await this.prisma.friendship.delete({
       where: { id: friendship.id },
     });
 
-    return { message: 'Friend removed successfully' };
+    return { message: "Friend removed successfully" };
   }
 
   async getFriends(userId: string) {
     const friendships = await this.prisma.friendship.findMany({
       where: {
         OR: [
-          { userId, status: 'ACCEPTED' },
-          { friendId: userId, status: 'ACCEPTED' },
+          { userId, status: "ACCEPTED" },
+          { friendId: userId, status: "ACCEPTED" },
         ],
       },
       include: {
@@ -161,7 +165,7 @@ export class FriendshipsService {
     const requests = await this.prisma.friendship.findMany({
       where: {
         friendId: userId,
-        status: 'PENDING',
+        status: "PENDING",
       },
       include: {
         user: {

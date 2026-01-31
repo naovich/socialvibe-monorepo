@@ -1,19 +1,27 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateCommentDto } from './dto/create-comment.dto';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
+import { CreateCommentDto } from "./dto/create-comment.dto";
 
 @Injectable()
 export class CommentsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(userId: string, postId: string, createCommentDto: CreateCommentDto) {
+  async create(
+    userId: string,
+    postId: string,
+    createCommentDto: CreateCommentDto,
+  ) {
     // Check if post exists
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
     });
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     // If replying to a comment, check if parent exists
@@ -23,11 +31,13 @@ export class CommentsService {
       });
 
       if (!parentComment) {
-        throw new NotFoundException('Parent comment not found');
+        throw new NotFoundException("Parent comment not found");
       }
 
       if (parentComment.postId !== postId) {
-        throw new ForbiddenException('Parent comment does not belong to this post');
+        throw new ForbiddenException(
+          "Parent comment does not belong to this post",
+        );
       }
     }
 
@@ -60,7 +70,7 @@ export class CommentsService {
     });
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     // Get all top-level comments with their replies (nested)
@@ -105,7 +115,7 @@ export class CommentsService {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
 
@@ -140,7 +150,7 @@ export class CommentsService {
     });
 
     if (!comment) {
-      throw new NotFoundException('Comment not found');
+      throw new NotFoundException("Comment not found");
     }
 
     return comment;
@@ -152,11 +162,11 @@ export class CommentsService {
     });
 
     if (!comment) {
-      throw new NotFoundException('Comment not found');
+      throw new NotFoundException("Comment not found");
     }
 
     if (comment.authorId !== userId) {
-      throw new ForbiddenException('Access denied');
+      throw new ForbiddenException("Access denied");
     }
 
     // Delete comment and all its replies (cascade)
@@ -164,6 +174,6 @@ export class CommentsService {
       where: { id: commentId },
     });
 
-    return { message: 'Comment deleted successfully' };
+    return { message: "Comment deleted successfully" };
   }
 }

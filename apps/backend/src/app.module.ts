@@ -23,10 +23,12 @@ import { APP_GUARD } from "@nestjs/core";
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    ThrottlerModule.forRoot([{
-      ttl: 60000, // 1 minute
-      limit: 1000, // 1000 requests per minute (increased for E2E tests)
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000, // 1 minute
+        limit: 1000, // 1000 requests per minute (increased for E2E tests)
+      },
+    ]),
     LoggerModule,
     PrismaModule,
     AuthModule,
@@ -53,8 +55,6 @@ import { APP_GUARD } from "@nestjs/core";
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes('*');
+    consumer.apply(LoggerMiddleware).forRoutes("*");
   }
 }

@@ -1,5 +1,21 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
+
+interface StoryGroup {
+  userId: string;
+  user: {
+    id: string;
+    name: string;
+    username: string;
+    avatar: string | null;
+  };
+  stories: unknown[];
+  latestStory: unknown;
+}
 
 @Injectable()
 export class StoriesService {
@@ -7,7 +23,7 @@ export class StoriesService {
 
   async create(userId: string, data: { image?: string; video?: string }) {
     if (!data.image && !data.video) {
-      throw new Error('Story must have either image or video');
+      throw new Error("Story must have either image or video");
     }
 
     // Stories expire after 24 hours
@@ -17,7 +33,7 @@ export class StoriesService {
     return this.prisma.story.create({
       data: {
         authorId: userId,
-        image: data.image || '',
+        image: data.image || "",
         video: data.video,
         expiresAt,
       },
@@ -54,13 +70,13 @@ export class StoriesService {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
 
     // Group by author (latest story per user)
-    const grouped = new Map<string, any>();
-    
+    const grouped = new Map<string, StoryGroup>();
+
     for (const story of stories) {
       if (!grouped.has(story.authorId)) {
         grouped.set(story.authorId, {
@@ -70,7 +86,10 @@ export class StoriesService {
           latestStory: story,
         });
       } else {
-        grouped.get(story.authorId)!.stories.push(story);
+        const group = grouped.get(story.authorId);
+        if (group) {
+          group.stories.push(story);
+        }
       }
     }
 
@@ -88,7 +107,7 @@ export class StoriesService {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
   }
@@ -99,18 +118,18 @@ export class StoriesService {
     });
 
     if (!story) {
-      throw new NotFoundException('Story not found');
+      throw new NotFoundException("Story not found");
     }
 
     if (story.authorId !== userId) {
-      throw new ForbiddenException('You can only delete your own stories');
+      throw new ForbiddenException("You can only delete your own stories");
     }
 
     await this.prisma.story.delete({
       where: { id: storyId },
     });
 
-    return { message: 'Story deleted successfully' };
+    return { message: "Story deleted successfully" };
   }
 
   // Clean up expired stories (run periodically via cron)

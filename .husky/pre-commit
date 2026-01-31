@@ -4,43 +4,61 @@
 echo "🔍 Running pre-commit checks..."
 
 # Backend checks
-echo "📦 Building backend..."
+echo ""
+echo "=== BACKEND CHECKS ==="
 cd apps/backend
+
+echo "📝 Linting backend..."
+npm run lint
+if [ $? -ne 0 ]; then
+  echo "❌ Backend lint failed! Fix errors before committing."
+  exit 1
+fi
+
+echo "🔍 Type-checking backend..."
+npx tsc --noEmit
+if [ $? -ne 0 ]; then
+  echo "❌ Backend type-check failed! Fix TypeScript errors before committing."
+  exit 1
+fi
+
+echo "📦 Building backend..."
 npm run build
 if [ $? -ne 0 ]; then
   echo "❌ Backend build failed!"
   exit 1
 fi
 
-# TODO: Fix tests before re-enabling
-# echo "🧪 Running backend tests..."
-# npm test
-# if [ $? -ne 0 ]; then
-#   echo "❌ Backend tests failed!"
-#   exit 1
-# fi
-
 cd ../..
 
 # Frontend checks
-echo "📦 Building frontend..."
+echo ""
+echo "=== FRONTEND CHECKS ==="
 cd apps/frontend
+
+echo "📝 Linting frontend..."
+npm run lint
+if [ $? -ne 0 ]; then
+  echo "❌ Frontend lint failed! Fix errors before committing."
+  exit 1
+fi
+
+echo "🔍 Type-checking frontend..."
+npx tsc --noEmit
+if [ $? -ne 0 ]; then
+  echo "❌ Frontend type-check failed! Fix TypeScript errors before committing."
+  exit 1
+fi
+
+echo "📦 Building frontend..."
 npm run build
 if [ $? -ne 0 ]; then
   echo "❌ Frontend build failed!"
   exit 1
 fi
 
-# TODO: Add frontend tests
-# if [ -f "playwright.config.ts" ]; then
-#   echo "🧪 Running frontend tests..."
-#   npm test
-#   if [ $? -ne 0 ]; then
-#     echo "❌ Frontend tests failed!"
-#     exit 1
-#   fi
-# fi
-
 cd ../..
 
-echo "✅ Build checks passed! (Tests temporarily disabled - TODO: fix)"
+echo ""
+echo "✅ All pre-commit checks passed!"
+echo "🎉 Committing..."

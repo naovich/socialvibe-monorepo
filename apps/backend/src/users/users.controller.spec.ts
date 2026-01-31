@@ -5,7 +5,6 @@ import { getTestModuleMetadata } from "../../test/helpers/test.module";
 
 describe("UsersController", () => {
   let controller: UsersController;
-  let service: UsersService;
 
   const mockUsersService = {
     findById: jest.fn(),
@@ -24,11 +23,10 @@ describe("UsersController", () => {
             useValue: mockUsersService,
           },
         ],
-      })
+      }),
     ).compile();
 
     controller = module.get<UsersController>(UsersController);
-    service = module.get<UsersService>(UsersService);
   });
 
   it("should be defined", () => {

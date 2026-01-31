@@ -1,11 +1,17 @@
-import { Injectable, UnauthorizedException, ConflictException, BadRequestException, NotFoundException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
-import * as crypto from 'crypto';
-import { PrismaService } from '../prisma/prisma.service';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
-import { EmailService } from '../email/email.service';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+  BadRequestException,
+  NotFoundException,
+} from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import * as bcrypt from "bcrypt";
+import * as crypto from "crypto";
+import { PrismaService } from "../prisma/prisma.service";
+import { RegisterDto } from "./dto/register.dto";
+import { LoginDto } from "./dto/login.dto";
+import { EmailService } from "../email/email.service";
 
 @Injectable()
 export class AuthService {
@@ -21,15 +27,14 @@ export class AuthService {
     // Check if user already exists
     const existingUser = await this.prisma.user.findFirst({
       where: {
-        OR: [
-          { email },
-          { username },
-        ],
+        OR: [{ email }, { username }],
       },
     });
 
     if (existingUser) {
-      throw new ConflictException('User with this email or username already exists');
+      throw new ConflictException(
+        "User with this email or username already exists",
+      );
     }
 
     // Hash password
@@ -72,14 +77,14 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException("Invalid credentials");
     }
 
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException("Invalid credentials");
     }
 
     // Generate tokens
@@ -113,7 +118,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('User not found');
+      throw new UnauthorizedException("User not found");
     }
 
     return user;
@@ -127,13 +132,13 @@ export class AuthService {
     });
 
     if (!storedToken) {
-      throw new UnauthorizedException('Invalid refresh token');
+      throw new UnauthorizedException("Invalid refresh token");
     }
 
     // Check if token is expired
     if (new Date() > storedToken.expiresAt) {
       await this.prisma.refreshToken.delete({ where: { id: storedToken.id } });
-      throw new UnauthorizedException('Refresh token expired');
+      throw new UnauthorizedException("Refresh token expired");
     }
 
     // Generate new tokens
@@ -149,10 +154,10 @@ export class AuthService {
     const payload = { sub: userId };
 
     // Generate access token (15 minutes)
-    const access_token = this.jwtService.sign(payload, { expiresIn: '15m' });
+    const access_token = this.jwtService.sign(payload, { expiresIn: "15m" });
 
     // Generate refresh token (7 days)
-    const refresh_token = this.jwtService.sign(payload, { expiresIn: '7d' });
+    const refresh_token = this.jwtService.sign(payload, { expiresIn: "7d" });
 
     // Store refresh token in DB
     const expiresAt = new Date();
@@ -177,11 +182,14 @@ export class AuthService {
 
     if (!user) {
       // Don't reveal if user exists or not
-      return { message: 'If an account exists with that email, a password reset link has been sent.' };
+      return {
+        message:
+          "If an account exists with that email, a password reset link has been sent.",
+      };
     }
 
     // Generate reset token
-    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetToken = crypto.randomBytes(32).toString("hex");
     const hashedToken = await bcrypt.hash(resetToken, 10);
 
     // Save token (expires in 1 hour)
@@ -197,9 +205,16 @@ export class AuthService {
     });
 
     // Send email
-    await this.emailService.sendPasswordResetEmail(user.email, user.name, resetToken);
+    await this.emailService.sendPasswordResetEmail(
+      user.email,
+      user.name,
+      resetToken,
+    );
 
-    return { message: 'If an account exists with that email, a password reset link has been sent.' };
+    return {
+      message:
+        "If an account exists with that email, a password reset link has been sent.",
+    };
   }
 
   async resetPassword(token: string, newPassword: string) {
@@ -216,7 +231,7 @@ export class AuthService {
     });
 
     // Find matching token
-    let validToken: typeof tokens[0] | null = null;
+    let validToken: (typeof tokens)[0] | null = null;
     for (const t of tokens) {
       const isValid = await bcrypt.compare(token, t.token);
       if (isValid) {
@@ -226,7 +241,7 @@ export class AuthService {
     }
 
     if (!validToken) {
-      throw new BadRequestException('Invalid or expired reset token');
+      throw new BadRequestException("Invalid or expired reset token");
     }
 
     // Hash new password
@@ -248,7 +263,7 @@ export class AuthService {
       where: { userId: validToken.userId },
     });
 
-    return { message: 'Password reset successful' };
+    return { message: "Password reset successful" };
   }
 
   async sendVerificationEmail(userId: string) {
@@ -257,11 +272,11 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     // Generate verification token
-    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const verificationToken = crypto.randomBytes(32).toString("hex");
     const hashedToken = await bcrypt.hash(verificationToken, 10);
 
     // Save token (expires in 24 hours)
@@ -277,9 +292,13 @@ export class AuthService {
     });
 
     // Send email
-    await this.emailService.sendEmailVerification(user.email, user.name, verificationToken);
+    await this.emailService.sendEmailVerification(
+      user.email,
+      user.name,
+      verificationToken,
+    );
 
-    return { message: 'Verification email sent' };
+    return { message: "Verification email sent" };
   }
 
   async verifyEmail(token: string) {
@@ -296,7 +315,7 @@ export class AuthService {
     });
 
     // Find matching token
-    let validToken: typeof tokens[0] | null = null;
+    let validToken: (typeof tokens)[0] | null = null;
     for (const t of tokens) {
       const isValid = await bcrypt.compare(token, t.token);
       if (isValid) {
@@ -306,7 +325,7 @@ export class AuthService {
     }
 
     if (!validToken) {
-      throw new BadRequestException('Invalid or expired verification token');
+      throw new BadRequestException("Invalid or expired verification token");
     }
 
     // Mark user as verified
@@ -325,6 +344,6 @@ export class AuthService {
       where: { userId: validToken.userId },
     });
 
-    return { message: 'Email verified successfully' };
+    return { message: "Email verified successfully" };
   }
 }

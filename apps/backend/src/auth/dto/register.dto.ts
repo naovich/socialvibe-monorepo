@@ -1,17 +1,23 @@
-import { IsEmail, IsString, MinLength, MaxLength, Matches } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsEmail,
+  IsString,
+  MinLength,
+  MaxLength,
+  Matches,
+} from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class RegisterDto {
   @ApiProperty({
-    example: 'user@example.com',
-    description: 'User email address',
+    example: "user@example.com",
+    description: "User email address",
   })
   @IsEmail()
   email: string;
 
   @ApiProperty({
-    example: 'password123',
-    description: 'User password (min 8 characters)',
+    example: "password123",
+    description: "User password (min 8 characters)",
     minLength: 8,
     maxLength: 100,
   })
@@ -21,8 +27,8 @@ export class RegisterDto {
   password: string;
 
   @ApiProperty({
-    example: 'John Doe',
-    description: 'User full name',
+    example: "John Doe",
+    description: "User full name",
     minLength: 2,
     maxLength: 50,
   })
@@ -32,8 +38,8 @@ export class RegisterDto {
   name: string;
 
   @ApiProperty({
-    example: 'johndoe',
-    description: 'Unique username (alphanumeric and underscores only)',
+    example: "johndoe",
+    description: "Unique username (alphanumeric and underscores only)",
     minLength: 3,
     maxLength: 30,
   })
@@ -41,7 +47,7 @@ export class RegisterDto {
   @MinLength(3)
   @MaxLength(30)
   @Matches(/^[a-zA-Z0-9_]+$/, {
-    message: 'Username can only contain letters, numbers, and underscores',
+    message: "Username can only contain letters, numbers, and underscores",
   })
   username: string;
 }

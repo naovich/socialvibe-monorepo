@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import * as nodemailer from 'nodemailer';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from "@nestjs/common";
+import * as nodemailer from "nodemailer";
+import type { SentMessageInfo } from "nodemailer";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class EmailService {
@@ -8,30 +9,30 @@ export class EmailService {
 
   constructor(private configService: ConfigService) {
     // Create transporter (development mode with ethereal.email for testing)
-    this.createTransporter();
+    void this.createTransporter();
   }
 
   private async createTransporter() {
     // For development: use ethereal.email (fake SMTP)
     // For production: use real SMTP (Gmail, SendGrid, etc.)
-    
-    if (process.env.NODE_ENV === 'production') {
+
+    if (process.env.NODE_ENV === "production") {
       // Production SMTP
       this.transporter = nodemailer.createTransport({
-        host: this.configService.get('SMTP_HOST'),
-        port: this.configService.get('SMTP_PORT'),
-        secure: this.configService.get('SMTP_SECURE') === 'true',
+        host: this.configService.get("SMTP_HOST"),
+        port: this.configService.get("SMTP_PORT"),
+        secure: this.configService.get("SMTP_SECURE") === "true",
         auth: {
-          user: this.configService.get('SMTP_USER'),
-          pass: this.configService.get('SMTP_PASS'),
+          user: this.configService.get("SMTP_USER"),
+          pass: this.configService.get("SMTP_PASS"),
         },
       });
     } else {
       // Development: use ethereal (fake SMTP for testing)
       const testAccount = await nodemailer.createTestAccount();
-      
+
       this.transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
+        host: "smtp.ethereal.email",
         port: 587,
         secure: false,
         auth: {
@@ -39,19 +40,24 @@ export class EmailService {
           pass: testAccount.pass,
         },
       });
-      
-      console.log('📧 Email service initialized (development mode)');
-      console.log('📧 Preview emails at: https://ethereal.email');
+
+      console.log("📧 Email service initialized (development mode)");
+      console.log("📧 Preview emails at: https://ethereal.email");
     }
   }
 
-  async sendPasswordResetEmail(email: string, name: string, resetToken: string) {
-    const resetUrl = `${this.configService.get('FRONTEND_URL', 'http://localhost:5173')}/reset-password?token=${resetToken}`;
+  async sendPasswordResetEmail(
+    email: string,
+    name: string,
+    resetToken: string,
+  ) {
+    const resetUrl = `${this.configService.get("FRONTEND_URL", "http://localhost:5173")}/reset-password?token=${resetToken}`;
 
-    const info = await this.transporter.sendMail({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const info: SentMessageInfo = await this.transporter.sendMail({
       from: '"SocialVibe" <noreply@socialvibe.com>',
       to: email,
-      subject: 'Reset Your Password - SocialVibe',
+      subject: "Reset Your Password - SocialVibe",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #FF6B35;">Reset Your Password</h2>
@@ -74,21 +80,28 @@ export class EmailService {
     });
 
     // Log preview URL in development
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('📧 Password reset email sent!');
-      console.log('📧 Preview URL:', nodemailer.getTestMessageUrl(info));
+    if (process.env.NODE_ENV !== "production") {
+      console.log("📧 Password reset email sent!");
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      console.log("📧 Preview URL:", nodemailer.getTestMessageUrl(info));
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return info;
   }
 
-  async sendEmailVerification(email: string, name: string, verificationToken: string) {
-    const verifyUrl = `${this.configService.get('FRONTEND_URL', 'http://localhost:5173')}/verify-email?token=${verificationToken}`;
+  async sendEmailVerification(
+    email: string,
+    name: string,
+    verificationToken: string,
+  ) {
+    const verifyUrl = `${this.configService.get("FRONTEND_URL", "http://localhost:5173")}/verify-email?token=${verificationToken}`;
 
-    const info = await this.transporter.sendMail({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const info: SentMessageInfo = await this.transporter.sendMail({
       from: '"SocialVibe" <noreply@socialvibe.com>',
       to: email,
-      subject: 'Verify Your Email - SocialVibe',
+      subject: "Verify Your Email - SocialVibe",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #FF6B35;">Welcome to SocialVibe! 🎉</h2>
@@ -109,11 +122,13 @@ export class EmailService {
       text: `Hi ${name},\n\nWelcome to SocialVibe!\n\nPlease verify your email: ${verifyUrl}\n\nThis link will expire in 24 hours.\n\nSocialVibe Team`,
     });
 
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('📧 Verification email sent!');
-      console.log('📧 Preview URL:', nodemailer.getTestMessageUrl(info));
+    if (process.env.NODE_ENV !== "production") {
+      console.log("📧 Verification email sent!");
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      console.log("📧 Preview URL:", nodemailer.getTestMessageUrl(info));
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return info;
   }
 }

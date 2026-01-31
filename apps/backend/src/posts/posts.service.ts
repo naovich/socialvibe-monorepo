@@ -1,7 +1,11 @@
-import { Injectable, ForbiddenException, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreatePostDto, UpdatePostDto } from './dto';
-import { EventsGateway } from '../events/events.gateway';
+import {
+  Injectable,
+  ForbiddenException,
+  NotFoundException,
+} from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
+import { CreatePostDto, UpdatePostDto } from "./dto";
+import { EventsGateway } from "../events/events.gateway";
 
 @Injectable()
 export class PostsService {
@@ -35,21 +39,21 @@ export class PostsService {
     const followers = await this.prisma.friendship.findMany({
       where: {
         friendId: userId,
-        status: 'ACCEPTED',
+        status: "ACCEPTED",
       },
       select: {
         userId: true,
       },
     });
 
-    const followerIds = (followers ?? []).map(f => f.userId);
-    
+    const followerIds = (followers ?? []).map((f) => f.userId);
+
     this.eventsGateway.notifyNewPost(
       {
         ...post,
         isLiked: false,
       },
-      followerIds
+      followerIds,
     );
 
     return post;
@@ -83,7 +87,7 @@ export class PostsService {
                 },
               },
             },
-            orderBy: { createdAt: 'desc' },
+            orderBy: { createdAt: "desc" },
           },
           likes: userId
             ? {
@@ -96,7 +100,7 @@ export class PostsService {
           },
         },
         orderBy: {
-          createdAt: 'desc',
+          createdAt: "desc",
         },
       }),
       this.prisma.post.count(),
@@ -147,7 +151,7 @@ export class PostsService {
               },
             },
           },
-          orderBy: { createdAt: 'desc' },
+          orderBy: { createdAt: "desc" },
         },
         likes: userId
           ? {
@@ -162,7 +166,7 @@ export class PostsService {
     });
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     return {
@@ -178,11 +182,11 @@ export class PostsService {
     });
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     if (post.authorId !== userId) {
-      throw new ForbiddenException('Access denied');
+      throw new ForbiddenException("Access denied");
     }
 
     return this.prisma.post.update({
@@ -207,18 +211,18 @@ export class PostsService {
     });
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     if (post.authorId !== userId) {
-      throw new ForbiddenException('Access denied');
+      throw new ForbiddenException("Access denied");
     }
 
     await this.prisma.post.delete({
       where: { id: postId },
     });
 
-    return { message: 'Post deleted successfully' };
+    return { message: "Post deleted successfully" };
   }
 
   async toggleLike(userId: string, postId: string) {
@@ -237,7 +241,7 @@ export class PostsService {
     });
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     const existingLike = await this.prisma.like.findUnique({
@@ -271,6 +275,7 @@ export class PostsService {
 
         this.eventsGateway.notifyPostLike(post.authorId, {
           postId,
+          userId,
           user: liker,
         });
       }
@@ -301,7 +306,7 @@ export class PostsService {
           },
         },
         orderBy: {
-          createdAt: 'desc',
+          createdAt: "desc",
         },
       }),
       this.prisma.post.count({ where: { authorId: userId } }),

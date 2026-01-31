@@ -7,17 +7,21 @@ import {
   Param,
   UseGuards,
   Request,
-} from '@nestjs/common';
-import { StoriesService } from './stories.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+} from "@nestjs/common";
+import { StoriesService } from "./stories.service";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import type { AuthenticatedRequest } from "../common/interfaces/authenticated-request.interface";
 
-@Controller('stories')
+@Controller("stories")
 @UseGuards(JwtAuthGuard)
 export class StoriesController {
   constructor(private readonly storiesService: StoriesService) {}
 
   @Post()
-  create(@Request() req, @Body() data: { image?: string; video?: string }) {
+  create(
+    @Request() req: AuthenticatedRequest,
+    @Body() data: { image?: string; video?: string },
+  ) {
     return this.storiesService.create(req.user.id, data);
   }
 
@@ -26,13 +30,13 @@ export class StoriesController {
     return this.storiesService.getActive();
   }
 
-  @Get('user/:userId')
-  getUserStories(@Param('userId') userId: string) {
+  @Get("user/:userId")
+  getUserStories(@Param("userId") userId: string) {
     return this.storiesService.getUserStories(userId);
   }
 
-  @Delete(':id')
-  delete(@Request() req, @Param('id') id: string) {
+  @Delete(":id")
+  delete(@Request() req: AuthenticatedRequest, @Param("id") id: string) {
     return this.storiesService.delete(req.user.id, id);
   }
 }

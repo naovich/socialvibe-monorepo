@@ -23,7 +23,7 @@ async function bootstrap() {
         includeSubDomains: true,
         preload: true,
       },
-    })
+    }),
   );
 
   // Enable CORS pour le frontend

@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { EventsGateway } from './events.gateway';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Module } from "@nestjs/common";
+import { EventsGateway } from "./events.gateway";
+import { JwtModule } from "@nestjs/jwt";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 
 @Module({
   imports: [
@@ -9,8 +9,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '15m' },
+        secret: configService.get("JWT_SECRET"),
+        signOptions: { expiresIn: "15m" },
       }),
     }),
   ],

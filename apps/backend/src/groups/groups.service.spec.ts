@@ -1,11 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { GroupsService } from './groups.service';
-import { PrismaService } from '../prisma/prisma.service';
-import { NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Test, TestingModule } from "@nestjs/testing";
+import { GroupsService } from "./groups.service";
+import { PrismaService } from "../prisma/prisma.service";
+import { ForbiddenException } from "@nestjs/common";
 
-describe('GroupsService', () => {
-  let service: GroupsService;
-  let prismaService: PrismaService;
+describe("GroupsService", () => {
+  /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+  let _service: GroupsService;
+  let _prismaService: PrismaService;
 
   const mockPrisma = {
     group: {
@@ -29,27 +30,32 @@ describe('GroupsService', () => {
       ],
     }).compile();
 
-    service = module.get<GroupsService>(GroupsService);
-    prismaService = module.get<PrismaService>(PrismaService);
+    _service = module.get<GroupsService>(GroupsService);
+    _prismaService = module.get<PrismaService>(PrismaService);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('create', () => {
-    it('should create a group successfully', async () => {
-      const userId = 'user-1';
+  describe("create", () => {
+    it("should create a group successfully", async () => {
+      const userId = "user-1";
       const groupData = {
-        name: 'Test Group',
-        description: 'Test Description',
+        name: "Test Group",
+        description: "Test Description",
       };
 
       const mockGroup = {
-        id: 'group-1',
+        id: "group-1",
         ...groupData,
         creatorId: userId,
-        creator: { id: userId, name: 'Test User', username: 'test', avatar: null },
+        creator: {
+          id: userId,
+          name: "Test User",
+          username: "test",
+          avatar: null,
+        },
         _count: { members: 1, posts: 0 },
       };
 
@@ -63,16 +69,17 @@ describe('GroupsService', () => {
           creatorId: userId,
           members: { connect: { id: userId } },
         },
+
         include: expect.any(Object),
       });
       expect(result).toEqual(mockGroup);
     });
   });
 
-  describe('join', () => {
-    it('should allow user to join public group', async () => {
-      const userId = 'user-1';
-      const groupId = 'group-1';
+  describe("join", () => {
+    it("should allow user to join public group", async () => {
+      const userId = "user-1";
+      const groupId = "group-1";
 
       mockPrisma.group.findUnique.mockResolvedValue({
         id: groupId,
@@ -85,12 +92,12 @@ describe('GroupsService', () => {
       const result = await service.join(userId, groupId);
 
       expect(mockPrisma.group.update).toHaveBeenCalled();
-      expect(result).toEqual({ message: 'Joined group successfully' });
+      expect(result).toEqual({ message: "Joined group successfully" });
     });
 
-    it('should throw ForbiddenException for private group', async () => {
-      const userId = 'user-1';
-      const groupId = 'group-1';
+    it("should throw ForbiddenException for private group", async () => {
+      const userId = "user-1";
+      const groupId = "group-1";
 
       mockPrisma.group.findUnique.mockResolvedValue({
         id: groupId,
@@ -98,14 +105,16 @@ describe('GroupsService', () => {
         members: [],
       });
 
-      await expect(service.join(userId, groupId)).rejects.toThrow(ForbiddenException);
+      await expect(service.join(userId, groupId)).rejects.toThrow(
+        ForbiddenException,
+      );
     });
   });
 
-  describe('delete', () => {
-    it('should allow creator to delete group', async () => {
-      const userId = 'user-1';
-      const groupId = 'group-1';
+  describe("delete", () => {
+    it("should allow creator to delete group", async () => {
+      const userId = "user-1";
+      const groupId = "group-1";
 
       mockPrisma.group.findUnique.mockResolvedValue({
         id: groupId,
@@ -116,20 +125,24 @@ describe('GroupsService', () => {
 
       const result = await service.delete(userId, groupId);
 
-      expect(mockPrisma.group.delete).toHaveBeenCalledWith({ where: { id: groupId } });
-      expect(result).toEqual({ message: 'Group deleted successfully' });
+      expect(mockPrisma.group.delete).toHaveBeenCalledWith({
+        where: { id: groupId },
+      });
+      expect(result).toEqual({ message: "Group deleted successfully" });
     });
 
-    it('should throw ForbiddenException if not creator', async () => {
-      const userId = 'user-1';
-      const groupId = 'group-1';
+    it("should throw ForbiddenException if not creator", async () => {
+      const userId = "user-1";
+      const groupId = "group-1";
 
       mockPrisma.group.findUnique.mockResolvedValue({
         id: groupId,
-        creatorId: 'other-user',
+        creatorId: "other-user",
       });
 
-      await expect(service.delete(userId, groupId)).rejects.toThrow(ForbiddenException);
+      await expect(service.delete(userId, groupId)).rejects.toThrow(
+        ForbiddenException,
+      );
     });
   });
 });

@@ -2,11 +2,15 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { LikesService } from "./likes.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { EventsGateway } from "../events/events.gateway";
-import { getTestModuleMetadata, createMockPrismaService, MockEventsGateway } from "../../test/helpers/test.module";
+import {
+  getTestModuleMetadata,
+  createMockPrismaService,
+  MockEventsGateway,
+} from "../../test/helpers/test.module";
 
 describe("LikesService", () => {
-  let service: LikesService;
-  let prismaService: PrismaService;
+  let _service: LikesService;
+  let _prismaService: PrismaService;
 
   beforeEach(async () => {
     const mockPrisma = createMockPrismaService();
@@ -24,11 +28,11 @@ describe("LikesService", () => {
             useClass: MockEventsGateway,
           },
         ],
-      })
+      }),
     ).compile();
 
-    service = module.get<LikesService>(LikesService);
-    prismaService = module.get<PrismaService>(PrismaService);
+    _service = module.get<LikesService>(LikesService);
+    _prismaService = module.get<PrismaService>(PrismaService);
   });
 
   it("should be defined", () => {

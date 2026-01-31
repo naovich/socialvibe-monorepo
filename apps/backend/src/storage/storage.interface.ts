@@ -5,7 +5,7 @@ export interface IStorageProvider {
 }
 
 export enum StorageProvider {
-  MINIO = 'minio',
-  CLOUDINARY = 'cloudinary',
-  S3 = 's3',
+  MINIO = "minio",
+  CLOUDINARY = "cloudinary",
+  S3 = "s3",
 }

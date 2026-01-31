@@ -1,5 +1,5 @@
-import { ModuleMetadata } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { ModuleMetadata } from "@nestjs/common";
+import { APP_GUARD } from "@nestjs/core";
 
 /**
  * Mock ThrottlerGuard for testing
@@ -15,7 +15,9 @@ export class MockThrottlerGuard {
  * Get test module metadata with common mocks
  * Use this instead of bare Test.createTestingModule()
  */
-export function getTestModuleMetadata(metadata: ModuleMetadata): ModuleMetadata {
+export function getTestModuleMetadata(
+  metadata: ModuleMetadata,
+): ModuleMetadata {
   return {
     ...metadata,
     providers: [

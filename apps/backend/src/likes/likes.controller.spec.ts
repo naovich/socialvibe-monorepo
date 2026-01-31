@@ -5,7 +5,7 @@ import { getTestModuleMetadata } from "../../test/helpers/test.module";
 
 describe("LikesController", () => {
   let controller: LikesController;
-  let service: LikesService;
+  let _service: LikesService;
 
   const mockLikesService = {
     likePost: jest.fn(),
@@ -22,11 +22,11 @@ describe("LikesController", () => {
             useValue: mockLikesService,
           },
         ],
-      })
+      }),
     ).compile();
 
     controller = module.get<LikesController>(LikesController);
-    service = module.get<LikesService>(LikesService);
+    _service = module.get<LikesService>(LikesService);
   });
 
   it("should be defined", () => {

@@ -1,6 +1,10 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { EventsGateway } from '../events/events.gateway';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
+import { EventsGateway } from "../events/events.gateway";
 
 @Injectable()
 export class MessagesService {
@@ -11,7 +15,7 @@ export class MessagesService {
 
   async getOrCreateConversation(userId: string, recipientId: string) {
     if (userId === recipientId) {
-      throw new BadRequestException('Cannot message yourself');
+      throw new BadRequestException("Cannot message yourself");
     }
 
     // Check if conversation already exists
@@ -33,7 +37,7 @@ export class MessagesService {
         },
         messages: {
           take: 1,
-          orderBy: { createdAt: 'desc' },
+          orderBy: { createdAt: "desc" },
         },
       },
     });
@@ -81,7 +85,7 @@ export class MessagesService {
         },
         messages: {
           take: 1,
-          orderBy: { createdAt: 'desc' },
+          orderBy: { createdAt: "desc" },
         },
         _count: {
           select: {
@@ -95,7 +99,7 @@ export class MessagesService {
         },
       },
       orderBy: {
-        updatedAt: 'desc',
+        updatedAt: "desc",
       },
     });
 
@@ -120,9 +124,14 @@ export class MessagesService {
     });
   }
 
-  async getMessages(conversationId: string, userId: string, page: number = 1, limit: number = 50) {
+  async getMessages(
+    conversationId: string,
+    userId: string,
+    page: number = 1,
+    limit: number = 50,
+  ) {
     const skip = (page - 1) * limit;
-    
+
     // Verify user is part of conversation
     const conversation = await this.prisma.conversation.findFirst({
       where: {
@@ -145,7 +154,7 @@ export class MessagesService {
               },
             },
           },
-          orderBy: { createdAt: 'desc' },
+          orderBy: { createdAt: "desc" },
         },
         participants: {
           select: {
@@ -159,7 +168,7 @@ export class MessagesService {
     });
 
     if (!conversation) {
-      throw new NotFoundException('Conversation not found');
+      throw new NotFoundException("Conversation not found");
     }
 
     // Mark messages as read
@@ -197,7 +206,7 @@ export class MessagesService {
     });
 
     if (!conversation) {
-      throw new NotFoundException('Conversation not found');
+      throw new NotFoundException("Conversation not found");
     }
 
     const message = await this.prisma.message.create({
@@ -227,7 +236,7 @@ export class MessagesService {
     // Emit WebSocket event to recipient
     const recipient = conversation.participants.find((p) => p.id !== userId);
     if (recipient) {
-      this.eventsGateway.server.emit('message:new', {
+      this.eventsGateway.server.emit("message:new", {
         conversationId,
         message,
         recipientId: recipient.id,
@@ -243,17 +252,17 @@ export class MessagesService {
     });
 
     if (!message) {
-      throw new NotFoundException('Message not found');
+      throw new NotFoundException("Message not found");
     }
 
     if (message.senderId !== userId) {
-      throw new BadRequestException('You can only delete your own messages');
+      throw new BadRequestException("You can only delete your own messages");
     }
 
     await this.prisma.message.delete({
       where: { id: messageId },
     });
 
-    return { message: 'Message deleted successfully' };
+    return { message: "Message deleted successfully" };
   }
 }

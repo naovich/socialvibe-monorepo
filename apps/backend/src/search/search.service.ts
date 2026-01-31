@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class SearchService {
   constructor(private prisma: PrismaService) {}
 
-  async search(query: string, userId?: string) {
+  async search(query: string, _userId?: string) {
     if (!query || query.length < 2) {
       return { users: [], posts: [] };
     }
@@ -16,8 +16,8 @@ export class SearchService {
     const users = await this.prisma.user.findMany({
       where: {
         OR: [
-          { name: { contains: searchTerm, mode: 'insensitive' } },
-          { username: { contains: searchTerm, mode: 'insensitive' } },
+          { name: { contains: searchTerm, mode: "insensitive" } },
+          { username: { contains: searchTerm, mode: "insensitive" } },
         ],
       },
       select: {
@@ -33,7 +33,7 @@ export class SearchService {
     // Search posts
     const posts = await this.prisma.post.findMany({
       where: {
-        caption: { contains: searchTerm, mode: 'insensitive' },
+        caption: { contains: searchTerm, mode: "insensitive" },
       },
       include: {
         author: {

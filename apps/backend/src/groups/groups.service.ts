@@ -1,11 +1,25 @@
-import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+  BadRequestException,
+} from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class GroupsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(userId: string, data: { name: string; description?: string; avatar?: string; coverImage?: string; isPrivate?: boolean }) {
+  async create(
+    userId: string,
+    data: {
+      name: string;
+      description?: string;
+      avatar?: string;
+      coverImage?: string;
+      isPrivate?: boolean;
+    },
+  ) {
     return this.prisma.group.create({
       data: {
         ...data,
@@ -37,10 +51,7 @@ export class GroupsService {
     const groups = await this.prisma.group.findMany({
       where: userId
         ? {
-            OR: [
-              { isPrivate: false },
-              { members: { some: { id: userId } } },
-            ],
+            OR: [{ isPrivate: false }, { members: { some: { id: userId } } }],
           }
         : { isPrivate: false },
       include: {
@@ -60,7 +71,7 @@ export class GroupsService {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
 
@@ -69,13 +80,13 @@ export class GroupsService {
       // PERFORMANCE FIX: Get all user's memberships in 1 query instead of N queries
       const userMemberships = await this.prisma.group.findMany({
         where: {
-          id: { in: groups.map(g => g.id) },
+          id: { in: groups.map((g) => g.id) },
           members: { some: { id: userId } },
         },
         select: { id: true },
       });
 
-      const membershipSet = new Set(userMemberships.map(g => g.id));
+      const membershipSet = new Set(userMemberships.map((g) => g.id));
 
       return groups.map((group) => ({
         ...group,
@@ -123,7 +134,7 @@ export class GroupsService {
     });
 
     if (!group) {
-      throw new NotFoundException('Group not found');
+      throw new NotFoundException("Group not found");
     }
 
     // Check if user is member
@@ -133,7 +144,7 @@ export class GroupsService {
 
     // If private group and user is not member, deny access
     if (group.isPrivate && !isMember) {
-      throw new ForbiddenException('This group is private');
+      throw new ForbiddenException("This group is private");
     }
 
     return {
@@ -151,7 +162,7 @@ export class GroupsService {
     });
 
     if (!group) {
-      throw new NotFoundException('Group not found');
+      throw new NotFoundException("Group not found");
     }
 
     // If private, check membership
@@ -164,7 +175,7 @@ export class GroupsService {
       });
 
       if (!isMember) {
-        throw new ForbiddenException('This group is private');
+        throw new ForbiddenException("This group is private");
       }
     }
 
@@ -192,15 +203,15 @@ export class GroupsService {
     });
 
     if (!group) {
-      throw new NotFoundException('Group not found');
+      throw new NotFoundException("Group not found");
     }
 
     if (group.members.length > 0) {
-      throw new BadRequestException('Already a member of this group');
+      throw new BadRequestException("Already a member of this group");
     }
 
     if (group.isPrivate) {
-      throw new ForbiddenException('Cannot join private group');
+      throw new ForbiddenException("Cannot join private group");
     }
 
     await this.prisma.group.update({
@@ -212,7 +223,7 @@ export class GroupsService {
       },
     });
 
-    return { message: 'Joined group successfully' };
+    return { message: "Joined group successfully" };
   }
 
   async leave(userId: string, groupId: string) {
@@ -224,15 +235,17 @@ export class GroupsService {
     });
 
     if (!group) {
-      throw new NotFoundException('Group not found');
+      throw new NotFoundException("Group not found");
     }
 
     if (group.members.length === 0) {
-      throw new BadRequestException('Not a member of this group');
+      throw new BadRequestException("Not a member of this group");
     }
 
     if (group.creatorId === userId) {
-      throw new BadRequestException('Creator cannot leave the group. Delete it instead.');
+      throw new BadRequestException(
+        "Creator cannot leave the group. Delete it instead.",
+      );
     }
 
     await this.prisma.group.update({
@@ -244,20 +257,30 @@ export class GroupsService {
       },
     });
 
-    return { message: 'Left group successfully' };
+    return { message: "Left group successfully" };
   }
 
-  async update(userId: string, groupId: string, data: { name?: string; description?: string; avatar?: string; coverImage?: string; isPrivate?: boolean }) {
+  async update(
+    userId: string,
+    groupId: string,
+    data: {
+      name?: string;
+      description?: string;
+      avatar?: string;
+      coverImage?: string;
+      isPrivate?: boolean;
+    },
+  ) {
     const group = await this.prisma.group.findUnique({
       where: { id: groupId },
     });
 
     if (!group) {
-      throw new NotFoundException('Group not found');
+      throw new NotFoundException("Group not found");
     }
 
     if (group.creatorId !== userId) {
-      throw new ForbiddenException('Only group creator can update the group');
+      throw new ForbiddenException("Only group creator can update the group");
     }
 
     return this.prisma.group.update({
@@ -288,18 +311,18 @@ export class GroupsService {
     });
 
     if (!group) {
-      throw new NotFoundException('Group not found');
+      throw new NotFoundException("Group not found");
     }
 
     if (group.creatorId !== userId) {
-      throw new ForbiddenException('Only group creator can delete the group');
+      throw new ForbiddenException("Only group creator can delete the group");
     }
 
     await this.prisma.group.delete({
       where: { id: groupId },
     });
 
-    return { message: 'Group deleted successfully' };
+    return { message: "Group deleted successfully" };
   }
 
   async getPosts(groupId: string, userId?: string) {
@@ -309,7 +332,7 @@ export class GroupsService {
     });
 
     if (!group) {
-      throw new NotFoundException('Group not found');
+      throw new NotFoundException("Group not found");
     }
 
     // If private, check membership
@@ -322,7 +345,7 @@ export class GroupsService {
       });
 
       if (!isMember) {
-        throw new ForbiddenException('This group is private');
+        throw new ForbiddenException("This group is private");
       }
     }
 
@@ -345,7 +368,7 @@ export class GroupsService {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
   }
