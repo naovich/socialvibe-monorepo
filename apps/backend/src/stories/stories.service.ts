@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 
-interface StoryGroup {
+export interface StoryGroup {
   userId: string;
   user: {
     id: string;

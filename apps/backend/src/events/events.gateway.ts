@@ -44,7 +44,7 @@ interface FriendData {
 })
 export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  server: Server;
+  server!: Server;
 
   private readonly logger = new Logger(EventsGateway.name);
   private connectedUsers = new Map<string, string>(); // userId -> socketId
@@ -91,9 +91,10 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       const onlineUsers = Array.from(this.connectedUsers.keys());
       client.emit("users:online", onlineUsers);
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       this.logger.error(
         `Authentication failed for client ${client.id}:`,
-        error.message,
+        message,
       );
       client.disconnect();
     }

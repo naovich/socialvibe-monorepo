@@ -10,7 +10,6 @@ import {
 
 describe("CommentsService", () => {
   let service: CommentsService;
-  let _prismaService: PrismaService;
 
   beforeEach(async () => {
     const mockPrisma = createMockPrismaService();
@@ -32,7 +31,6 @@ describe("CommentsService", () => {
     ).compile();
 
     service = module.get<CommentsService>(CommentsService);
-    _prismaService = module.get<PrismaService>(PrismaService);
   });
 
   it("should be defined", () => {

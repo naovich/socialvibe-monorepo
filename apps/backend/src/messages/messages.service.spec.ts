@@ -5,10 +5,7 @@ import { EventsGateway } from "../events/events.gateway";
 import { NotFoundException } from "@nestjs/common";
 
 describe("MessagesService", () => {
-  /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
   let _service: MessagesService;
-  let _prismaService: PrismaService;
-  let _eventsGateway: EventsGateway;
 
   const mockPrisma = {
     conversation: {
@@ -48,8 +45,6 @@ describe("MessagesService", () => {
     }).compile();
 
     _service = module.get<MessagesService>(MessagesService);
-    _prismaService = module.get<PrismaService>(PrismaService);
-    _eventsGateway = module.get<EventsGateway>(EventsGateway);
   });
 
   afterEach(() => {
@@ -72,7 +67,10 @@ describe("MessagesService", () => {
 
       mockPrisma.conversation.findFirst.mockResolvedValue(mockConversation);
 
-      const result = await _service.getOrCreateConversation(userId, recipientId);
+      const result = await _service.getOrCreateConversation(
+        userId,
+        recipientId,
+      );
 
       expect(mockPrisma.conversation.findFirst).toHaveBeenCalled();
       expect(mockPrisma.conversation.create).not.toHaveBeenCalled();
@@ -95,7 +93,10 @@ describe("MessagesService", () => {
       mockPrisma.conversation.findFirst.mockResolvedValue(null);
       mockPrisma.conversation.create.mockResolvedValue(mockConversation);
 
-      const result = await _service.getOrCreateConversation(userId, recipientId);
+      const result = await _service.getOrCreateConversation(
+        userId,
+        recipientId,
+      );
 
       expect(mockPrisma.conversation.create).toHaveBeenCalled();
       expect(result).toEqual(mockConversation);
@@ -143,7 +144,7 @@ describe("MessagesService", () => {
       mockPrisma.conversation.findFirst.mockResolvedValue(null);
 
       await expect(
-        service.sendMessage("user-1", "conv-1", "test"),
+        _service.sendMessage("user-1", "conv-1", "test"),
       ).rejects.toThrow(NotFoundException);
     });
   });

@@ -12,13 +12,13 @@ import { EventsGateway } from "../events/events.gateway";
 describe("PostsService", () => {
   let service: PostsService;
   let prismaService: PrismaService;
-  let _eventsGateway: EventsGateway;
 
   const mockPost = {
     id: "1",
     caption: "Test post",
     image: "https://example.com/image.jpg",
     authorId: "user1",
+    groupId: null,
     createdAt: new Date(),
     updatedAt: new Date(),
     author: {

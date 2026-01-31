@@ -4,9 +4,8 @@ import { PrismaService } from "../prisma/prisma.service";
 import { ForbiddenException } from "@nestjs/common";
 
 describe("GroupsService", () => {
-  /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+  /* eslint-disable @typescript-eslint/no-unsafe-assignment */
   let _service: GroupsService;
-  let _prismaService: PrismaService;
 
   const mockPrisma = {
     group: {
@@ -31,7 +30,6 @@ describe("GroupsService", () => {
     }).compile();
 
     _service = module.get<GroupsService>(GroupsService);
-    _prismaService = module.get<PrismaService>(PrismaService);
   });
 
   afterEach(() => {

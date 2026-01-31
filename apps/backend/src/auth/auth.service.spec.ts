@@ -15,11 +15,11 @@ jest.mock("bcrypt");
 describe("AuthService", () => {
   let service: AuthService;
   let prismaService: PrismaService;
-  let _jwtService: JwtService;
 
   const mockUser = {
     id: "1",
     email: "test@example.com",
+    emailVerified: false,
     name: "Test User",
     username: "testuser",
     password: "$2b$10$hashedpassword",
@@ -60,7 +60,6 @@ describe("AuthService", () => {
 
     service = module.get<AuthService>(AuthService);
     prismaService = module.get<PrismaService>(PrismaService);
-    _jwtService = module.get<JwtService>(JwtService);
   });
 
   describe("register", () => {

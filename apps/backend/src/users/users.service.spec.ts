@@ -7,7 +7,6 @@ import {
 } from "../../test/helpers/test.module";
 describe("UsersService", () => {
   let _service: UsersService;
-  let _prismaService: PrismaService;
 
   beforeEach(async () => {
     const mockPrisma = createMockPrismaService();
@@ -25,7 +24,6 @@ describe("UsersService", () => {
     ).compile();
 
     _service = module.get<UsersService>(UsersService);
-    _prismaService = module.get<PrismaService>(PrismaService);
   });
 
   it("should be defined", () => {

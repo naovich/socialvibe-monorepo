@@ -88,7 +88,7 @@ export class LoggerService implements NestLoggerService {
   logRequest(req: {
     method: string;
     url: string;
-    ip: string;
+    ip: string | undefined;
     get: (key: string) => string | undefined;
   }) {
     this.logger.info("Incoming request", {

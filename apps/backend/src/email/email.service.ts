@@ -5,7 +5,7 @@ import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class EmailService {
-  private transporter: nodemailer.Transporter;
+  private transporter!: nodemailer.Transporter;
 
   constructor(private configService: ConfigService) {
     // Create transporter (development mode with ethereal.email for testing)

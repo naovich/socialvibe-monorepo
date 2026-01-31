@@ -10,7 +10,6 @@ import {
 
 describe("LikesService", () => {
   let _service: LikesService;
-  let _prismaService: PrismaService;
 
   beforeEach(async () => {
     const mockPrisma = createMockPrismaService();
@@ -32,10 +31,9 @@ describe("LikesService", () => {
     ).compile();
 
     _service = module.get<LikesService>(LikesService);
-    _prismaService = module.get<PrismaService>(PrismaService);
   });
 
   it("should be defined", () => {
-    expect(service).toBeDefined();
+    expect(_service).toBeDefined();
   });
 });

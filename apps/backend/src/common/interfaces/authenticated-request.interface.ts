@@ -1,6 +1,4 @@
-import { Request } from "@nestjs/common";
-
-export interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest {
   user: {
     id: string;
     email: string;
