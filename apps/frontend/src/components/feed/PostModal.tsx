@@ -10,12 +10,13 @@ interface PostModalProps {
 
 const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   const { currentUser, addPost } = useSocialStore();
-  if (!currentUser) return null;
   const [content, setContent] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showMoodPicker, setShowMoodPicker] = useState(false);
   const [mood, setMood] = useState<{ emoji: string; label: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  if (!currentUser) return null;
 
   const moods = [
     { emoji: '😊', label: 'Happy' },

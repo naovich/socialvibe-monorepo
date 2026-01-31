@@ -4,6 +4,13 @@ import { searchAPI } from '../../../services/api';
 const RECENT_SEARCHES_KEY = 'socialvibe_recent_searches';
 const MAX_RECENT = 5;
 
+interface APIUser {
+  id: string;
+  name: string;
+  username: string;
+  avatar?: string;
+}
+
 class SearchService {
   async search(query: string): Promise<SearchResult[]> {
     if (!query.trim() || query.length < 2) return [];
@@ -13,7 +20,7 @@ class SearchService {
       const results: SearchResult[] = [];
 
       // Add users
-      users.forEach((user: any) => {
+      users.forEach((user: APIUser) => {
         results.push({
           id: user.id,
           type: 'user',

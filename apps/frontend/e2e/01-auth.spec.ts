@@ -86,8 +86,9 @@ test.describe('Authentication', () => {
     
     await helpers.register(user);
     
-    // Get initial token
-    const initialToken = await page.evaluate(() => localStorage.getItem('auth_token'));
+    // Get initial token (for debugging if needed)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _initialToken = await page.evaluate(() => localStorage.getItem('auth_token'));
     
     // Simulate token expiration by setting old timestamp
     await page.evaluate(() => {

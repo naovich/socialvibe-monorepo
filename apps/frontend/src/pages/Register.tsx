@@ -1,3 +1,4 @@
+import { getErrorMessage } from '../utils/error-utils';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from '../services/api';
@@ -31,8 +32,8 @@ const Register: React.FC = () => {
       // Navigate to home - it will load data itself
       // DON'T fetch here: interceptor can clear localStorage if requests fail
       navigate('/');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Registration failed. Please try again.'));
     } finally {
       setLoading(false);
     }

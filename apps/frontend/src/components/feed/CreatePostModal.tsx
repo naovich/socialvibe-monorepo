@@ -11,13 +11,14 @@ interface CreatePostModalProps {
 
 const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) => {
   const { currentUser, addPost } = useSocialStore();
-  if (!currentUser) return null;
   const [caption, setCaption] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [location, setLocation] = useState('');
   const [selectedVibes, setSelectedVibes] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  if (!currentUser) return null;
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;

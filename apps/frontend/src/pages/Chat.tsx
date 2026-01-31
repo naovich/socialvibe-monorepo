@@ -66,7 +66,8 @@ const Chat: React.FC = () => {
 
   useEffect(() => {
     // Listen for new messages via WebSocket
-    const handleNewMessage = (data: any) => {
+    const handleNewMessage = (rawData: unknown) => {
+      const data = rawData as { conversationId: string; message: Message };
       if (data.conversationId === conversationId) {
         setMessages((prev) => [...prev, data.message]);
       }

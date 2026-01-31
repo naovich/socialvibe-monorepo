@@ -1,3 +1,4 @@
+import { getErrorMessage } from '../utils/error-utils';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from '../services/api';
@@ -20,8 +21,8 @@ const Login: React.FC = () => {
       // Navigate to home - it will load data itself
       // DON'T fetch here: interceptor can clear localStorage if requests fail
       navigate('/');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Invalid email or password');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Invalid email or password'));
     } finally {
       setLoading(false);
     }

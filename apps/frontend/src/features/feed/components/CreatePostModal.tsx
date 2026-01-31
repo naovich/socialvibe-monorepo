@@ -11,12 +11,13 @@ interface CreatePostModalProps {
 
 const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) => {
   const { currentUser } = useSocialStore();
-  if (!currentUser) return null;
   const { createPost } = useFeed();
   const [caption, setCaption] = useState('');
   const [location, setLocation] = useState('');
   const [vibeTag, setVibeTag] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  
+  if (!currentUser) return null;
 
   const vibes = ['😊', '😂', '❤️', '🎉', '😢', '😮', '🤔', '💪', '🔥', '✨', '☕', '🚀'];
 

@@ -5,8 +5,9 @@ import PostModal from './PostModal';
 
 const CreatePost: React.FC = () => {
   const { currentUser } = useSocialStore();
-  if (!currentUser) return null;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  if (!currentUser) return null;
 
   return (
     <>

@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { TestHelpers } from './helpers/test-utils';
+import { TestHelpers, type TestUser } from './helpers/test-utils';
 
 test.describe('Posts', () => {
   let helpers: TestHelpers;
-  let user: any;
+  let user: TestUser;
 
   test.beforeEach(async ({ page }) => {
     helpers = new TestHelpers(page);
@@ -46,7 +46,7 @@ test.describe('Posts', () => {
       // Verify image and caption
       await expect(page.locator(`text=${caption}`)).toBeVisible();
       await expect(page.locator('img[alt*="post"], [data-testid="post-image"]')).toBeVisible();
-    } catch (error) {
+    } catch {
       test.skip(); // Skip if test image not available
     }
   });

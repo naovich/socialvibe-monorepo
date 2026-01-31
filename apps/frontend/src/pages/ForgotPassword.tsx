@@ -1,3 +1,4 @@
+import { getErrorMessage } from '../utils/error-utils';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Lock, Mail, ArrowLeft, CheckCircle } from 'lucide-react';
@@ -17,8 +18,8 @@ export default function ForgotPassword() {
     try {
       await api.post('/auth/forgot-password', { email });
       setSuccess(true);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to send reset email');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to send reset email'));
     } finally {
       setLoading(false);
     }

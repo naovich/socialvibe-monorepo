@@ -11,6 +11,22 @@ export interface TestUser {
   username: string;
 }
 
+interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
+}
+
+interface RegisterResponse {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    username: string;
+    avatar?: string;
+  };
+  tokens: AuthTokens;
+}
+
 export class TestHelpers {
   constructor(private page: Page) {}
 
@@ -240,7 +256,7 @@ export class ApiHelpers {
   /**
    * Create user via API (faster than UI)
    */
-  async createUser(user: TestUser): Promise<{ user: any; tokens: any }> {
+  async createUser(user: TestUser): Promise<RegisterResponse> {
     const response = await fetch(`${this.baseURL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

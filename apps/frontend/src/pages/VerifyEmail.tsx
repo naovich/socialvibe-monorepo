@@ -1,3 +1,4 @@
+import { getErrorMessage } from '../utils/error-utils';
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
@@ -31,8 +32,8 @@ export default function VerifyEmail() {
       setTimeout(() => {
         navigate('/');
       }, 3000);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to verify email');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to verify email'));
     } finally {
       setLoading(false);
     }

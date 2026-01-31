@@ -1,3 +1,4 @@
+import { getErrorMessage } from '../utils/error-utils';
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { Lock, Eye, EyeOff, CheckCircle } from 'lucide-react';
@@ -52,8 +53,8 @@ export default function ResetPassword() {
       setTimeout(() => {
         navigate('/login');
       }, 3000);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to reset password');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to reset password'));
     } finally {
       setLoading(false);
     }

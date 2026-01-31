@@ -1,3 +1,4 @@
+import { getErrorMessage } from '../../utils/error-utils';
 import React, { useState } from 'react';
 import { X, Upload, Camera } from 'lucide-react';
 import { useSocialStore } from '../../store';
@@ -75,9 +76,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
         coverImage: updated.coverImage,
       });
       onClose();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Failed to update profile:', error);
-      alert(error.response?.data?.message || 'Failed to update profile');
+      alert(getErrorMessage(error, 'Failed to update profile'));
     } finally {
       setLoading(false);
     }

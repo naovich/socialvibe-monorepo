@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { TestHelpers } from './helpers/test-utils';
+import { TestHelpers, type TestUser } from './helpers/test-utils';
 
 test.describe('Messages', () => {
   let helpers1: TestHelpers;
-  let user1: any;
-  let user2: any;
+  let user1: TestUser;
+  let user2: TestUser;
 
   test.beforeEach(async ({ page, context }) => {
     user1 = TestHelpers.generateUser('msg1');
@@ -80,7 +80,7 @@ test.describe('Messages', () => {
 
 test.describe('Groups', () => {
   let helpers: TestHelpers;
-  let user: any;
+  let user: TestUser;
 
   test.beforeEach(async ({ page }) => {
     helpers = new TestHelpers(page);
@@ -99,7 +99,7 @@ test.describe('Groups', () => {
     await expect(page.locator(`text=${description}`)).toBeVisible();
   });
 
-  test('US-027: Join a public group', async ({ page, context }) => {
+  test('US-027: Join a public group', async ({ context }) => {
     const groupName = `Public Group ${Date.now()}`;
     
     // User1 creates group
@@ -165,8 +165,8 @@ test.describe('Groups', () => {
 
 test.describe('Search', () => {
   let helpers: TestHelpers;
-  let user1: any;
-  let user2: any;
+  let user1: TestUser;
+  let user2: TestUser;
 
   test.beforeEach(async ({ page, context }) => {
     user1 = TestHelpers.generateUser('searcher');
@@ -209,7 +209,7 @@ test.describe('Search', () => {
 
 test.describe('Notifications', () => {
   let helpers: TestHelpers;
-  let user: any;
+  let user: TestUser;
 
   test.beforeEach(async ({ page }) => {
     helpers = new TestHelpers(page);

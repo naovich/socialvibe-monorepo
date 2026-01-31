@@ -2,9 +2,11 @@ import { io, Socket } from 'socket.io-client';
 
 const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
+type SocketCallback = (data: unknown) => void;
+
 class SocketService {
   private socket: Socket | null = null;
-  private listeners = new Map<string, Set<Function>>();
+  private listeners = new Map<string, Set<SocketCallback>>();
 
   connect(token: string) {
     if (this.socket?.connected) {
@@ -78,21 +80,21 @@ class SocketService {
     this.socket.on('message:new', (data) => this.emit('message:new', data));
   }
 
-  on(event: string, callback: Function) {
+  on(event: string, callback: SocketCallback) {
     if (!this.listeners.has(event)) {
       this.listeners.set(event, new Set());
     }
     this.listeners.get(event)!.add(callback);
   }
 
-  off(event: string, callback: Function) {
+  off(event: string, callback: SocketCallback) {
     const eventListeners = this.listeners.get(event);
     if (eventListeners) {
       eventListeners.delete(callback);
     }
   }
 
-  private emit(event: string, data: any) {
+  private emit(event: string, data: unknown) {
     const eventListeners = this.listeners.get(event);
     if (eventListeners) {
       eventListeners.forEach((callback) => callback(data));

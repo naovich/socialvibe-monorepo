@@ -1,3 +1,4 @@
+import { getErrorMessage } from '../../utils/error-utils';
 import React, { useState } from 'react';
 import { X, Users, Lock, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -38,8 +39,8 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose, on
       setName('');
       setDescription('');
       setIsPrivate(false);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to create group');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to create group'));
     } finally {
       setLoading(false);
     }

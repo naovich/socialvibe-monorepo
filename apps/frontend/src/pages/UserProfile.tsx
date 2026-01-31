@@ -63,7 +63,7 @@ const UserProfile: React.FC = () => {
 
         // Check friendship status
         const friends = await friendshipsAPI.getFriends();
-        setIsFriend(friends.some((f: any) => f.id === userId));
+        setIsFriend(friends.some((f: { id: string }) => f.id === userId));
       } catch (error) {
         console.error('Failed to load user:', error);
       } finally {

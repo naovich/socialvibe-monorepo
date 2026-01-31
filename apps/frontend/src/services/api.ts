@@ -22,10 +22,15 @@ api.interceptors.request.use(
 );
 
 // Intercepteur pour gérer les erreurs d'authentification avec refresh
-let isRefreshing = false;
-let failedQueue: any[] = [];
+interface QueuedRequest {
+  resolve: (token: string | null) => void;
+  reject: (error: unknown) => void;
+}
 
-const processQueue = (error: any, token: string | null = null) => {
+let isRefreshing = false;
+let failedQueue: QueuedRequest[] = [];
+
+const processQueue = (error: unknown, token: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
@@ -335,7 +340,7 @@ export const groupsAPI = {
     return response.data;
   },
 
-  update: async (id: string, data: any) => {
+  update: async (id: string, data: Partial<{ name: string; description?: string; avatar?: string; coverImage?: string; isPrivate?: boolean }>) => {
     const response = await api.put(`/groups/${id}`, data);
     return response.data;
   },

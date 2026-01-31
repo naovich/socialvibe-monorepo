@@ -4,7 +4,8 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-async function globalSetup(config: FullConfig) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function globalSetup(_config: FullConfig) {
   console.log('🔧 E2E Global Setup - Checking backend...');
   
   const maxRetries = 30;
@@ -19,7 +20,7 @@ async function globalSetup(config: FullConfig) {
         console.log('✅ Using existing database (tests will create unique data)');
         return; // Success
       }
-    } catch (error) {
+    } catch {
       // curl failed - backend not ready yet
     }
     

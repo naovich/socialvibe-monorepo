@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
-import { TestHelpers } from './helpers/test-utils';
+import { TestHelpers, type TestUser } from './helpers/test-utils';
 
 test.describe('Social - Friends & Followers', () => {
   let helpers1: TestHelpers;
   let helpers2: TestHelpers;
-  let user1: any;
-  let user2: any;
+  let user1: TestUser;
+  let user2: TestUser;
 
   test.beforeEach(async ({ page, context }) => {
     // Create two users for social interactions

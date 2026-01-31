@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 
 test('DEBUG: Minimal register test', async ({ page }) => {
   console.log('🔍 Starting minimal test');

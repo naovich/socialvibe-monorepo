@@ -4,6 +4,32 @@ import type { Post, User, Story, Notification } from './types';
 import { postsAPI, likesAPI, commentsAPI, usersAPI, storiesAPI } from './services/api';
 import { socketService } from './services/socket';
 
+// API response types (backend format)
+interface APIPost {
+  id: string;
+  authorId: string;
+  author: { id: string; name: string; username: string; avatar?: string };
+  caption: string;
+  image?: string;
+  _count?: { likes: number; comments: number };
+  comments?: unknown[];
+  isLiked?: boolean;
+  createdAt: string;
+}
+
+interface APIStoryGroup {
+  userId: string;
+  user: { id: string; name: string; username: string; avatar?: string };
+  stories: Array<{
+    id: string;
+    media: string;
+    type: string;
+    createdAt: string;
+    expiresAt: string;
+    userId: string;
+  }>;
+}
+
 interface SocialStore {
   currentUser: User | null;
   posts: Post[];
@@ -69,7 +95,7 @@ export const useSocialStore = create<SocialStore>()(
       fetchUserPosts: async (userId: string) => {
         try {
           const posts = await postsAPI.getUserPosts(userId);
-          const mappedPosts = posts.map((post: any) => ({
+          const mappedPosts = posts.map((post: APIPost) => ({
             id: post.id,
             userId: post.authorId,
             user: {
@@ -97,7 +123,7 @@ export const useSocialStore = create<SocialStore>()(
         try {
           const posts = await postsAPI.getAll();
           // Map backend response to frontend types
-          const mappedPosts = posts.map((post: any) => ({
+          const mappedPosts = posts.map((post: APIPost) => ({
             id: post.id,
             userId: post.authorId,
             user: {
@@ -124,14 +150,14 @@ export const useSocialStore = create<SocialStore>()(
         try {
           const data = await storiesAPI.getActive();
           // Map backend response to frontend Story type
-          const mappedStories = data.flatMap((group: any) => 
-            group.stories.map((story: any) => ({
+          const mappedStories = data.flatMap((group: APIStoryGroup) => 
+            group.stories.map((story: APIStoryGroup["stories"][0]) => ({
               id: story.id,
               user: {
                 name: group.user.name,
                 avatar: group.user.avatar,
               },
-              image: story.image,
+              image: story.media,
               viewed: false, // TODO: Track viewed stories
             }))
           );
@@ -216,14 +242,16 @@ export const useSocialStore = create<SocialStore>()(
         socketService.connect(token);
 
         // Listen for new posts
-        socketService.on('post:new', (post: Post) => {
+        socketService.on('post:new', (rawData: unknown) => {
+          const post = rawData as Post;
           set((state) => ({
             posts: [post, ...state.posts],
           }));
         });
 
         // Listen for likes
-        socketService.on('post:liked', (data: { postId: string; user: any }) => {
+        socketService.on('post:liked', (rawData: unknown) => {
+          const data = rawData as { postId: string; user: { name: string; avatar?: string; username: string } };
           set((state) => ({
             notifications: [
               {
@@ -231,7 +259,7 @@ export const useSocialStore = create<SocialStore>()(
                 type: 'like' as const,
                 user: {
                   name: data.user.name,
-                  avatar: data.user.avatar,
+                  avatar: data.user.avatar || '',
                   username: data.user.username,
                 },
                 content: 'liked your post',
@@ -245,7 +273,8 @@ export const useSocialStore = create<SocialStore>()(
         });
 
         // Listen for comments
-        socketService.on('comment:new', (data: any) => {
+        socketService.on('comment:new', (rawData: unknown) => {
+          const data = rawData as { postId: string; user: { name: string; avatar?: string; username: string }; text: string };
           set((state) => ({
             notifications: [
               {
@@ -253,7 +282,7 @@ export const useSocialStore = create<SocialStore>()(
                 type: 'comment' as const,
                 user: {
                   name: data.user.name,
-                  avatar: data.user.avatar,
+                  avatar: data.user.avatar || '',
                   username: data.user.username,
                 },
                 content: 'commented on your post',
@@ -267,17 +296,20 @@ export const useSocialStore = create<SocialStore>()(
         });
 
         // Listen for online users
-        socketService.on('users:online', (users: string[]) => {
+        socketService.on('users:online', (rawData: unknown) => {
+          const users = rawData as string[];
           set({ onlineUsers: users });
         });
 
-        socketService.on('user:online', (data: { userId: string }) => {
+        socketService.on('user:online', (rawData: unknown) => {
+          const data = rawData as { userId: string };
           set((state) => ({
             onlineUsers: [...new Set([...state.onlineUsers, data.userId])],
           }));
         });
 
-        socketService.on('user:offline', (data: { userId: string }) => {
+        socketService.on('user:offline', (rawData: unknown) => {
+          const data = rawData as { userId: string };
           set((state) => ({
             onlineUsers: state.onlineUsers.filter((id) => id !== data.userId),
           }));

@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { TestHelpers } from './helpers/test-utils';
+import { TestHelpers, type TestUser } from './helpers/test-utils';
 
 test.describe('Security', () => {
   let helpers: TestHelpers;
-  let user1: any;
-  let user2: any;
+  let user1: TestUser;
+  let user2: TestUser;
 
   test.beforeEach(async ({ page, context }) => {
     user1 = TestHelpers.generateUser('secure1');
@@ -143,7 +143,7 @@ test.describe('Performance', () => {
     const metrics = await page.evaluate(() => {
       const entries = performance.getEntriesByType('resource');
       const jsFiles = entries.filter(e => e.name.endsWith('.js'));
-      const totalSize = jsFiles.reduce((sum, file: any) => sum + (file.transferSize || 0), 0);
+      const totalSize = jsFiles.reduce((sum, file: PerformanceResourceTiming) => sum + (file.transferSize || 0), 0);
       return {
         jsFileCount: jsFiles.length,
         totalSizeKB: Math.round(totalSize / 1024),
@@ -177,6 +177,7 @@ test.describe('Performance', () => {
     
     const initialMemory = await page.evaluate(() => {
       if ('memory' in performance) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (performance as any).memory.usedJSHeapSize;
       }
       return 0;
@@ -193,6 +194,7 @@ test.describe('Performance', () => {
     
     const finalMemory = await page.evaluate(() => {
       if ('memory' in performance) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (performance as any).memory.usedJSHeapSize;
       }
       return 0;
