@@ -61,7 +61,7 @@ describe("GroupsService", () => {
 
       mockPrisma.group.create.mockResolvedValue(mockGroup);
 
-      const result = await service.create(userId, groupData);
+      const result = await _service.create(userId, groupData);
 
       expect(mockPrisma.group.create).toHaveBeenCalledWith({
         data: {
@@ -89,7 +89,7 @@ describe("GroupsService", () => {
 
       mockPrisma.group.update.mockResolvedValue({ id: groupId });
 
-      const result = await service.join(userId, groupId);
+      const result = await _service.join(userId, groupId);
 
       expect(mockPrisma.group.update).toHaveBeenCalled();
       expect(result).toEqual({ message: "Joined group successfully" });
@@ -105,7 +105,7 @@ describe("GroupsService", () => {
         members: [],
       });
 
-      await expect(service.join(userId, groupId)).rejects.toThrow(
+      await expect(_service.join(userId, groupId)).rejects.toThrow(
         ForbiddenException,
       );
     });
@@ -123,7 +123,7 @@ describe("GroupsService", () => {
 
       mockPrisma.group.delete.mockResolvedValue({ id: groupId });
 
-      const result = await service.delete(userId, groupId);
+      const result = await _service.delete(userId, groupId);
 
       expect(mockPrisma.group.delete).toHaveBeenCalledWith({
         where: { id: groupId },
@@ -140,7 +140,7 @@ describe("GroupsService", () => {
         creatorId: "other-user",
       });
 
-      await expect(service.delete(userId, groupId)).rejects.toThrow(
+      await expect(_service.delete(userId, groupId)).rejects.toThrow(
         ForbiddenException,
       );
     });

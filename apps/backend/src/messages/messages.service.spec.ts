@@ -72,7 +72,7 @@ describe("MessagesService", () => {
 
       mockPrisma.conversation.findFirst.mockResolvedValue(mockConversation);
 
-      const result = await service.getOrCreateConversation(userId, recipientId);
+      const result = await _service.getOrCreateConversation(userId, recipientId);
 
       expect(mockPrisma.conversation.findFirst).toHaveBeenCalled();
       expect(mockPrisma.conversation.create).not.toHaveBeenCalled();
@@ -95,7 +95,7 @@ describe("MessagesService", () => {
       mockPrisma.conversation.findFirst.mockResolvedValue(null);
       mockPrisma.conversation.create.mockResolvedValue(mockConversation);
 
-      const result = await service.getOrCreateConversation(userId, recipientId);
+      const result = await _service.getOrCreateConversation(userId, recipientId);
 
       expect(mockPrisma.conversation.create).toHaveBeenCalled();
       expect(result).toEqual(mockConversation);
@@ -128,7 +128,7 @@ describe("MessagesService", () => {
       mockPrisma.message.create.mockResolvedValue(mockMessage);
       mockPrisma.conversation.update.mockResolvedValue({});
 
-      const result = await service.sendMessage(userId, conversationId, text);
+      const result = await _service.sendMessage(userId, conversationId, text);
 
       expect(mockPrisma.message.create).toHaveBeenCalled();
       expect(mockPrisma.conversation.update).toHaveBeenCalled();

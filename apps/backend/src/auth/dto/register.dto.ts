@@ -13,7 +13,7 @@ export class RegisterDto {
     description: "User email address",
   })
   @IsEmail()
-  email: string;
+  email!: string!;
 
   @ApiProperty({
     example: "password123",
@@ -24,7 +24,7 @@ export class RegisterDto {
   @IsString()
   @MinLength(8)
   @MaxLength(100)
-  password: string;
+  password!: string;
 
   @ApiProperty({
     example: "John Doe",
@@ -35,7 +35,7 @@ export class RegisterDto {
   @IsString()
   @MinLength(2)
   @MaxLength(50)
-  name: string;
+  name!: string;
 
   @ApiProperty({
     example: "johndoe",
@@ -49,5 +49,5 @@ export class RegisterDto {
   @Matches(/^[a-zA-Z0-9_]+$/, {
     message: "Username can only contain letters, numbers, and underscores",
   })
-  username: string;
+  username!: string;
 }
