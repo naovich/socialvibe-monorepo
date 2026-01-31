@@ -15,6 +15,7 @@ import { MessagesModule } from "./messages/messages.module";
 import { GroupsModule } from "./groups/groups.module";
 import { LoggerModule } from "./logger/logger.module";
 import { LoggerMiddleware } from "./logger/logger.middleware";
+import { NotificationsModule } from "./notifications/notifications.module";
 import { ConfigModule } from "@nestjs/config";
 import { ThrottlerModule, ThrottlerGuard } from "@nestjs/throttler";
 import { APP_GUARD } from "@nestjs/core";
@@ -39,6 +40,7 @@ import { APP_GUARD } from "@nestjs/core";
     SearchModule,
     MessagesModule,
     GroupsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [
