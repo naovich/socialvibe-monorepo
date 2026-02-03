@@ -77,7 +77,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
     <div className="fixed inset-0 z-[3000] bg-black flex items-center justify-center">
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 z-50 p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all"
+        className="absolute top-6 right-6 z-50 p-2 text-text-primary/70 hover:text-text-primary hover:bg-white/10 rounded-full transition-all"
       >
         <X size={32} />
       </button>
@@ -90,7 +90,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
           {currentGroup.stories.map((story, idx) => (
             <div key={story.id} className="h-1 flex-1 bg-white/30 rounded-full overflow-hidden">
               <div
-                className="h-full bg-white transition-all"
+                className="h-full bg-bg-primary transition-all"
                 style={{
                   width: `${idx === storyIndex ? progress : idx < storyIndex ? 100 : 0}%`,
                 }}
@@ -106,9 +106,9 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
               alt={currentGroup.user.name}
               className="w-10 h-10 rounded-full border-2 border-white"
             />
-            <div className="text-white">
+            <div className="text-text-primary">
               <h3 className="font-bold">{currentGroup.user.name}</h3>
-              <p className="text-xs text-white/80">
+              <p className="text-xs text-text-primary/80">
                 {new Date(currentStory.createdAt).toLocaleTimeString([], {
                   hour: '2-digit',
                   minute: '2-digit',
@@ -153,10 +153,10 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
             <input
               type="text"
               placeholder="Send message..."
-              className="bg-transparent border-none text-white placeholder:text-white/60 outline-none flex-1"
+              className="bg-transparent border-none text-text-primary placeholder:text-text-primary/60 outline-none flex-1"
               onClick={(e) => e.stopPropagation()}
             />
-            <button className="text-white/80 hover:text-white">
+            <button className="text-text-primary/80 hover:text-text-primary">
               <Send size={20} />
             </button>
           </div>
@@ -165,7 +165,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
               e.stopPropagation();
               onReact(currentStory.id, '❤️');
             }}
-            className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all"
+            className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-text-primary hover:bg-white/20 transition-all"
           >
             <Heart size={24} className="fill-white" />
           </button>

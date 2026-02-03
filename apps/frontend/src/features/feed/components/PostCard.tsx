@@ -100,7 +100,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike }) => {
                   />
                   {idx === 3 && post.images!.length > 4 && (
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                      <span className="text-white text-2xl font-bold">
+                      <span className="text-text-primary text-2xl font-bold">
                         +{post.images!.length - 4}
                       </span>
                     </div>
@@ -127,7 +127,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike }) => {
                 <button
                   key={option.id}
                   className={`w-full relative overflow-hidden rounded-lg p-3 text-left transition-all ${
-                    isVoted ? 'bg-primary text-white' : 'bg-bg-tertiary hover:bg-bg-primary'
+                    isVoted ? 'bg-primary text-text-primary' : 'bg-bg-tertiary hover:bg-bg-primary'
                   }`}
                 >
                   <div

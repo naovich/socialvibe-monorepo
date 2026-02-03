@@ -27,16 +27,16 @@ export default function ForgotPassword() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
+      <div className="min-h-screen bg-bg-secondary flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-bg-primary rounded-xl shadow-lg p-8 text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle className="w-10 h-10 text-green-600" />
+            <CheckCircle className="w-10 h-10 text-primary" />
           </div>
           <h2 className="text-2xl font-bold mb-2">Check Your Email</h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-text-secondary mb-6">
             If an account exists with <strong>{email}</strong>, you will receive a password reset link shortly.
           </p>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-text-muted mb-6">
             Didn't receive an email? Check your spam folder or try again in a few minutes.
           </p>
           <Link
@@ -52,15 +52,15 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+    <div className="min-h-screen bg-bg-secondary flex items-center justify-center px-4">
+      <div className="max-w-md w-full bg-bg-primary rounded-xl shadow-lg p-8">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="w-8 h-8 text-orange-500" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Forgot Password?</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-text-primary mb-2">Forgot Password?</h1>
+          <p className="text-text-secondary">
             No worries! Enter your email and we'll send you reset instructions.
           </p>
         </div>
@@ -75,14 +75,14 @@ export default function ForgotPassword() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+            <label className="block text-sm font-medium text-text-secondary mb-2">Email Address</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 border border-border-primary rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 placeholder="your@email.com"
                 required
               />
@@ -92,7 +92,7 @@ export default function ForgotPassword() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-500 text-white py-3 rounded-lg font-medium hover:bg-orange-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-orange-500 text-text-primary py-3 rounded-lg font-medium hover:bg-orange-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Sending...' : 'Send Reset Link'}
           </button>
@@ -102,7 +102,7 @@ export default function ForgotPassword() {
         <div className="mt-6 text-center">
           <Link
             to="/login"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm"
+            className="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Login

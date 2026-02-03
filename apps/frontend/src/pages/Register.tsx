@@ -43,8 +43,8 @@ const Register: React.FC = () => {
     <div className="min-h-screen bg-[#050505] flex items-center justify-center px-4 py-12">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-black text-white mb-2">Join SocialVibe</h1>
-          <p className="text-gray-400">Create your account and start connecting</p>
+          <h1 className="text-4xl font-black text-text-primary mb-2">Join SocialVibe</h1>
+          <p className="text-text-muted">Create your account and start connecting</p>
         </div>
 
         <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-8 shadow-2xl">
@@ -56,7 +56,7 @@ const Register: React.FC = () => {
             )}
 
             <div>
-              <label className="block text-sm font-bold text-gray-300 mb-2">
+              <label className="block text-sm font-bold text-text-disabled mb-2">
                 Full Name
               </label>
               <input
@@ -64,14 +64,14 @@ const Register: React.FC = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
                 placeholder="John Doe"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-300 mb-2">
+              <label className="block text-sm font-bold text-text-disabled mb-2">
                 Username
               </label>
               <input
@@ -79,14 +79,14 @@ const Register: React.FC = () => {
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
                 placeholder="johndoe"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-300 mb-2">
+              <label className="block text-sm font-bold text-text-disabled mb-2">
                 Email
               </label>
               <input
@@ -94,14 +94,14 @@ const Register: React.FC = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
                 placeholder="john@example.com"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-300 mb-2">
+              <label className="block text-sm font-bold text-text-disabled mb-2">
                 Password
               </label>
               <input
@@ -109,7 +109,7 @@ const Register: React.FC = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
                 placeholder="••••••••"
                 required
                 minLength={6}
@@ -119,14 +119,14 @@ const Register: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-orange-600 hover:bg-orange-500 disabled:bg-orange-600/50 text-white rounded-xl font-bold transition-all shadow-lg shadow-orange-600/20 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-orange-600 hover:bg-orange-500 disabled:bg-orange-600/50 text-text-primary rounded-xl font-bold transition-all shadow-lg shadow-orange-600/20 disabled:cursor-not-allowed"
             >
               {loading ? 'Creating account...' : 'Create Account'}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-gray-400 text-sm">
+            <p className="text-text-muted text-sm">
               Already have an account?{' '}
               <Link to="/login" className="text-orange-500 hover:underline font-bold">
                 Sign In

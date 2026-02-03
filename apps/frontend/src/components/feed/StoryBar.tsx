@@ -17,9 +17,9 @@ const StoryBar: React.FC = () => {
         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
         <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-[#1a1a1a] flex flex-col items-center justify-end pb-2">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center border-4 border-[#1a1a1a] shadow-lg">
-            <Plus size={18} className="text-white" />
+            <Plus size={18} className="text-text-primary" />
           </div>
-          <span className="text-[10px] font-bold text-white">Create Story</span>
+          <span className="text-[10px] font-bold text-text-primary">Create Story</span>
         </div>
       </div>
 
@@ -36,7 +36,7 @@ const StoryBar: React.FC = () => {
             <img src={story.user.avatar} className="w-full h-full rounded-full object-cover" />
           </div>
           
-          <span className="absolute bottom-3 left-3 text-xs font-bold text-white shadow-black drop-shadow-md">
+          <span className="absolute bottom-3 left-3 text-xs font-bold text-text-primary shadow-black drop-shadow-md">
             {story.user.name}
           </span>
         </div>

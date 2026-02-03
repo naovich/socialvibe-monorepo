@@ -20,7 +20,7 @@ const StoryCircle: React.FC<StoryCircleProps> = ({ group, isMe, onClick }) => {
             <Plus size={24} className="text-text-muted group-hover:text-primary transition-colors" />
           </div>
           <div className="absolute bottom-0 right-0 w-5 h-5 bg-primary rounded-full border-2 border-bg-card flex items-center justify-center">
-            <Plus size={12} className="text-white" />
+            <Plus size={12} className="text-text-primary" />
           </div>
         </div>
         <span className="text-xs font-medium text-text-primary">Add Story</span>

@@ -105,22 +105,22 @@ export function ThemeDemo() {
           <h2 className="text-2xl font-bold text-text-primary mb-4">Boutons</h2>
           
           <div className="flex flex-wrap gap-3">
-            <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors shadow-primary">
+            <button className="px-4 py-2 bg-primary text-text-primary rounded-lg hover:bg-primary-hover transition-colors shadow-primary">
               Primary
             </button>
             <button className="px-4 py-2 bg-bg-secondary text-text-primary rounded-lg hover:bg-bg-tertiary transition-colors border border-border-primary">
               Secondary
             </button>
-            <button className="px-4 py-2 bg-success text-white rounded-lg hover:opacity-90 transition-opacity">
+            <button className="px-4 py-2 bg-success text-text-primary rounded-lg hover:opacity-90 transition-opacity">
               Success
             </button>
-            <button className="px-4 py-2 bg-error text-white rounded-lg hover:opacity-90 transition-opacity">
+            <button className="px-4 py-2 bg-error text-text-primary rounded-lg hover:opacity-90 transition-opacity">
               Error
             </button>
-            <button className="px-4 py-2 bg-warning text-white rounded-lg hover:opacity-90 transition-opacity">
+            <button className="px-4 py-2 bg-warning text-text-primary rounded-lg hover:opacity-90 transition-opacity">
               Warning
             </button>
-            <button className="px-4 py-2 bg-info text-white rounded-lg hover:opacity-90 transition-opacity">
+            <button className="px-4 py-2 bg-info text-text-primary rounded-lg hover:opacity-90 transition-opacity">
               Info
             </button>
           </div>
@@ -160,7 +160,7 @@ export function ThemeDemo() {
               <p className="text-sm text-text-muted">Effet de verre givré</p>
             </div>
             
-            <div className="gradient-primary p-6 rounded-lg text-white">
+            <div className="gradient-primary p-6 rounded-lg text-text-primary">
               <p className="font-medium">Gradient Primary</p>
               <p className="text-sm opacity-90">Dégradé de la couleur primaire</p>
             </div>
@@ -184,7 +184,7 @@ export function ThemeDemo() {
               <input
                 type="text"
                 placeholder="Entrez du texte..."
-                className="w-full px-3 py-2 bg-bg-primary border border-border-primary rounded-lg text-text-primary placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                className="w-full px-3 py-2 bg-bg-primary border border-border-primary rounded-lg text-white placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
               />
             </div>
 
@@ -195,7 +195,7 @@ export function ThemeDemo() {
               <textarea
                 placeholder="Votre message..."
                 rows={3}
-                className="w-full px-3 py-2 bg-bg-primary border border-border-primary rounded-lg text-text-primary placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                className="w-full px-3 py-2 bg-bg-primary border border-border-primary rounded-lg text-white placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
               />
             </div>
 

@@ -107,7 +107,7 @@ const Chat: React.FC = () => {
       <div className="min-h-screen bg-[#050505] flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-orange-500/30 border-t-orange-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading chat...</p>
+          <p className="text-text-muted">Loading chat...</p>
         </div>
       </div>
     );
@@ -117,7 +117,7 @@ const Chat: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#050505] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-400">Conversation not found</p>
+          <p className="text-text-muted">Conversation not found</p>
           <button onClick={() => navigate('/messages')} className="mt-4 text-orange-500 hover:underline">
             Back to messages
           </button>
@@ -127,7 +127,7 @@ const Chat: React.FC = () => {
   }
 
   return (
-    <div className="h-screen bg-[#050505] text-white flex flex-col">
+    <div className="h-screen bg-[#050505] text-text-primary flex flex-col">
       {/* Header */}
       <div className="bg-[#1a1a1a]/80 backdrop-blur-md border-b border-white/10 px-4 py-3 flex items-center gap-4">
         <button
@@ -144,7 +144,7 @@ const Chat: React.FC = () => {
           <img src={otherUser.avatar} alt={otherUser.name} className="w-10 h-10 rounded-full" />
           <div>
             <h2 className="font-bold">{otherUser.name}</h2>
-            <p className="text-xs text-gray-400">@{otherUser.username}</p>
+            <p className="text-xs text-text-muted">@{otherUser.username}</p>
           </div>
         </div>
 
@@ -165,7 +165,7 @@ const Chat: React.FC = () => {
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
         {messages.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-gray-400">No messages yet. Start the conversation!</p>
+            <p className="text-text-muted">No messages yet. Start the conversation!</p>
           </div>
         ) : (
           messages.map((msg, index) => {
@@ -186,13 +186,13 @@ const Chat: React.FC = () => {
                   <div
                     className={`px-4 py-2 rounded-2xl ${
                       isOwn
-                        ? 'bg-orange-500 text-white rounded-br-sm'
-                        : 'bg-white/10 text-white rounded-bl-sm'
+                        ? 'bg-orange-500 text-text-primary rounded-br-sm'
+                        : 'bg-white/10 text-text-primary rounded-bl-sm'
                     }`}
                   >
                     <p className="text-sm leading-relaxed break-words">{msg.text}</p>
                   </div>
-                  <p className={`text-[10px] text-gray-500 mt-1 ${isOwn ? 'text-right' : 'text-left'}`}>
+                  <p className={`text-[10px] text-text-muted mt-1 ${isOwn ? 'text-right' : 'text-left'}`}>
                     {formatTime(msg.createdAt)}
                   </p>
                 </div>
@@ -221,7 +221,7 @@ const Chat: React.FC = () => {
               }}
               placeholder="Type a message..."
               rows={1}
-              className="w-full bg-transparent text-white placeholder-gray-500 resize-none focus:outline-none"
+              className="w-full bg-transparent text-text-primary placeholder-gray-500 resize-none focus:outline-none"
               style={{ minHeight: '24px', maxHeight: '120px' }}
             />
           </div>

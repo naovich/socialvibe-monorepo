@@ -89,12 +89,12 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
       <div className="bg-[#1a1a1a] rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-white/10">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10">
-          <h2 className="text-2xl font-black text-white">Edit Profile</h2>
+          <h2 className="text-2xl font-black text-text-primary">Edit Profile</h2>
           <button
             onClick={onClose}
             className="p-2 hover:bg-white/5 rounded-full transition-all"
           >
-            <X className="w-6 h-6 text-gray-400" />
+            <X className="w-6 h-6 text-text-muted" />
           </button>
         </div>
 
@@ -102,7 +102,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
         <form onSubmit={handleSubmit} className="p-6 overflow-y-auto max-h-[calc(90vh-140px)] space-y-6">
           {/* Cover Image */}
           <div>
-            <label className="block text-sm font-bold text-gray-300 mb-2">
+            <label className="block text-sm font-bold text-text-disabled mb-2">
               Cover Image
             </label>
             <div className="relative h-48 rounded-2xl overflow-hidden bg-white/5 group">
@@ -112,7 +112,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
                 alt="Cover"
               />
               <label className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center cursor-pointer">
-                <div className="flex flex-col items-center gap-2 text-white">
+                <div className="flex flex-col items-center gap-2 text-text-primary">
                   {uploadingCover ? (
                     <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
@@ -135,7 +135,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
 
           {/* Avatar */}
           <div>
-            <label className="block text-sm font-bold text-gray-300 mb-2">
+            <label className="block text-sm font-bold text-text-disabled mb-2">
               Profile Picture
             </label>
             <div className="flex items-center gap-4">
@@ -149,7 +149,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
                   {uploadingAvatar ? (
                     <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
-                    <Upload className="w-6 h-6 text-white" />
+                    <Upload className="w-6 h-6 text-text-primary" />
                   )}
                   <input
                     type="file"
@@ -160,7 +160,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
                   />
                 </label>
               </div>
-              <div className="text-sm text-gray-400">
+              <div className="text-sm text-text-muted">
                 <p>Click to upload new avatar</p>
                 <p className="text-xs">JPG, PNG or GIF (max 10MB)</p>
               </div>
@@ -169,7 +169,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
 
           {/* Name */}
           <div>
-            <label className="block text-sm font-bold text-gray-300 mb-2">
+            <label className="block text-sm font-bold text-text-disabled mb-2">
               Name
             </label>
             <input
@@ -177,14 +177,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
               required
             />
           </div>
 
           {/* Bio */}
           <div>
-            <label className="block text-sm font-bold text-gray-300 mb-2">
+            <label className="block text-sm font-bold text-text-disabled mb-2">
               Bio
             </label>
             <textarea
@@ -192,11 +192,11 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
               value={formData.bio}
               onChange={handleChange}
               rows={4}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 resize-none"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 resize-none"
               placeholder="Tell us about yourself..."
               maxLength={200}
             />
-            <p className="text-xs text-gray-500 mt-1 text-right">
+            <p className="text-xs text-text-muted mt-1 text-right">
               {formData.bio.length}/200
             </p>
           </div>
@@ -206,14 +206,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) 
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold text-white transition-all"
+              className="flex-1 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold text-text-primary transition-all"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 py-3 bg-orange-600 hover:bg-orange-500 disabled:bg-orange-600/50 rounded-xl font-bold text-white transition-all disabled:cursor-not-allowed"
+              className="flex-1 py-3 bg-orange-600 hover:bg-orange-500 disabled:bg-orange-600/50 rounded-xl font-bold text-text-primary transition-all disabled:cursor-not-allowed"
             >
               {loading ? 'Saving...' : 'Save Changes'}
             </button>

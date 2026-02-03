@@ -13,7 +13,7 @@ interface SafeHTMLProps {
  * Uses DOMPurify to strip dangerous HTML/JS while keeping safe formatting
  * 
  * @example
- * <SafeHTML content={post.caption} className="text-white" />
+ * <SafeHTML content={post.caption} className="text-text-primary" />
  */
 export const SafeHTML: React.FC<SafeHTMLProps> = ({ 
   content, 

@@ -46,7 +46,7 @@ const VibeTagSelector: React.FC<VibeTagSelectorProps> = ({
               disabled={isDisabled}
               className={`px-3 py-1.5 rounded-full flex items-center gap-1.5 text-sm font-medium transition-all duration-200 ${
                 isSelected
-                  ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25 scale-105'
+                  ? 'bg-orange-500 text-text-primary shadow-lg shadow-orange-500/25 scale-105'
                   : isDisabled
                   ? 'bg-white/5 text-text-disabled cursor-not-allowed'
                   : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:scale-105'

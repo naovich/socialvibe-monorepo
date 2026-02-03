@@ -55,7 +55,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUrl, onSave, onCancel })
             </button>
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover rounded-xl text-white font-bold transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover rounded-xl text-text-primary font-bold transition-colors"
             >
               <Check size={18} />
               Save
@@ -106,7 +106,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ imageUrl, onSave, onCancel })
                         style={{ filter: buildFilterString(preset.filters) }}
                       />
                       <div className="absolute bottom-0 inset-x-0 bg-black/60 backdrop-blur-sm py-1 text-center">
-                        <span className="text-xs font-medium text-white">{preset.name}</span>
+                        <span className="text-xs font-medium text-text-primary">{preset.name}</span>
                       </div>
                     </button>
                   ))}

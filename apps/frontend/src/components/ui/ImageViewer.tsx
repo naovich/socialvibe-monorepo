@@ -23,7 +23,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ isOpen, imageUrl, onClose }) 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"
+          className="absolute top-6 right-6 p-3 bg-white/10 hover:bg-white/20 rounded-full text-text-primary transition-all z-10"
         >
           <X size={24} />
         </button>

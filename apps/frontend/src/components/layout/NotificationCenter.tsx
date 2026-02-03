@@ -25,7 +25,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ isOpen, onClose
       case 'badge':
         return <Award className="w-5 h-5 text-orange-500" />;
       default:
-        return <Bell className="w-5 h-5 text-gray-500" />;
+        return <Bell className="w-5 h-5 text-text-muted" />;
     }
   };
 

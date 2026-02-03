@@ -37,7 +37,7 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({
       {onRetry && (
         <button
           onClick={onRetry}
-          className="flex items-center gap-2 px-6 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl transition-all"
+          className="flex items-center gap-2 px-6 py-2.5 bg-primary hover:bg-primary-hover text-text-primary font-bold rounded-xl transition-all"
         >
           <RefreshCcw size={18} />
           Try Again

@@ -70,11 +70,11 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose, on
               <div className="p-2 bg-orange-500/20 rounded-xl">
                 <Users className="w-6 h-6 text-orange-500" />
               </div>
-              <h2 className="text-2xl font-black text-white">Create Group</h2>
+              <h2 className="text-2xl font-black text-text-primary">Create Group</h2>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/5 rounded-full transition-all text-gray-400 hover:text-white"
+              className="p-2 hover:bg-white/5 rounded-full transition-all text-text-muted hover:text-text-primary"
             >
               <X className="w-6 h-6" />
             </button>
@@ -89,33 +89,33 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose, on
             )}
 
             <div>
-              <label className="block text-sm font-bold text-gray-300 mb-2">Group Name *</label>
+              <label className="block text-sm font-bold text-text-disabled mb-2">Group Name *</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter group name"
                 maxLength={50}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
               />
-              <p className="text-xs text-gray-500 mt-1">{name.length}/50</p>
+              <p className="text-xs text-text-muted mt-1">{name.length}/50</p>
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-300 mb-2">Description</label>
+              <label className="block text-sm font-bold text-text-disabled mb-2">Description</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="What's this group about?"
                 rows={4}
                 maxLength={200}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 resize-none"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 resize-none"
               />
-              <p className="text-xs text-gray-500 mt-1">{description.length}/200</p>
+              <p className="text-xs text-text-muted mt-1">{description.length}/200</p>
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-300 mb-3">Privacy</label>
+              <label className="block text-sm font-bold text-text-disabled mb-3">Privacy</label>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
@@ -128,7 +128,7 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose, on
                 >
                   <Globe className="w-6 h-6 mx-auto mb-2 text-green-500" />
                   <p className="font-bold text-sm">Public</p>
-                  <p className="text-xs text-gray-500 mt-1">Anyone can join</p>
+                  <p className="text-xs text-text-muted mt-1">Anyone can join</p>
                 </button>
 
                 <button
@@ -142,7 +142,7 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose, on
                 >
                   <Lock className="w-6 h-6 mx-auto mb-2 text-blue-500" />
                   <p className="font-bold text-sm">Private</p>
-                  <p className="text-xs text-gray-500 mt-1">Invite only</p>
+                  <p className="text-xs text-text-muted mt-1">Invite only</p>
                 </button>
               </div>
             </div>
@@ -152,14 +152,14 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose, on
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-6 py-3 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold transition-all"
+                className="flex-1 px-6 py-3 bg-white/5 hover:bg-white/10 text-text-primary rounded-xl font-bold transition-all"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={!name.trim() || loading}
-                className="flex-1 px-6 py-3 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-xl font-bold transition-all"
+                className="flex-1 px-6 py-3 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-700 disabled:cursor-not-allowed text-text-primary rounded-xl font-bold transition-all"
               >
                 {loading ? 'Creating...' : 'Create Group'}
               </button>

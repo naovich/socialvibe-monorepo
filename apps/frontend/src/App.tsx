@@ -68,7 +68,7 @@ const App: React.FC = () => {
           onClick={() => setView('feed')}
           className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
             view === 'feed'
-              ? 'bg-primary text-white shadow-lg'
+              ? 'bg-primary text-text-primary shadow-lg'
               : 'text-text-muted hover:text-text-primary hover:bg-bg-secondary'
           }`}
         >
@@ -78,7 +78,7 @@ const App: React.FC = () => {
           onClick={() => setView('profile')}
           className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
             view === 'profile'
-              ? 'bg-primary text-white shadow-lg'
+              ? 'bg-primary text-text-primary shadow-lg'
               : 'text-text-muted hover:text-text-primary hover:bg-bg-secondary'
           }`}
         >

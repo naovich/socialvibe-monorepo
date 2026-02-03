@@ -76,10 +76,10 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-white/5">
               <div className="w-8" />
-              <h3 className="text-xl font-bold text-white">Create Post</h3>
+              <h3 className="text-xl font-bold text-text-primary">Create Post</h3>
               <button 
                 onClick={onClose}
-                className="p-2 hover:bg-white/5 rounded-full text-gray-400 hover:text-white transition-colors"
+                className="p-2 hover:bg-white/5 rounded-full text-text-muted hover:text-text-primary transition-colors"
               >
                 <X size={20} />
               </button>
@@ -90,17 +90,17 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-3">
                 <img src={currentUser.avatar} className="w-11 h-11 rounded-full border border-orange-500/30" />
                 <div className="flex flex-col">
-                  <span className="font-bold text-white flex items-center gap-1">
+                  <span className="font-bold text-text-primary flex items-center gap-1">
                     {currentUser.name}
-                    {mood && <span className="text-sm font-normal text-gray-400">— feeling {mood.emoji} {mood.label}</span>}
+                    {mood && <span className="text-sm font-normal text-text-muted">— feeling {mood.emoji} {mood.label}</span>}
                   </span>
                   <div className="flex gap-2 mt-1">
-                    <button className="flex items-center gap-1.5 px-2 py-1 bg-white/5 hover:bg-white/10 rounded-md text-[10px] font-bold text-gray-300 transition-colors">
+                    <button className="flex items-center gap-1.5 px-2 py-1 bg-white/5 hover:bg-white/10 rounded-md text-[10px] font-bold text-text-disabled transition-colors">
                       <Globe size={12} />
                       Public
                       <ChevronDown size={10} />
                     </button>
-                    <button className="flex items-center gap-1.5 px-2 py-1 bg-white/5 hover:bg-white/10 rounded-md text-[10px] font-bold text-gray-300 transition-colors">
+                    <button className="flex items-center gap-1.5 px-2 py-1 bg-white/5 hover:bg-white/10 rounded-md text-[10px] font-bold text-text-disabled transition-colors">
                       <Users size={12} />
                       Friends
                       <ChevronDown size={10} />
@@ -112,7 +112,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
               {/* Input Area */}
               <textarea
                 placeholder={`What's on your mind, ${currentUser.name}?`}
-                className="w-full bg-transparent border-none outline-none text-lg text-white placeholder:text-gray-500 resize-none min-h-[120px]"
+                className="w-full bg-transparent border-none outline-none text-lg text-text-primary placeholder:text-text-muted resize-none min-h-[120px]"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
@@ -123,7 +123,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
                   <img src={selectedImage} alt="Preview" className="w-full max-h-60 object-cover" />
                   <button 
                     onClick={() => setSelectedImage(null)}
-                    className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors"
+                    className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-black/70 rounded-full text-text-primary transition-colors"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -149,7 +149,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
                         className={`flex flex-col items-center p-2 rounded-xl transition-all ${mood?.label === m.label ? 'bg-orange-500/20 ring-1 ring-orange-500' : 'hover:bg-white/5'}`}
                       >
                         <span className="text-2xl">{m.emoji}</span>
-                        <span className="text-[10px] text-gray-400 mt-1">{m.label}</span>
+                        <span className="text-[10px] text-text-muted mt-1">{m.label}</span>
                       </button>
                     ))}
                   </motion.div>
@@ -158,7 +158,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
 
               {/* Tools */}
               <div className="p-3 border border-white/10 rounded-xl flex items-center justify-between">
-                <span className="text-sm font-semibold text-gray-300 ml-2">Add to your post</span>
+                <span className="text-sm font-semibold text-text-disabled ml-2">Add to your post</span>
                 <div className="flex gap-1">
                   <button 
                     onClick={() => fileInputRef.current?.click()}
@@ -191,8 +191,8 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
                 disabled={!content.trim() && !selectedImage}
                 className={`w-full py-3 rounded-xl font-bold transition-all ${
                   content.trim() || selectedImage 
-                    ? 'bg-orange-600 hover:bg-orange-500 text-white shadow-lg shadow-orange-600/20' 
-                    : 'bg-white/5 text-gray-600 cursor-not-allowed'
+                    ? 'bg-orange-600 hover:bg-orange-500 text-text-primary shadow-lg shadow-orange-600/20' 
+                    : 'bg-white/5 text-text-secondary cursor-not-allowed'
                 }`}
               >
                 Post

@@ -22,7 +22,7 @@ const Badge: React.FC<BadgeProps> = ({
   const rarityConfig = {
     common: {
       gradient: 'from-gray-400 to-gray-600',
-      bg: 'bg-gray-500/10',
+      bg: 'bg-bg-secondary0/10',
       border: 'border-gray-500/30',
     },
     rare: {
@@ -73,7 +73,7 @@ const Badge: React.FC<BadgeProps> = ({
         </span>
         {!unlocked && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-2xl">
-            <span className="text-white/60 text-2xl">?</span>
+            <span className="text-text-primary/60 text-2xl">?</span>
           </div>
         )}
       </div>

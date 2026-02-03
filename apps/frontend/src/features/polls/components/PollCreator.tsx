@@ -118,7 +118,7 @@ const PollCreator: React.FC<PollCreatorProps> = ({ onCreatePoll, onCancel }) => 
       <button
         onClick={handleCreate}
         disabled={!isValid}
-        className="w-full py-2.5 bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all"
+        className="w-full py-2.5 bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-text-primary font-bold rounded-xl transition-all"
       >
         Create Poll
       </button>

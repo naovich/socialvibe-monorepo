@@ -100,7 +100,7 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({ onSelect, onClose, recentEmoj
                 onClick={() => setActiveCategory('recent')}
                 className={`px-3 py-1.5 rounded-lg text-lg transition-colors flex-shrink-0 ${
                   activeCategory === 'recent'
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary text-text-primary'
                     : 'hover:bg-bg-secondary'
                 }`}
               >
@@ -113,7 +113,7 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({ onSelect, onClose, recentEmoj
                 onClick={() => setActiveCategory(cat.id)}
                 className={`px-3 py-1.5 rounded-lg text-lg transition-colors flex-shrink-0 ${
                   activeCategory === cat.id
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary text-text-primary'
                     : 'hover:bg-bg-secondary'
                 }`}
                 title={cat.name}

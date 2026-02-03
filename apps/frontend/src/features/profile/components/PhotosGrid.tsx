@@ -38,7 +38,7 @@ const PhotosGrid: React.FC<PhotosGridProps> = ({ userId, limit = 9, onPhotoClick
 
   if (photos.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-400">
+      <div className="text-center py-8 text-text-muted">
         <p className="text-sm">No photos yet</p>
       </div>
     );
@@ -58,7 +58,7 @@ const PhotosGrid: React.FC<PhotosGridProps> = ({ userId, limit = 9, onPhotoClick
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-            <div className="flex gap-4 text-white">
+            <div className="flex gap-4 text-text-primary">
               <div className="flex items-center gap-1">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />

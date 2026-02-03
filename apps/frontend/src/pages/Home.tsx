@@ -50,7 +50,7 @@ const Home: React.FC = () => {
       <div className="min-h-screen bg-[#050505] flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-orange-500/30 border-t-orange-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading SocialVibe...</p>
+          <p className="text-text-muted">Loading SocialVibe...</p>
         </div>
       </div>
     );

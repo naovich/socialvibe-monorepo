@@ -32,7 +32,7 @@ const ReactionPicker: React.FC<ReactionPickerProps> = ({ onReact, currentReactio
         className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 ${
           currentReaction
             ? 'bg-orange-500/10 text-orange-500'
-            : 'text-gray-400 hover:bg-white/5'
+            : 'text-text-muted hover:bg-white/5'
         }`}
         onClick={() => !currentReaction && setIsOpen(!isOpen)}
       >

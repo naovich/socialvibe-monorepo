@@ -50,7 +50,7 @@ export function ThemeSwitcherCompact() {
           onClick={() => setTheme(t)}
           className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
             theme === t
-              ? 'bg-primary text-white shadow-primary'
+              ? 'bg-primary text-text-primary shadow-primary'
               : 'bg-bg-secondary text-text-secondary hover:bg-bg-tertiary'
           }`}
           title={THEME_LABELS[t]}

@@ -90,7 +90,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, aspectRatio = 'sq
               onClick={() => paginate(-1)}
               className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
             >
-              <ChevronLeft className="w-5 h-5 text-white" />
+              <ChevronLeft className="w-5 h-5 text-text-primary" />
             </button>
           )}
           {currentIndex < images.length - 1 && (
@@ -98,7 +98,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, aspectRatio = 'sq
               onClick={() => paginate(1)}
               className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
             >
-              <ChevronRight className="w-5 h-5 text-white" />
+              <ChevronRight className="w-5 h-5 text-text-primary" />
             </button>
           )}
         </>
@@ -116,7 +116,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, aspectRatio = 'sq
               }}
               className={`w-1.5 h-1.5 rounded-full transition-all ${
                 index === currentIndex
-                  ? 'bg-white w-6'
+                  ? 'bg-bg-primary w-6'
                   : 'bg-white/50 hover:bg-white/70'
               }`}
             />
@@ -126,7 +126,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, aspectRatio = 'sq
 
       {/* Image Counter */}
       {images.length > 1 && (
-        <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm px-2 py-1 rounded-full text-white text-xs font-medium">
+        <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm px-2 py-1 rounded-full text-text-primary text-xs font-medium">
           {currentIndex + 1} / {images.length}
         </div>
       )}

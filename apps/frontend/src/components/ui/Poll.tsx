@@ -131,7 +131,7 @@ const Poll: React.FC<PollProps> = ({
                           : 'border-border-primary'
                       }`}
                     >
-                      {isSelected && <Check size={14} className="text-white" />}
+                      {isSelected && <Check size={14} className="text-text-primary" />}
                     </div>
                   )}
 
@@ -171,7 +171,7 @@ const Poll: React.FC<PollProps> = ({
       {allowMultiple && !hasVoted && !isExpired && selectedOptions.size > 0 && (
         <button
           onClick={handleSubmit}
-          className="w-full mt-4 py-2 bg-primary hover:bg-primary-hover rounded-xl text-white font-semibold transition-colors"
+          className="w-full mt-4 py-2 bg-primary hover:bg-primary-hover rounded-xl text-text-primary font-semibold transition-colors"
         >
           Submit Vote
         </button>

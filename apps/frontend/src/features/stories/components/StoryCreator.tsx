@@ -89,7 +89,7 @@ const StoryCreator: React.FC<StoryCreatorProps> = ({ isOpen, onClose, onSelectMe
                       }`}
                     >
                       {text && (
-                        <span className="px-4 py-2 bg-black/50 text-white rounded-lg text-xl font-bold backdrop-blur-sm">
+                        <span className="px-4 py-2 bg-black/50 text-text-primary rounded-lg text-xl font-bold backdrop-blur-sm">
                           {text}
                         </span>
                       )}
@@ -99,7 +99,7 @@ const StoryCreator: React.FC<StoryCreatorProps> = ({ isOpen, onClose, onSelectMe
                   <div className="absolute top-4 left-4 flex flex-col gap-2">
                     <button
                       onClick={() => setPreviewUrl(null)}
-                      className="p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-all"
+                      className="p-2 bg-black/50 text-text-primary rounded-full hover:bg-black/70 transition-all"
                     >
                       <X size={20} />
                     </button>
@@ -111,20 +111,20 @@ const StoryCreator: React.FC<StoryCreatorProps> = ({ isOpen, onClose, onSelectMe
                       value={text}
                       onChange={(e) => setText(e.target.value)}
                       placeholder="Type something..."
-                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/60 outline-none backdrop-blur-md"
+                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-text-primary placeholder:text-text-primary/60 outline-none backdrop-blur-md"
                     />
                     <div className="flex justify-between items-center">
                       <div className="flex gap-2">
                          <button 
                            onClick={() => setTextPosition(p => p === 'bottom' ? 'center' : p === 'center' ? 'top' : 'bottom')}
-                           className="p-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-all"
+                           className="p-2 bg-white/10 text-text-primary rounded-lg hover:bg-white/20 transition-all"
                          >
                            <Palette size={20} />
                          </button>
                       </div>
                       <button
                         onClick={handleShare}
-                        className="px-8 py-3 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl transition-all shadow-lg shadow-primary/20"
+                        className="px-8 py-3 bg-primary hover:bg-primary-hover text-text-primary font-bold rounded-xl transition-all shadow-lg shadow-primary/20"
                       >
                         Share Story
                       </button>

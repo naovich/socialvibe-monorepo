@@ -123,7 +123,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, onFollow, isOwnProfile 
                   className={`px-6 py-2 rounded-xl font-semibold transition-all ${
                     user.isFollowing
                       ? 'bg-white/5 hover:bg-white/10 text-text-primary'
-                      : 'bg-primary hover:bg-primary-hover text-white shadow-lg shadow-primary/25'
+                      : 'bg-primary hover:bg-primary-hover text-text-primary shadow-lg shadow-primary/25'
                   }`}
                 >
                   {user.isFollowing ? 'Following' : 'Follow'}

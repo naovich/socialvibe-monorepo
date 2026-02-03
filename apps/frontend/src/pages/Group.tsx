@@ -87,7 +87,7 @@ const Group: React.FC = () => {
       <div className="min-h-screen bg-[#050505] flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-orange-500/30 border-t-orange-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading group...</p>
+          <p className="text-text-muted">Loading group...</p>
         </div>
       </div>
     );
@@ -97,7 +97,7 @@ const Group: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#050505] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-400">Group not found</p>
+          <p className="text-text-muted">Group not found</p>
           <button onClick={() => navigate('/groups')} className="mt-4 text-orange-500 hover:underline">
             Back to groups
           </button>
@@ -114,7 +114,7 @@ const Group: React.FC = () => {
       <div className="fixed top-4 left-4 z-10">
         <button
           onClick={() => navigate('/groups')}
-          className="p-3 bg-black/50 hover:bg-black/70 backdrop-blur-md rounded-full text-white transition-all"
+          className="p-3 bg-black/50 hover:bg-black/70 backdrop-blur-md rounded-full text-text-primary transition-all"
         >
           <ArrowLeft size={24} />
         </button>
@@ -132,7 +132,7 @@ const Group: React.FC = () => {
               />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-orange-500/20 to-purple-500/20 flex items-center justify-center">
-                <Users className="w-24 h-24 text-white/20" />
+                <Users className="w-24 h-24 text-text-primary/20" />
               </div>
             )}
             <div className="absolute inset-0 bg-black/20" />
@@ -162,7 +162,7 @@ const Group: React.FC = () => {
                   />
                 ) : (
                   <div className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-[#1a1a1a] bg-[#050505] flex items-center justify-center">
-                    <Users className="w-20 h-20 text-white/20" />
+                    <Users className="w-20 h-20 text-text-primary/20" />
                   </div>
                 )}
               </div>
@@ -170,11 +170,11 @@ const Group: React.FC = () => {
 
             <div className="flex flex-col md:flex-row md:items-end justify-between w-full gap-6">
               <div className="text-center md:text-left">
-                <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">{group.name}</h1>
+                <h1 className="text-3xl md:text-4xl font-black text-text-primary tracking-tight">{group.name}</h1>
                 {group.description && (
-                  <p className="text-gray-400 mt-2 max-w-2xl">{group.description}</p>
+                  <p className="text-text-muted mt-2 max-w-2xl">{group.description}</p>
                 )}
-                <p className="text-gray-400 font-medium mt-3">{group.membersCount} Members • {group.postsCount} Posts</p>
+                <p className="text-text-muted font-medium mt-3">{group.membersCount} Members • {group.postsCount} Posts</p>
               </div>
 
               <div className="flex gap-2">
@@ -184,7 +184,7 @@ const Group: React.FC = () => {
                       <button
                         onClick={handleLeave}
                         disabled={actionLoading}
-                        className="flex items-center gap-2 px-6 py-2.5 bg-white/10 hover:bg-red-500/20 text-white hover:text-red-500 rounded-xl font-bold transition-all"
+                        className="flex items-center gap-2 px-6 py-2.5 bg-white/10 hover:bg-red-500/20 text-text-primary hover:text-red-500 rounded-xl font-bold transition-all"
                       >
                         <LogOut size={18} />
                         Leave Group
@@ -200,13 +200,13 @@ const Group: React.FC = () => {
                   <button
                     onClick={handleJoin}
                     disabled={actionLoading || group.isPrivate}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-xl font-bold transition-all shadow-lg shadow-orange-600/20"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 disabled:bg-gray-700 disabled:cursor-not-allowed text-text-primary rounded-xl font-bold transition-all shadow-lg shadow-orange-600/20"
                   >
                     <UserPlus size={18} />
                     {group.isPrivate ? 'Private' : 'Join Group'}
                   </button>
                 )}
-                <button className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl text-gray-400 hover:text-white transition-all border border-white/5">
+                <button className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl text-text-muted hover:text-text-primary transition-all border border-white/5">
                   <MoreHorizontal size={20} />
                 </button>
               </div>
@@ -218,9 +218,9 @@ const Group: React.FC = () => {
         <div className="flex flex-col gap-6">
           {posts.length === 0 ? (
             <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-12 text-center">
-              <p className="text-gray-400">No posts yet in this group</p>
+              <p className="text-text-muted">No posts yet in this group</p>
               {group.isMember && (
-                <p className="text-gray-600 text-sm mt-2">Be the first to share something!</p>
+                <p className="text-text-secondary text-sm mt-2">Be the first to share something!</p>
               )}
             </div>
           ) : (

@@ -62,7 +62,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, postUrl }) => 
       label: 'Email',
       icon: Mail,
       onClick: () => window.location.href = `mailto:?body=${encodeURIComponent(postUrl)}`,
-      color: 'bg-gray-500',
+      color: 'bg-bg-secondary0',
     },
   ];
 
@@ -107,7 +107,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, postUrl }) => 
                       onClick={option.onClick}
                       className="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-bg-secondary transition-all group"
                     >
-                      <div className={`${option.color} w-12 h-12 rounded-full flex items-center justify-center text-white group-hover:scale-110 transition-transform`}>
+                      <div className={`${option.color} w-12 h-12 rounded-full flex items-center justify-center text-text-primary group-hover:scale-110 transition-transform`}>
                         <option.icon size={24} />
                       </div>
                       <span className="text-xs font-medium text-text-primary text-center">

@@ -18,7 +18,7 @@ const CreatePost: React.FC = () => {
             className="flex-1 bg-white/5 hover:bg-white/10 rounded-full px-4 flex items-center cursor-pointer transition-colors border border-white/5"
             onClick={() => setIsModalOpen(true)}
           >
-            <span className="text-gray-500 text-sm">What's on your mind, {currentUser.name}?</span>
+            <span className="text-text-muted text-sm">What's on your mind, {currentUser.name}?</span>
           </div>
         </div>
         
@@ -31,21 +31,21 @@ const CreatePost: React.FC = () => {
               className="flex items-center gap-2 px-3 py-2 hover:bg-white/5 rounded-xl transition-colors group"
             >
               <Video size={20} className="text-red-500 group-hover:scale-110 transition-transform" />
-              <span className="text-xs font-semibold text-gray-400 group-hover:text-white transition-colors hidden sm:block">Live Video</span>
+              <span className="text-xs font-semibold text-text-muted group-hover:text-text-primary transition-colors hidden sm:block">Live Video</span>
             </button>
             <button 
               onClick={() => setIsModalOpen(true)}
               className="flex items-center gap-2 px-3 py-2 hover:bg-white/5 rounded-xl transition-colors group"
             >
               <Image size={20} className="text-green-500 group-hover:scale-110 transition-transform" />
-              <span className="text-xs font-semibold text-gray-400 group-hover:text-white transition-colors hidden sm:block">Photo/Video</span>
+              <span className="text-xs font-semibold text-text-muted group-hover:text-text-primary transition-colors hidden sm:block">Photo/Video</span>
             </button>
             <button 
               onClick={() => setIsModalOpen(true)}
               className="flex items-center gap-2 px-3 py-2 hover:bg-white/5 rounded-xl transition-colors group"
             >
               <Smile size={20} className="text-yellow-500 group-hover:scale-110 transition-transform" />
-              <span className="text-xs font-semibold text-gray-400 group-hover:text-white transition-colors hidden sm:block">Feeling/Activity</span>
+              <span className="text-xs font-semibold text-text-muted group-hover:text-text-primary transition-colors hidden sm:block">Feeling/Activity</span>
             </button>
           </div>
         </div>

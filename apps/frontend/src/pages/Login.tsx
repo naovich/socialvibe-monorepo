@@ -32,8 +32,8 @@ const Login: React.FC = () => {
     <div className="min-h-screen bg-[#050505] flex items-center justify-center px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-black text-white mb-2">SocialVibe</h1>
-          <p className="text-gray-400">Welcome back! Sign in to continue</p>
+          <h1 className="text-4xl font-black text-text-primary mb-2">SocialVibe</h1>
+          <p className="text-text-muted">Welcome back! Sign in to continue</p>
         </div>
 
         <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-8 shadow-2xl">
@@ -45,7 +45,7 @@ const Login: React.FC = () => {
             )}
 
             <div>
-              <label className="block text-sm font-bold text-gray-300 mb-2">
+              <label className="block text-sm font-bold text-text-disabled mb-2">
                 Email
               </label>
               <input
@@ -53,14 +53,14 @@ const Login: React.FC = () => {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
                 placeholder="alice@socialvibe.com"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-300 mb-2">
+              <label className="block text-sm font-bold text-text-disabled mb-2">
                 Password
               </label>
               <input
@@ -68,7 +68,7 @@ const Login: React.FC = () => {
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50"
                 placeholder="••••••••"
                 required
               />
@@ -82,14 +82,14 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-orange-600 hover:bg-orange-500 disabled:bg-orange-600/50 text-white rounded-xl font-bold transition-all shadow-lg shadow-orange-600/20 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-orange-600 hover:bg-orange-500 disabled:bg-orange-600/50 text-text-primary rounded-xl font-bold transition-all shadow-lg shadow-orange-600/20 disabled:cursor-not-allowed"
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-gray-400 text-sm">
+            <p className="text-text-muted text-sm">
               Don't have an account?{' '}
               <Link to="/register" className="text-orange-500 hover:underline font-bold">
                 Sign Up
@@ -98,7 +98,7 @@ const Login: React.FC = () => {
           </div>
 
           <div className="mt-8 pt-6 border-t border-white/10">
-            <p className="text-gray-500 text-xs text-center mb-3">Test Accounts (password: password123)</p>
+            <p className="text-text-muted text-xs text-center mb-3">Test Accounts (password: password123)</p>
             <div className="grid grid-cols-2 gap-2">
               {['alice@socialvibe.com', 'bob@socialvibe.com', 'charlie@socialvibe.com', 'diana@socialvibe.com'].map((testEmail) => (
                 <button
@@ -108,7 +108,7 @@ const Login: React.FC = () => {
                     setEmail(testEmail);
                     setPassword('password123');
                   }}
-                  className="px-3 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white text-xs transition-all"
+                  className="px-3 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-text-muted hover:text-text-primary text-xs transition-all"
                 >
                   {testEmail.split('@')[0]}
                 </button>

@@ -19,13 +19,13 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
+    <div className="min-h-screen bg-bg-primary text-text-primary">
       {/* Header */}
-      <div className="sticky top-0 bg-[#1a1a1a]/80 backdrop-blur-md border-b border-white/10 z-10">
+      <div className="sticky top-0 bg-bg-card/80 backdrop-blur-md border-b border-border-primary z-10">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
           <button
             onClick={() => navigate('/')}
-            className="p-2 hover:bg-white/5 rounded-full transition-all"
+            className="p-2 hover:bg-bg-secondary rounded-full transition-all"
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
@@ -35,24 +35,24 @@ const Settings: React.FC = () => {
 
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
         {/* Notifications */}
-        <section className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-6">
+        <section className="bg-bg-card border border-border-primary rounded-3xl p-6">
           <div className="flex items-center gap-3 mb-6">
-            <Bell className="w-6 h-6 text-orange-500" />
+            <Bell className="w-6 h-6 text-warning" />
             <h2 className="text-xl font-bold">Notifications</h2>
           </div>
 
           <div className="space-y-4">
             {Object.entries(notifications).map(([key, value]) => (
               <div key={key} className="flex items-center justify-between">
-                <span className="text-gray-300 capitalize">{key}</span>
+                <span className="text-text-secondary capitalize">{key}</span>
                 <button
                   onClick={() => setNotifications({ ...notifications, [key]: !value })}
                   className={`relative w-14 h-8 rounded-full transition-all ${
-                    value ? 'bg-orange-500' : 'bg-white/10'
+                    value ? 'bg-warning' : 'bg-bg-tertiary'
                   }`}
                 >
                   <span
-                    className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-transform ${
+                    className={`absolute top-1 w-6 h-6 bg-bg-primary rounded-full transition-transform ${
                       value ? 'translate-x-7' : 'translate-x-1'
                     }`}
                   />
@@ -63,40 +63,40 @@ const Settings: React.FC = () => {
         </section>
 
         {/* Privacy */}
-        <section className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-6">
+        <section className="bg-bg-card border border-border-primary rounded-3xl p-6">
           <div className="flex items-center gap-3 mb-6">
-            <Lock className="w-6 h-6 text-blue-500" />
+            <Lock className="w-6 h-6 text-info" />
             <h2 className="text-xl font-bold">Privacy & Security</h2>
           </div>
 
           <div className="space-y-3">
-            <button className="w-full flex items-center justify-between p-4 hover:bg-white/5 rounded-xl transition-all group">
+            <button className="w-full flex items-center justify-between p-4 hover:bg-bg-secondary rounded-xl transition-all group">
               <div className="flex items-center gap-3">
-                <Eye className="w-5 h-5 text-gray-400 group-hover:text-white" />
-                <span className="text-gray-300 group-hover:text-white">Account Privacy</span>
+                <Eye className="w-5 h-5 text-text-muted group-hover:text-text-primary" />
+                <span className="text-text-secondary group-hover:text-text-primary">Account Privacy</span>
               </div>
-              <span className="text-gray-500 text-sm">Public</span>
+              <span className="text-text-muted text-sm">Public</span>
             </button>
 
-            <button className="w-full flex items-center justify-between p-4 hover:bg-white/5 rounded-xl transition-all group">
+            <button className="w-full flex items-center justify-between p-4 hover:bg-bg-secondary rounded-xl transition-all group">
               <div className="flex items-center gap-3">
-                <Shield className="w-5 h-5 text-gray-400 group-hover:text-white" />
-                <span className="text-gray-300 group-hover:text-white">Blocked Accounts</span>
+                <Shield className="w-5 h-5 text-text-muted group-hover:text-text-primary" />
+                <span className="text-text-secondary group-hover:text-text-primary">Blocked Accounts</span>
               </div>
-              <span className="text-gray-500 text-sm">0</span>
+              <span className="text-text-muted text-sm">0</span>
             </button>
 
-            <button className="w-full flex items-center justify-between p-4 hover:bg-white/5 rounded-xl transition-all group">
+            <button className="w-full flex items-center justify-between p-4 hover:bg-bg-secondary rounded-xl transition-all group">
               <div className="flex items-center gap-3">
-                <Lock className="w-5 h-5 text-gray-400 group-hover:text-white" />
-                <span className="text-gray-300 group-hover:text-white">Change Password</span>
+                <Lock className="w-5 h-5 text-text-muted group-hover:text-text-primary" />
+                <span className="text-text-secondary group-hover:text-text-primary">Change Password</span>
               </div>
             </button>
           </div>
         </section>
 
         {/* Appearance */}
-        <section className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-6">
+        <section className="bg-bg-card border border-border-primary rounded-3xl p-6">
           <div className="flex items-center gap-3 mb-6">
             <Palette className="w-6 h-6 text-purple-500" />
             <h2 className="text-xl font-bold">Appearance</h2>
@@ -104,17 +104,17 @@ const Settings: React.FC = () => {
 
           <div className="space-y-4">
             <div>
-              <label className="block text-gray-300 mb-3">Theme</label>
+              <label className="block text-text-secondary mb-3">Theme</label>
               <div className="flex gap-3">
                 <button
                   onClick={() => setTheme('dark')}
                   className={`flex-1 p-4 rounded-xl border-2 transition-all ${
                     theme === 'dark'
-                      ? 'border-orange-500 bg-orange-500/10'
-                      : 'border-white/10 hover:border-white/20'
+                      ? 'border-primary bg-primary-light'
+                      : 'border-border-primary hover:border-border-hover'
                   }`}
                 >
-                  <div className="w-full h-16 bg-[#050505] rounded-lg mb-2" />
+                  <div className="w-full h-16 bg-bg-primary rounded-lg mb-2" />
                   <span className="text-sm font-bold">Dark</span>
                 </button>
 
@@ -122,11 +122,11 @@ const Settings: React.FC = () => {
                   onClick={() => setTheme('light')}
                   className={`flex-1 p-4 rounded-xl border-2 transition-all ${
                     theme === 'light'
-                      ? 'border-orange-500 bg-orange-500/10'
-                      : 'border-white/10 hover:border-white/20'
+                      ? 'border-primary bg-primary-light'
+                      : 'border-border-primary hover:border-border-hover'
                   }`}
                 >
-                  <div className="w-full h-16 bg-white rounded-lg mb-2" />
+                  <div className="w-full h-16 bg-bg-primary rounded-lg mb-2" />
                   <span className="text-sm font-bold">Light</span>
                 </button>
               </div>
@@ -135,33 +135,33 @@ const Settings: React.FC = () => {
         </section>
 
         {/* Language */}
-        <section className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-6">
+        <section className="bg-bg-card border border-border-primary rounded-3xl p-6">
           <div className="flex items-center gap-3 mb-6">
-            <Globe className="w-6 h-6 text-green-500" />
+            <Globe className="w-6 h-6 text-success" />
             <h2 className="text-xl font-bold">Language & Region</h2>
           </div>
 
-          <button className="w-full flex items-center justify-between p-4 hover:bg-white/5 rounded-xl transition-all group">
-            <span className="text-gray-300 group-hover:text-white">Language</span>
-            <span className="text-gray-500 text-sm">English (US)</span>
+          <button className="w-full flex items-center justify-between p-4 hover:bg-bg-secondary rounded-xl transition-all group">
+            <span className="text-text-secondary group-hover:text-text-primary">Language</span>
+            <span className="text-text-muted text-sm">English (US)</span>
           </button>
         </section>
 
         {/* Help */}
-        <section className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-6">
+        <section className="bg-bg-card border border-border-primary rounded-3xl p-6">
           <div className="flex items-center gap-3 mb-6">
-            <HelpCircle className="w-6 h-6 text-yellow-500" />
+            <HelpCircle className="w-6 h-6 text-warning" />
             <h2 className="text-xl font-bold">Help & Support</h2>
           </div>
 
           <div className="space-y-2">
-            <button className="w-full text-left p-4 hover:bg-white/5 rounded-xl transition-all text-gray-300 hover:text-white">
+            <button className="w-full text-left p-4 hover:bg-bg-secondary rounded-xl transition-all text-text-secondary hover:text-text-primary">
               Help Center
             </button>
-            <button className="w-full text-left p-4 hover:bg-white/5 rounded-xl transition-all text-gray-300 hover:text-white">
+            <button className="w-full text-left p-4 hover:bg-bg-secondary rounded-xl transition-all text-text-secondary hover:text-text-primary">
               Privacy Policy
             </button>
-            <button className="w-full text-left p-4 hover:bg-white/5 rounded-xl transition-all text-gray-300 hover:text-white">
+            <button className="w-full text-left p-4 hover:bg-bg-secondary rounded-xl transition-all text-text-secondary hover:text-text-primary">
               Terms of Service
             </button>
           </div>
@@ -170,14 +170,14 @@ const Settings: React.FC = () => {
         {/* Logout */}
         <button
           onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-3 p-4 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/30 rounded-3xl transition-all group"
+          className="w-full flex items-center justify-center gap-3 p-4 bg-error/10 hover:bg-error/20 border border-error/20 hover:border-error/30 rounded-3xl transition-all group"
         >
-          <LogOut className="w-5 h-5 text-red-500" />
-          <span className="font-bold text-red-500">Logout</span>
+          <LogOut className="w-5 h-5 text-error" />
+          <span className="font-bold text-error">Logout</span>
         </button>
 
         {/* Version */}
-        <p className="text-center text-gray-600 text-sm py-4">
+        <p className="text-center text-text-disabled text-sm py-4">
           SocialVibe v1.0.0
         </p>
       </div>

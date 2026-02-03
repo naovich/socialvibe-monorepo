@@ -48,7 +48,7 @@ const Groups: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
+    <div className="min-h-screen bg-[#050505] text-text-primary">
       {/* Header */}
       <div className="sticky top-0 bg-[#1a1a1a]/80 backdrop-blur-md border-b border-white/10 z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
@@ -72,13 +72,13 @@ const Groups: React.FC = () => {
       {/* Search */}
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
           <input
             type="text"
             placeholder="Search groups..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+            className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-text-primary placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
           />
         </div>
       </div>
@@ -88,13 +88,13 @@ const Groups: React.FC = () => {
         {loading ? (
           <div className="text-center py-12">
             <div className="w-12 h-12 border-4 border-orange-500/30 border-t-orange-500 rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-400">Loading groups...</p>
+            <p className="text-text-muted">Loading groups...</p>
           </div>
         ) : filteredGroups.length === 0 ? (
           <div className="text-center py-20">
-            <Users className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <p className="text-gray-400 text-lg">No groups found</p>
-            <p className="text-gray-600 text-sm mt-2">
+            <Users className="w-16 h-16 text-text-secondary mx-auto mb-4" />
+            <p className="text-text-muted text-lg">No groups found</p>
+            <p className="text-text-secondary text-sm mt-2">
               {searchQuery ? 'No groups match your search' : 'Create the first group!'}
             </p>
           </div>
@@ -112,7 +112,7 @@ const Groups: React.FC = () => {
                     <img src={group.avatar} alt={group.name} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <Users className="w-12 h-12 text-white/20" />
+                      <Users className="w-12 h-12 text-text-primary/20" />
                     </div>
                   )}
                   <div className="absolute top-3 right-3">
@@ -132,15 +132,15 @@ const Groups: React.FC = () => {
 
                 {/* Content */}
                 <div className="p-6">
-                  <h3 className="font-black text-xl text-white mb-2 group-hover:text-orange-500 transition-colors">
+                  <h3 className="font-black text-xl text-text-primary mb-2 group-hover:text-orange-500 transition-colors">
                     {group.name}
                   </h3>
                   {group.description && (
-                    <p className="text-sm text-gray-400 line-clamp-2 mb-4">{group.description}</p>
+                    <p className="text-sm text-text-muted line-clamp-2 mb-4">{group.description}</p>
                   )}
 
                   <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-4 text-gray-500">
+                    <div className="flex items-center gap-4 text-text-muted">
                       <span>{group.membersCount} members</span>
                       <span>{group.postsCount} posts</span>
                     </div>
