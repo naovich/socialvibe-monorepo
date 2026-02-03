@@ -1,0 +1,42 @@
+/**
+ * OCEAN THEME - Thème bleu océan (light)
+ */
+
+[data-theme="ocean"] {
+  /* === Primary Colors (Bleu Océan) === */
+  --color-primary: #0891b2;
+  --color-primary-hover: #0e7490;
+  --color-primary-light: #cffafe;
+  --color-primary-dark: #155e75;
+
+  /* === Backgrounds === */
+  --color-bg-primary: #f0fdff;
+  --color-bg-secondary: #e0fbfc;
+  --color-bg-tertiary: #cffafe;
+  --color-bg-card: #ffffff;
+  --color-bg-overlay: rgba(8, 145, 178, 0.15);
+
+  /* === Text Colors === */
+  --color-text-primary: #164e63;
+  --color-text-secondary: #0e7490;
+  --color-text-muted: #06b6d4;
+  --color-text-disabled: #a5f3fc;
+
+  /* === Border Colors === */
+  --color-border-primary: #99f6e4;
+  --color-border-secondary: #5eead4;
+  --color-border-hover: #0891b2;
+
+  /* === Semantic Colors === */
+  --color-success: #14b8a6;
+  --color-error: #f43f5e;
+  --color-warning: #f59e0b;
+  --color-info: #06b6d4;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 2px 0 rgb(8 145 178 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(8 145 178 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(8 145 178 / 0.15);
+  --shadow-xl: 0 20px 25px -5px rgb(8 145 178 / 0.2);
+  --shadow-primary: 0 10px 15px -3px rgba(8, 145, 178, 0.4);
+}

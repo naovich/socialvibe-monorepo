@@ -1,0 +1,42 @@
+/**
+ * SUNSET THEME - Thème coucher de soleil (orange/rouge)
+ */
+
+[data-theme="sunset"] {
+  /* === Primary Colors (Orange Sunset) === */
+  --color-primary: #f97316;
+  --color-primary-hover: #ea580c;
+  --color-primary-light: #ffedd5;
+  --color-primary-dark: #c2410c;
+
+  /* === Backgrounds === */
+  --color-bg-primary: #fffbf5;
+  --color-bg-secondary: #fff7ed;
+  --color-bg-tertiary: #ffedd5;
+  --color-bg-card: #ffffff;
+  --color-bg-overlay: rgba(249, 115, 22, 0.15);
+
+  /* === Text Colors === */
+  --color-text-primary: #7c2d12;
+  --color-text-secondary: #9a3412;
+  --color-text-muted: #ea580c;
+  --color-text-disabled: #fed7aa;
+
+  /* === Border Colors === */
+  --color-border-primary: #fde68a;
+  --color-border-secondary: #fcd34d;
+  --color-border-hover: #f97316;
+
+  /* === Semantic Colors === */
+  --color-success: #84cc16;
+  --color-error: #dc2626;
+  --color-warning: #eab308;
+  --color-info: #06b6d4;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 2px 0 rgb(249 115 22 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(249 115 22 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(249 115 22 / 0.15);
+  --shadow-xl: 0 20px 25px -5px rgb(249 115 22 / 0.2);
+  --shadow-primary: 0 10px 15px -3px rgba(249, 115, 22, 0.4);
+}

@@ -1,0 +1,42 @@
+/**
+ * PURPLE THEME - Thème violet/mauve
+ */
+
+[data-theme="purple"] {
+  /* === Primary Colors (Violet) === */
+  --color-primary: #9333ea;
+  --color-primary-hover: #7e22ce;
+  --color-primary-light: #f3e8ff;
+  --color-primary-dark: #6b21a8;
+
+  /* === Backgrounds === */
+  --color-bg-primary: #faf5ff;
+  --color-bg-secondary: #f5f3ff;
+  --color-bg-tertiary: #ede9fe;
+  --color-bg-card: #ffffff;
+  --color-bg-overlay: rgba(147, 51, 234, 0.15);
+
+  /* === Text Colors === */
+  --color-text-primary: #581c87;
+  --color-text-secondary: #6b21a8;
+  --color-text-muted: #7e22ce;
+  --color-text-disabled: #ddd6fe;
+
+  /* === Border Colors === */
+  --color-border-primary: #e9d5ff;
+  --color-border-secondary: #d8b4fe;
+  --color-border-hover: #9333ea;
+
+  /* === Semantic Colors === */
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 2px 0 rgb(147 51 234 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(147 51 234 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(147 51 234 / 0.15);
+  --shadow-xl: 0 20px 25px -5px rgb(147 51 234 / 0.2);
+  --shadow-primary: 0 10px 15px -3px rgba(147, 51, 234, 0.4);
+}
