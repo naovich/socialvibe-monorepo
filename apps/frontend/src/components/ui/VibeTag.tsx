@@ -28,8 +28,8 @@ const VibeTag: React.FC<VibeTagProps> = ({
         sizeClasses[size]
       } flex items-center gap-1.5 rounded-full transition-all duration-200 ${
         isSelected
-          ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25 scale-105'
-          : 'bg-white/5 text-white/80 hover:bg-white/10 hover:scale-105'
+          ? 'bg-orange-500 text-text-primary shadow-lg shadow-orange-500/25 scale-105'
+          : 'bg-white/5 text-text-primary/80 hover:bg-white/10 hover:scale-105'
       }`}
     >
       <span className="text-lg">{emoji}</span>

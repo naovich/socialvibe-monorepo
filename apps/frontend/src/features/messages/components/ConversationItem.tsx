@@ -71,7 +71,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
           </p>
           
           {conversation.unreadCount > 0 && (
-            <span className="ml-2 min-w-[20px] h-5 px-2 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center">
+            <span className="ml-2 min-w-[20px] h-5 px-2 bg-primary text-text-primary text-xs font-bold rounded-full flex items-center justify-center">
               {conversation.unreadCount}
             </span>
           )}

@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { UsersModule } from "./users/users.module";
@@ -6,10 +6,55 @@ import { PostsModule } from "./posts/posts.module";
 import { CommentsModule } from "./comments/comments.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { AuthModule } from "./auth/auth.module";
+import { UploadModule } from "./upload/upload.module";
+import { EventsModule } from "./events/events.module";
+import { FriendshipsModule } from "./friendships/friendships.module";
+import { StoriesModule } from "./stories/stories.module";
+import { SearchModule } from "./search/search.module";
+import { MessagesModule } from "./messages/messages.module";
+import { GroupsModule } from "./groups/groups.module";
+import { LoggerModule } from "./logger/logger.module";
+import { LoggerMiddleware } from "./logger/logger.middleware";
+import { NotificationsModule } from "./notifications/notifications.module";
+import { ConfigModule } from "@nestjs/config";
+import { ThrottlerModule, ThrottlerGuard } from "@nestjs/throttler";
+import { APP_GUARD } from "@nestjs/core";
 
 @Module({
-  imports: [PrismaModule, AuthModule, UsersModule, PostsModule, CommentsModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000, // 1 minute
+        limit: 1000, // 1000 requests per minute (increased for E2E tests)
+      },
+    ]),
+    LoggerModule,
+    PrismaModule,
+    AuthModule,
+    UsersModule,
+    PostsModule,
+    CommentsModule,
+    UploadModule,
+    EventsModule,
+    FriendshipsModule,
+    StoriesModule,
+    SearchModule,
+    MessagesModule,
+    GroupsModule,
+    NotificationsModule,
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes("*");
+  }
+}

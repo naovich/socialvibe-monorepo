@@ -50,7 +50,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
         <div
           className={`relative rounded-2xl px-4 py-2 ${
             isOwn
-              ? 'bg-primary text-white rounded-br-md'
+              ? 'bg-primary text-text-primary rounded-br-md'
               : 'bg-bg-secondary text-text-primary rounded-bl-md'
           }`}
         >

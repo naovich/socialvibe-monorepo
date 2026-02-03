@@ -1,0 +1,188 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint-and-test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: socialvibe_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint backend
+        run: npm run lint --workspace=@socialvibe/backend
+
+      - name: Lint frontend
+        run: npm run lint --workspace=@socialvibe/frontend
+
+      - name: Generate Prisma Client
+        run: npx prisma generate --schema=apps/backend/prisma/schema.prisma
+
+      - name: Run migrations
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/socialvibe_test?schema=public
+        run: npx prisma migrate deploy --schema=apps/backend/prisma/schema.prisma
+
+      - name: Test backend
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/socialvibe_test?schema=public
+          JWT_SECRET: test-secret
+        run: npm run test --workspace=@socialvibe/backend
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate --schema=apps/backend/prisma/schema.prisma
+
+      - name: Build backend
+        run: npm run build --workspace=@socialvibe/backend
+
+      - name: Build frontend
+        run: npm run build --workspace=@socialvibe/frontend
+
+      - name: Upload backend build
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-dist
+          path: apps/backend/dist
+
+      - name: Upload frontend build
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: apps/frontend/dist
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: build
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: socialvibe_e2e
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate --schema=apps/backend/prisma/schema.prisma
+
+      - name: Run migrations
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/socialvibe_e2e?schema=public
+        run: npx prisma migrate deploy --schema=apps/backend/prisma/schema.prisma
+
+      - name: Seed database
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/socialvibe_e2e?schema=public
+        run: npm run seed --workspace=@socialvibe/backend || echo "Seed skipped"
+
+      - name: Start backend
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/socialvibe_e2e?schema=public
+          JWT_SECRET: test-secret
+          PORT: 3000
+        run: |
+          npm run build --workspace=@socialvibe/backend
+          npm run start:prod --workspace=@socialvibe/backend &
+          sleep 10
+
+      - name: Start frontend
+        run: |
+          npm run build --workspace=@socialvibe/frontend
+          npx serve -s apps/frontend/dist -l 5173 &
+          sleep 5
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        run: npm test --workspace=@socialvibe/frontend
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/frontend/playwright-report
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate || true
+
+      - name: Check for outdated dependencies
+        run: npm outdated || true

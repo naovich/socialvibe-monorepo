@@ -16,6 +16,8 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) =>
   const [location, setLocation] = useState('');
   const [vibeTag, setVibeTag] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  
+  if (!currentUser) return null;
 
   const vibes = ['😊', '😂', '❤️', '🎉', '😢', '😮', '🤔', '💪', '🔥', '✨', '☕', '🚀'];
 
@@ -157,7 +159,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) =>
                 <button
                   onClick={handleSubmit}
                   disabled={!caption.trim() || isLoading}
-                  className="w-full py-3 bg-primary hover:bg-primary-hover disabled:bg-bg-tertiary disabled:text-text-disabled disabled:cursor-not-allowed rounded-xl text-white font-semibold transition-all shadow-lg shadow-primary/25"
+                  className="w-full py-3 bg-primary hover:bg-primary-hover disabled:bg-bg-tertiary disabled:text-text-disabled disabled:cursor-not-allowed rounded-xl text-text-primary font-semibold transition-all shadow-lg shadow-primary/25"
                 >
                   {isLoading ? 'Posting...' : 'Post'}
                 </button>

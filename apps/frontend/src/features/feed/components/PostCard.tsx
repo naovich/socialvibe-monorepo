@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { Heart, MessageCircle, Send, Share2, Bookmark, MoreHorizontal } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import type { Post } from '../types/feed.types';
+import CommentsList from '../../comments/components/CommentsList';
+import ShareModal from '../../share/components/ShareModal';
+import { useBookmark } from '../../bookmark/hooks/useBookmark';
+import ClickableText from '../../text-parser/components/ClickableText';
 
 interface PostCardProps {
   post: Post;
   onLike?: () => void;
-  onSave?: () => void;
-  onShare?: () => void;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) => {
+const PostCard: React.FC<PostCardProps> = ({ post, onLike }) => {
   const [showComments, setShowComments] = useState(false);
-  const [commentText, setCommentText] = useState('');
+  const [showShareModal, setShowShareModal] = useState(false);
+  const { isBookmarked, toggleBookmark } = useBookmark(post.id);
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
@@ -60,9 +63,13 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
       </div>
 
       {/* Caption */}
-      <p className="text-text-primary mb-4 whitespace-pre-wrap leading-relaxed">
-        {post.caption}
-      </p>
+      <div className="text-text-primary mb-4 whitespace-pre-wrap leading-relaxed">
+        <ClickableText
+          text={post.caption}
+          onHashtagClick={(hashtag) => console.log('Hashtag clicked:', hashtag)}
+          onMentionClick={(username) => console.log('Mention clicked:', username)}
+        />
+      </div>
 
       {/* Vibe Tag */}
       {post.vibeTag && (
@@ -93,7 +100,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
                   />
                   {idx === 3 && post.images!.length > 4 && (
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                      <span className="text-white text-2xl font-bold">
+                      <span className="text-text-primary text-2xl font-bold">
                         +{post.images!.length - 4}
                       </span>
                     </div>
@@ -120,7 +127,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
                 <button
                   key={option.id}
                   className={`w-full relative overflow-hidden rounded-lg p-3 text-left transition-all ${
-                    isVoted ? 'bg-primary text-white' : 'bg-bg-tertiary hover:bg-bg-primary'
+                    isVoted ? 'bg-primary text-text-primary' : 'bg-bg-tertiary hover:bg-bg-primary'
                   }`}
                 >
                   <div
@@ -149,6 +156,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
           {/* Like */}
           <button
             onClick={onLike}
+            aria-label={post.isLiked ? "Unlike post" : "Like post"}
+            aria-pressed={post.isLiked}
             className="flex items-center gap-2 hover:text-primary transition-colors group"
           >
             <Heart
@@ -167,6 +176,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
           {/* Comment */}
           <button
             onClick={() => setShowComments(!showComments)}
+            aria-label="Comment on post"
             className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors"
           >
             <MessageCircle size={22} />
@@ -175,7 +185,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
 
           {/* Share */}
           <button
-            onClick={onShare}
+            onClick={() => setShowShareModal(true)}
             className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors"
           >
             <Share2 size={22} />
@@ -185,13 +195,13 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
 
         {/* Save */}
         <button
-          onClick={onSave}
+          onClick={toggleBookmark}
           className="p-2 hover:bg-bg-secondary rounded-full transition-colors"
         >
           <Bookmark
             size={22}
             className={`transition-all ${
-              post.isSaved ? 'fill-primary text-primary' : 'text-text-muted'
+              isBookmarked ? 'fill-primary text-primary' : 'text-text-muted'
             }`}
           />
         </button>
@@ -200,23 +210,16 @@ const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onShare }) =>
       {/* Comments Section */}
       {showComments && (
         <div className="mt-4 pt-4 border-t border-border-primary">
-          <div className="flex gap-3">
-            <input
-              type="text"
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Write a comment..."
-              className="flex-1 bg-bg-secondary border border-border-primary rounded-full px-4 py-2 text-sm text-text-primary placeholder:text-text-muted outline-none focus:border-primary transition-colors"
-            />
-            <button
-              disabled={!commentText.trim()}
-              className="p-2 bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed rounded-full text-white transition-colors"
-            >
-              <Send size={18} />
-            </button>
-          </div>
+          <CommentsList postId={post.id} />
         </div>
       )}
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        postUrl={`https://socialvibe.app/post/${post.id}`}
+      />
     </motion.article>
   );
 };

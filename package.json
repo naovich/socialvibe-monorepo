@@ -13,14 +13,20 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "clean": "turbo run clean",
-    "pre-push": "./scripts/pre-push.sh"
+    "pre-push": "./scripts/pre-push.sh",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "turbo": "^2.3.3"
   },
   "engines": {
     "node": ">=18",
     "npm": ">=9"
   },
-  "packageManager": "npm@10.2.4"
+  "packageManager": "npm@10.2.4",
+  "dependencies": {
+    "@prisma/client": "^7.3.0"
+  }
 }

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { MessageCircle, Send, MoreHorizontal, Share2, Bookmark } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useSocialStore } from '../../store';
 import type { Post } from '../../types';
 import ReactionPicker from '../ui/ReactionPicker';
 import ImageCarousel from '../ui/ImageCarousel';
 import VibeTag from '../ui/VibeTag';
+import SafeHTML from '../SafeHTML';
 
 const PostCard: React.FC<{ post: Post }> = ({ post }) => {
+  const navigate = useNavigate();
   const { toggleLike, addComment } = useSocialStore();
   const [commentText, setCommentText] = useState('');
   const [currentReaction, setCurrentReaction] = useState<string | undefined>(
@@ -51,7 +54,10 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
     >
       {/* Header */}
       <div className="flex items-center gap-3 p-4">
-        <div className="relative group cursor-pointer">
+        <div 
+          className="relative group cursor-pointer"
+          onClick={() => navigate(`/user/${post.user.id || post.userId}`)}
+        >
           <img
             src={post.user.avatar}
             alt={post.user.name}
@@ -60,7 +66,10 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
           <div className="absolute inset-0 rounded-full bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
         <div className="flex flex-col">
-          <span className="font-bold text-text-primary hover:underline cursor-pointer">
+          <span 
+            onClick={() => navigate(`/user/${post.user.id || post.userId}`)}
+            className="font-bold text-text-primary hover:underline cursor-pointer"
+          >
             {post.user.name}
           </span>
           <span className="text-[10px] text-text-muted font-medium uppercase tracking-wider">
@@ -74,7 +83,7 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 
       {/* Content */}
       <div className="px-4 pb-3">
-        <p className="text-text-primary text-sm leading-relaxed">{post.caption}</p>
+        <SafeHTML content={post.caption} className="text-text-primary text-sm leading-relaxed" />
 
         {/* Vibe Tags */}
         {post.vibeTags && post.vibeTags.length > 0 && (

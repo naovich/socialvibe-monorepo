@@ -158,7 +158,7 @@ const SearchBar: React.FC = () => {
                         onClick={() => setActiveTab(tab)}
                         className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                           activeTab === tab
-                            ? 'bg-primary text-white'
+                            ? 'bg-primary text-text-primary'
                             : 'text-text-muted hover:bg-white/5'
                         }`}
                       >

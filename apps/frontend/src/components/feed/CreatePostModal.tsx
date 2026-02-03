@@ -17,6 +17,8 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) =>
   const [selectedVibes, setSelectedVibes] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  if (!currentUser) return null;
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -149,7 +151,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) =>
                             onClick={() => removeImage(index)}
                             className="absolute top-2 right-2 p-1 bg-black/50 hover:bg-black/70 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                           >
-                            <X className="w-4 h-4 text-white" />
+                            <X className="w-4 h-4 text-text-primary" />
                           </button>
                         </div>
                       ))}
@@ -220,7 +222,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) =>
                   disabled={!canSubmit}
                   className={`w-full py-3 rounded-xl font-semibold transition-all ${
                     canSubmit
-                      ? 'bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-500/25'
+                      ? 'bg-orange-500 hover:bg-orange-600 text-text-primary shadow-lg shadow-orange-500/25'
                       : 'bg-white/5 text-text-disabled cursor-not-allowed'
                   }`}
                 >

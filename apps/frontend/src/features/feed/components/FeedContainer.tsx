@@ -16,8 +16,6 @@ const FeedContainer: React.FC<FeedContainerProps> = ({ onCreatePost }) => {
     error, 
     loadMore,
     likePost,
-    savePost,
-    sharePost,
   } = useFeed();
 
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -55,7 +53,7 @@ const FeedContainer: React.FC<FeedContainerProps> = ({ onCreatePost }) => {
         <p className="text-error text-lg font-semibold">{error}</p>
         <button 
           onClick={() => window.location.reload()}
-          className="mt-4 px-6 py-3 bg-primary hover:bg-primary-hover text-white font-semibold rounded-xl"
+          className="mt-4 px-6 py-3 bg-primary hover:bg-primary-hover text-text-primary font-semibold rounded-xl"
         >
           Reload
         </button>
@@ -75,7 +73,7 @@ const FeedContainer: React.FC<FeedContainerProps> = ({ onCreatePost }) => {
           {onCreatePost && (
             <button
               onClick={onCreatePost}
-              className="mt-6 px-8 py-4 bg-primary hover:bg-primary-hover rounded-xl text-white font-semibold transition-all shadow-lg shadow-primary/25"
+              className="mt-6 px-8 py-4 bg-primary hover:bg-primary-hover rounded-xl text-text-primary font-semibold transition-all shadow-lg shadow-primary/25"
             >
               Create Your First Post
             </button>
@@ -91,8 +89,6 @@ const FeedContainer: React.FC<FeedContainerProps> = ({ onCreatePost }) => {
               <PostCard 
                 post={post}
                 onLike={() => likePost(post.id)}
-                onSave={() => savePost(post.id)}
-                onShare={() => sharePost(post.id)}
               />
             </div>
           ))}

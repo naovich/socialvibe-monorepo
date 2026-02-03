@@ -48,7 +48,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, disabled = false })
           <button
             type="button"
             onClick={() => setSelectedImage(null)}
-            className="absolute -top-2 -right-2 w-6 h-6 bg-error text-white rounded-full flex items-center justify-center text-xs font-bold hover:bg-error/80"
+            className="absolute -top-2 -right-2 w-6 h-6 bg-error text-text-primary rounded-full flex items-center justify-center text-xs font-bold hover:bg-error/80"
           >
             ×
           </button>

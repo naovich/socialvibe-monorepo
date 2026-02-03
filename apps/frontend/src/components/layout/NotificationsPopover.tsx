@@ -27,9 +27,9 @@ const NotificationsPopover: React.FC<{ isOpen: boolean; onClose: () => void }> =
             className="absolute top-12 right-0 w-80 md:w-96 bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 flex flex-col max-h-[500px]"
           >
             <div className="flex items-center justify-between p-4 border-b border-white/5">
-              <h3 className="text-xl font-bold text-white">Notifications</h3>
+              <h3 className="text-xl font-bold text-text-primary">Notifications</h3>
               <button className="p-2 hover:bg-white/5 rounded-full transition-colors">
-                <MoreHorizontal size={20} className="text-gray-400" />
+                <MoreHorizontal size={20} className="text-text-muted" />
               </button>
             </div>
 
@@ -48,7 +48,7 @@ const NotificationsPopover: React.FC<{ isOpen: boolean; onClose: () => void }> =
                     </div>
                     <div className="flex flex-col flex-1">
                       <p className="text-sm text-gray-200">
-                        <span className="font-bold text-white">{notif.user.name}</span> {notif.content}
+                        <span className="font-bold text-text-primary">{notif.user.name}</span> {notif.content}
                       </p>
                       <span className="text-xs text-orange-500 font-medium mt-1">
                         {new Date(notif.createdAt).toLocaleDateString()}
@@ -61,8 +61,8 @@ const NotificationsPopover: React.FC<{ isOpen: boolean; onClose: () => void }> =
                 ))
               ) : (
                 <div className="flex flex-col items-center justify-center p-12 text-center">
-                  <Bell size={48} className="text-gray-700 mb-4" />
-                  <p className="text-gray-400 font-medium">No notifications yet</p>
+                  <Bell size={48} className="text-text-secondary mb-4" />
+                  <p className="text-text-muted font-medium">No notifications yet</p>
                 </div>
               )}
             </div>

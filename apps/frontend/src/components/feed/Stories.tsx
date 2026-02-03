@@ -5,6 +5,7 @@ import { useSocialStore } from '../../store';
 
 const Stories: React.FC = () => {
   const { stories, currentUser } = useSocialStore();
+  if (!currentUser) return null;
 
   return (
     <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-6">
@@ -17,11 +18,11 @@ const Stories: React.FC = () => {
         <div className="h-[70%] overflow-hidden">
           <img src={currentUser.avatar} alt="Me" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
         </div>
-        <div className="absolute top-[60%] left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-orange-500 border-4 border-[#0d0d0d] flex items-center justify-center text-white z-10">
+        <div className="absolute top-[60%] left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-orange-500 border-4 border-[#0d0d0d] flex items-center justify-center text-text-primary z-10">
           <Plus size={20} strokeWidth={3} />
         </div>
         <div className="h-[30%] bg-[#1a1a1a] flex items-end justify-center pb-2">
-          <span className="text-[11px] font-bold text-white">Create Story</span>
+          <span className="text-[11px] font-bold text-text-primary">Create Story</span>
         </div>
       </motion.div>
 
@@ -40,7 +41,7 @@ const Stories: React.FC = () => {
             <img src={story.user.avatar} alt={story.user.name} className="w-full h-full rounded-full object-cover" />
           </div>
           
-          <span className="absolute bottom-3 left-3 text-[11px] font-bold text-white truncate right-3">
+          <span className="absolute bottom-3 left-3 text-[11px] font-bold text-text-primary truncate right-3">
             {story.user.name}
           </span>
         </motion.div>

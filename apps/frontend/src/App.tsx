@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/layout/Header';
 import Sidebar from './components/layout/Sidebar';
 import RightSidebar from './components/layout/RightSidebar';
-import Stories from './components/feed/Stories';
+import StoriesList from './features/stories/components/StoriesList';
 import Profile from './components/profile/Profile';
 import FeedContainer from './features/feed/components/FeedContainer';
 import CreatePostModal from './features/feed/components/CreatePostModal';
@@ -35,7 +35,6 @@ const App: React.FC = () => {
             currentView="home"
             onNavigate={(newView) => {
               if (newView === 'profile') setView('profile');
-              // Handle other navigation when implemented
             }}
           />
         )}
@@ -49,7 +48,7 @@ const App: React.FC = () => {
           {view === 'feed' ? (
             <>
               {/* Stories */}
-              <Stories />
+              <StoriesList />
 
               {/* Feed Container with all posts */}
               <FeedContainer onCreatePost={() => setIsCreatePostOpen(true)} />
@@ -69,7 +68,7 @@ const App: React.FC = () => {
           onClick={() => setView('feed')}
           className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
             view === 'feed'
-              ? 'bg-primary text-white shadow-lg'
+              ? 'bg-primary text-text-primary shadow-lg'
               : 'text-text-muted hover:text-text-primary hover:bg-bg-secondary'
           }`}
         >
@@ -79,7 +78,7 @@ const App: React.FC = () => {
           onClick={() => setView('profile')}
           className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
             view === 'profile'
-              ? 'bg-primary text-white shadow-lg'
+              ? 'bg-primary text-text-primary shadow-lg'
               : 'text-text-muted hover:text-text-primary hover:bg-bg-secondary'
           }`}
         >
